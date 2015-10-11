@@ -481,14 +481,18 @@ PlayerSettings:
   WebGL::dataCaching: 0
   WebGL::useEmbeddedResources: 0
   stringPropertyNames:
+  - Build_ServiceEnabled::Build_ServiceEnabled
+  - UNet_ServiceEnabled::UNet_ServiceEnabled
   - WebGL::emscriptenArgs
   - WebGL::template
   - additionalIl2CppArgs::additionalIl2CppArgs
+  Build_ServiceEnabled::Build_ServiceEnabled: True
+  UNet_ServiceEnabled::UNet_ServiceEnabled: True
   WebGL::emscriptenArgs: 
   WebGL::template: APPLICATION:Default
   additionalIl2CppArgs::additionalIl2CppArgs: 
   firstStreamedSceneWithResources: 0
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: 24741182-a26d-4688-b426-d8c94516ac0c
+  projectName: Little Rockstar (1)
+  organizationId: drolegames
   cloudEnabled: 0

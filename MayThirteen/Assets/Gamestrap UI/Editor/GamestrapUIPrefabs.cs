@@ -70,6 +70,12 @@ public static class GamestrapUIPrefabs
         InstantiateGameObject(menuCommand, "ToggleRadio");
     }
 
+    [MenuItem(dir + "Dropdown", false, priority)]
+    static void CreateDropdown(MenuCommand menuCommand)
+    {
+        InstantiateGameObject(menuCommand, "Dropdown");
+    }
+
     static void InstantiateGameObject(MenuCommand menuCommand, string name)
     {
         GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath(GamestrapHelper.gamestrapRoute + "Prefabs/" + name + ".prefab", typeof(GameObject));

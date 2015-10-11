@@ -45,6 +45,8 @@ Assets/Gamestrap UI/Prefabs/Button.prefab
 Assets/Gamestrap UI/Prefabs/Slider.prefab
 Assets/Gamestrap UI/Prefabs/InputField.prefab
 Assets/Prefabs/Items/ShortSawblade.prefab
+Assets/Gamestrap UI/Prefabs/Dropdown.prefab
+Assets/Prefabs/LeaderboardButton.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Items/SawbladeCorner 1.prefab
@@ -92,3 +94,5 @@ Assets/Gamestrap UI/Prefabs/Button.prefab
 Assets/Gamestrap UI/Prefabs/Slider.prefab
 Assets/Gamestrap UI/Prefabs/InputField.prefab
 Assets/Prefabs/Items/ShortSawblade.prefab
+Assets/Gamestrap UI/Prefabs/Dropdown.prefab
+Assets/Prefabs/LeaderboardButton.prefab

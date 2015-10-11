@@ -393,6 +393,28 @@ namespace Gamestrap
                 EditorUtility.SetDirty(toggle);
                 EditorUtility.SetDirty(toggle.graphic);
             }
+            else if (gameObject.GetComponent<UnityEngine.UI.Dropdown>())
+            {
+                UnityEngine.UI.Dropdown dropdown = gameObject.GetComponent<UnityEngine.UI.Dropdown>();
+                SetColorBlock(dropdown);
+                Undo.RecordObject(gameObject.GetComponent<UnityEngine.UI.Image>(), "Change Image color");
+                gameObject.GetComponent<UnityEngine.UI.Image>().color = disabled;
+                if (dropdown.captionText)
+                {
+                    dropdown.captionText.color = detail;   
+                }
+                if (dropdown.itemText)
+                {
+                    dropdown.itemText.color = detail;
+                }
+                SetColorRecursive(gameObject, typeof(UnityEngine.UI.Image), detail);
+                SetColorRecursive(gameObject, typeof(UnityEngine.UI.ScrollRect), normal);
+                SetColorRecursive(gameObject, typeof(UnityEngine.UI.Text), detail);
+                SetColorRecursive(gameObject,typeof(UnityEngine.UI.Toggle), detail);
+                SetColorRecursive(gameObject, typeof(UnityEngine.UI.Scrollbar), detail);
+                EditorUtility.SetDirty(dropdown);
+                EditorUtility.SetDirty(gameObject.GetComponent<UnityEngine.UI.Image>());
+            }
             else if (gameObject.transform.childCount > 0) // Recursive search for components
             {
                 for (int i = 0; i < gameObject.transform.childCount; i++)
@@ -430,7 +452,8 @@ namespace Gamestrap
             Undo.RecordObject(selectable, "Change ColorBlock");
             if (selectable.transition == UnityEngine.UI.Selectable.Transition.ColorTint)
             {
-                img.color = Color.white;
+                if (img)
+                    img.color = Color.white;
                 UnityEngine.UI.ColorBlock cb = selectable.colors;
                 cb.normalColor = normal;
                 cb.highlightedColor = highlighted;
@@ -506,6 +529,32 @@ namespace Gamestrap
                 SetTextColorRecursive(child);
             }
         }
+
+        private void SetColorRecursive(GameObject go, Type type, Color color)
+        {
+            int children = go.transform.childCount;
+            for (int i = 0; i < children; i++)
+            {
+                GameObject child = go.transform.GetChild(i).gameObject;
+                if (child.GetComponent(type))
+                {
+                    UnityEngine.UI.Selectable s = child.GetComponent<UnityEngine.UI.Selectable>();
+                    UnityEngine.UI.Graphic g = child.GetComponent<UnityEngine.UI.Graphic>();
+                    if (s)
+                    {
+                        Undo.RecordObject(s, "Change color");
+                        SetColorBlock(s);
+                        EditorUtility.SetDirty(s);
+                    } else if (g)
+                    {
+                        Undo.RecordObject(g, "Change color");
+                        g.color = color;
+                        EditorUtility.SetDirty(g);
+                    }
+                }
+                SetColorRecursive(child, type, color);
+            }
+        }
         #endregion
 
         #region Set Font
@@ -557,51 +606,51 @@ namespace Gamestrap
 
         public void ActivateEffects(GameObject gameObject)
         {
-            //if (gameObject.GetComponent<UnityEngine.UI.Image>() || gameObject.GetComponent<UnityEngine.UI.Text>())
-            //{
-            //    if (shadow)
-            //    {
-            //        ShadowEffect shadowEffect = gameObject.GetComponent<ShadowEffect>();
-            //        if (!shadowEffect)
-            //        {
-            //            shadowEffect = Undo.AddComponent<ShadowEffect>(gameObject);
-            //        }
-            //        shadowEffect.effectDistance = shadowDistance;
-            //        shadowEffect.effectColor = shadowColor;
-            //        EditorUtility.SetDirty(gameObject);
-            //    }
-            //    else if (gameObject.GetComponent<ShadowEffect>())
-            //    {
-            //        Undo.DestroyObjectImmediate(gameObject.GetComponent<ShadowEffect>());
-            //    }
-            //}
+            if (gameObject.GetComponent<UnityEngine.UI.Image>() || gameObject.GetComponent<UnityEngine.UI.Text>())
+            {
+                if (shadow)
+                {
+                    ShadowEffect shadowEffect = gameObject.GetComponent<ShadowEffect>();
+                    if (!shadowEffect)
+                    {
+                        shadowEffect = Undo.AddComponent<ShadowEffect>(gameObject);
+                    }
+                    shadowEffect.effectDistance = shadowDistance;
+                    shadowEffect.effectColor = shadowColor;
+                    EditorUtility.SetDirty(gameObject);
+                }
+                else if (gameObject.GetComponent<ShadowEffect>())
+                {
+                    Undo.DestroyObjectImmediate(gameObject.GetComponent<ShadowEffect>());
+                }
+            }
 
-            //if (gameObject.GetComponent<UnityEngine.UI.Image>())
-            //{
-            //    if (gradient)
-            //    {
-            //        GradientEffect gradientEffect = gameObject.GetComponent<GradientEffect>();
-            //        if (!gradientEffect)
-            //        {
-            //            gradientEffect = Undo.AddComponent<GradientEffect>(gameObject);
-            //        }
-            //        gradientEffect.top = gradientTop;
-            //        gradientEffect.bottom = gradientBottom;
-            //        EditorUtility.SetDirty(gameObject);
-            //    }
-            //    else if (gameObject.GetComponent<GradientEffect>())
-            //    {
-            //        Undo.DestroyObjectImmediate(gameObject.GetComponent<GradientEffect>());
-            //    }
-            //}
+            if (gameObject.GetComponent<UnityEngine.UI.Image>())
+            {
+                if (gradient)
+                {
+                    GradientEffect gradientEffect = gameObject.GetComponent<GradientEffect>();
+                    if (!gradientEffect)
+                    {
+                        gradientEffect = Undo.AddComponent<GradientEffect>(gameObject);
+                    }
+                    gradientEffect.top = gradientTop;
+                    gradientEffect.bottom = gradientBottom;
+                    EditorUtility.SetDirty(gameObject);
+                }
+                else if (gameObject.GetComponent<GradientEffect>())
+                {
+                    Undo.DestroyObjectImmediate(gameObject.GetComponent<GradientEffect>());
+                }
+            }
 
-            //if (gameObject.transform.childCount > 0) // Recursive search for components
-            //{
-            //    for (int i = 0; i < gameObject.transform.childCount; i++)
-            //    {
-            //        ActivateEffects(gameObject.transform.GetChild(i).gameObject);
-            //    }
-            //}
+            if (gameObject.transform.childCount > 0) // Recursive search for components
+            {
+                for (int i = 0; i < gameObject.transform.childCount; i++)
+                {
+                    ActivateEffects(gameObject.transform.GetChild(i).gameObject);
+                }
+            }
         }
         #endregion
 

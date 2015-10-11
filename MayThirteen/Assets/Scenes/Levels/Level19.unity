@@ -3851,15 +3851,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 416698, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -80
+      value: -82.8000031
       objectReference: {fileID: 0}
     - target: {fileID: 416698, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 16
+      value: 23.7999992
       objectReference: {fileID: 0}
     - target: {fileID: 468366, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 16
+      value: 23.7999992
       objectReference: {fileID: 0}
     - target: {fileID: 468366, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3867,7 +3867,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 468366, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -80
+      value: -82.8000031
       objectReference: {fileID: 0}
     - target: {fileID: 11406186, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: isGoalNormalRotation

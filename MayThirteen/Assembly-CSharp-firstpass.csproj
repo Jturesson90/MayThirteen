@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_5_2_0;UNITY_5_2;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_REFLECTION_BUFFERS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_2_0;UNITY_5_2;UNITY_5;UNITY_ADS;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_REFLECTION_BUFFERS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -58,26 +58,10 @@
      <Compile Include="Assets\Plugins\OpenIAB\SkuDetails.cs" />
      <Compile Include="Assets\Plugins\OpenIAB\WP8\OpenIAB_WP8.cs" />
      <Compile Include="Assets\Plugins\OpenIAB\iOS\OpenIAB_iOS.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisement.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\AsyncExec.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\MiniJSON.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\Utils.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\ShowOptionsExtended.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAds.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsAndroid.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsEditor.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsEditorPlaceholder.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsExternal.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsIos.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsIosBridge.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\VideoAds\UnityAdsPlatform.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\ShowOptions.cs" />
-     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\ShowResult.cs" />
      <None Include="Assets\Gamestrap UI\Fonts\ubuntu\UBUNTU FONT LICENCE.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-nl\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-es\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\wallet_strings.xml" />
-     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-zh-rHK\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\wallet_colors.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\common_attrs.xml" />
@@ -88,7 +72,6 @@
      <None Include="Assets\Gamestrap UI\Fonts\Bebas\Flat-it License.txt" />
      <None Include="Assets\Ferr\2DTerrain\Examples\Assets\Materials\UnitColoredTransparent.shader" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-tr\common_strings.xml" />
-     <None Include="Assets\Plugins\Android\unityads\build.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-ne-rNP\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-lt\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-ar\common_strings.xml" />
@@ -117,6 +100,7 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-es\wallet_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-es-rUS\common_strings.xml" />
      <None Include="Assets\Ferr\2DTerrain\Examples\Assets\Materials\UnlitColored.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Platform.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-ko\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-uz-rUZ\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-bn-rBD\common_strings.xml" />
@@ -138,6 +122,7 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-si-rLK\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-ur-rPK\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-fr-rCA\common_strings.xml" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Physics.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-sl\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-sw\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-vi\common_strings.xml" />
@@ -145,7 +130,6 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-eu-rES\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-is-rIS\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-hi\common_strings.xml" />
-     <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\version.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-en-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-uk\common_strings.xml" />
@@ -184,7 +168,6 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\admob_ads_attrs.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\drawable\common_signin_btn_text_dark.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\AndroidManifest.xml" />
-     <None Include="Assets\Plugins\Android\unityads\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\admob_strings.xml" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
