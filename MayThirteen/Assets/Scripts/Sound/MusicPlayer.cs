@@ -71,35 +71,42 @@ public class MusicPlayer : MonoBehaviour
 		case "LevelSelectionLobby":
 				
 			int levelsDone = PlayerPrefsManager.GetLevelsDone ();
-			if (levelsDone > 9) {
-								
-				PlaySong (9);
-			} else if (levelsDone > 8) {
-				RandomSongType (SongType.HIGH);
-			} else if (levelsDone > 4) {
-				
-				RandomSongType (SongType.MIDDLE);
-			} else {
-				RandomSongType (SongType.LOW);
-			}
+			CheckWhichSong (levelsDone + 1);
+
+
 			break;
 		case "Splash":
 			break;
 		default :
 			var currentLevel = PlayerPrefsManager.GetCurrentLevel ();
-			if (currentLevel > 9) {
-				//RandomSongType (SongType.HIGH);
-				PlaySong (9);
-			} else if (currentLevel > 8) {
-				RandomSongType (SongType.HIGH);
-			} else if (currentLevel > 4) {
-				RandomSongType (SongType.MIDDLE);
-			} else {
-				RandomSongType (SongType.LOW);
-			}
+			CheckWhichSong (currentLevel);
 			break;
 		}
 		
+	}
+	void CheckWhichSong (int level)
+	{
+		if (level > 18) {
+			PlaySong (9);
+		} else if (level > 16) {
+			PlaySong (8);
+		} else if (level > 14) {
+			PlaySong (7);
+		} else if (level > 12) {
+			PlaySong (6);
+		} else if (level > 10) {
+			PlaySong (5);
+		} else if (level > 8) {
+			PlaySong (4);
+		} else if (level > 6) {
+			PlaySong (3);
+		} else if (level > 4) {
+			PlaySong (2);
+		} else if (level > 2) {
+			PlaySong (1);
+		} else {
+			PlaySong (0);
+		}
 	}
 	void PlaySong (int id)
 	{

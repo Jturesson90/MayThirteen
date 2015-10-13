@@ -1,9 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\File\Highscores.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Interactables\RockPlayer.cs">
     <Files>
-      <File FileName="Assets\Scripts\File\LittleRockstarAds.cs" Line="6" Column="2" />
-      <File FileName="Assets\Scripts\File\Highscores.cs" Line="11" Column="3" />
+      <File FileName="Assets\Scripts\Interactables\RockPlayer.cs" Line="34" Column="26" />
+      <File FileName="Assets\Scripts\Sound\MusicPlayer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\File\LittleRockstarAds.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\File\Highscores.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuScene\UI\GoogleGameMenuUIHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\File\LittleRockstarGoogleGame.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelSelectionScene\Manager\LevelSelectionManager.cs" Line="22" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
