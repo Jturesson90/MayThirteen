@@ -1,14 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Interactables\RockPlayer.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Sound\MusicPlayer.cs">
     <Files>
-      <File FileName="Assets\Scripts\Interactables\RockPlayer.cs" Line="34" Column="26" />
-      <File FileName="Assets\Scripts\Sound\MusicPlayer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\File\LittleRockstarAds.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\PauseButton.cs" Line="13" Column="34" />
+      <File FileName="Assets\Gamestrap UI\Editor\GamestrapUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameScene\Managers\GameManageHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\MuteButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\File\Highscores.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MenuScene\UI\GoogleGameMenuUIHandler.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\File\LittleRockstarGoogleGame.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelSelectionScene\Manager\LevelSelectionManager.cs" Line="22" Column="1" />
+      <File FileName="Assets\Scripts\GameScene\Camera\GameTimeView.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameScene\UI\UIHelper.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\File\NotUploadedHighscores.cs" Line="1" Column="1" />
+      <File FileName="Assets\CreditsManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelSelectionScene\LevelSelectionEnding.cs" Line="15" Column="3" />
+      <File FileName="Assets\Scripts\Sound\MusicPlayer.cs" Line="9" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

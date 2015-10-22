@@ -163,24 +163,40 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 7a9113fa77991f544a7653dc2526f081, type: 3}
-      m_Size: 128
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 7a9113fa77991f544a7653dc2526f081, type: 3}
+      m_Width: 128
+      m_Height: 128
   - m_BuildTarget: iPhone
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: a426f1c92195b1d4f81da765541fd53d, type: 3}
-      m_Size: 152
-    - m_Icon: {fileID: 2800000, guid: aa5fe91426b51e3499530113828a5486, type: 3}
-      m_Size: 144
-    - m_Icon: {fileID: 2800000, guid: 57c04c6216b44eb4399645395e1910c0, type: 3}
-      m_Size: 120
-    - m_Icon: {fileID: 2800000, guid: 8300ab6bb7c6176458be57c8a6326033, type: 3}
-      m_Size: 114
-    - m_Icon: {fileID: 2800000, guid: 53dd5fa68f3be6341bf7ef9a5fe7245d, type: 3}
-      m_Size: 76
-    - m_Icon: {fileID: 2800000, guid: db72fb9f46dd87b43bce9522fe0922ba, type: 3}
-      m_Size: 72
-    - m_Icon: {fileID: 2800000, guid: cc3b37ddead64e347a58aa03d91bdb33, type: 3}
-      m_Size: 57
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: a426f1c92195b1d4f81da765541fd53d, type: 3}
+      m_Width: 152
+      m_Height: 152
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: aa5fe91426b51e3499530113828a5486, type: 3}
+      m_Width: 144
+      m_Height: 144
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 57c04c6216b44eb4399645395e1910c0, type: 3}
+      m_Width: 120
+      m_Height: 120
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 8300ab6bb7c6176458be57c8a6326033, type: 3}
+      m_Width: 114
+      m_Height: 114
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 53dd5fa68f3be6341bf7ef9a5fe7245d, type: 3}
+      m_Width: 76
+      m_Height: 76
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: db72fb9f46dd87b43bce9522fe0922ba, type: 3}
+      m_Width: 72
+      m_Height: 72
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: cc3b37ddead64e347a58aa03d91bdb33, type: 3}
+      m_Width: 57
+      m_Height: 57
   m_BuildTargetBatching:
   - m_BuildTarget: Android
     m_StaticBatching: 1
@@ -286,6 +302,8 @@ PlayerSettings:
   ps4pnGameCustomData: 1
   playerPrefsSupport: 0
   ps4ReprojectionSupport: 0
+  ps4UseAudio3dBackend: 0
+  ps4Audio3dVirtualSpeakerCount: 14
   ps4attribUserManagement: 0
   ps4attribMoveSupport: 0
   ps4attrib3DSupport: 0

@@ -48,6 +48,7 @@ Assets/Gamestrap UI/Prefabs/Dropdown.prefab
 Assets/Prefabs/LeaderboardButton.prefab
 Assets/Prefabs/Scenes/LevelStatics.prefab
 Assets/Prefabs/Scenes/LevelModels.prefab
+Assets/Prefabs/UIArrows.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Items/SawbladeCorner 1.prefab
@@ -98,3 +99,4 @@ Assets/Gamestrap UI/Prefabs/Dropdown.prefab
 Assets/Prefabs/LeaderboardButton.prefab
 Assets/Prefabs/Scenes/LevelStatics.prefab
 Assets/Prefabs/Scenes/LevelModels.prefab
+Assets/Prefabs/UIArrows.prefab

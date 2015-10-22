@@ -5,39 +5,41 @@ using UnityEngine.UI;
 public class MuteButton : MonoBehaviour
 {
 
-		public Sprite offSprite;
-		public Sprite onSprite;
+	public Sprite offSprite;
+	public Sprite onSprite;
 		
-		void Awake ()
-		{
-				AudioListener.pause = true;
+	private Image _childImage;
+
+	void Awake ()
+	{
+		AudioListener.pause = true;
 			
-				if (PlayerPrefsManager.IsSoundOn ()) {
-						AudioListener.pause = false;
+		if (PlayerPrefsManager.IsSoundOn ()) {
+			AudioListener.pause = false;
 					
-				} else {
-						AudioListener.pause = true;
+		} else {
+			AudioListener.pause = true;
 						
-				}
-
-
-				transform.GetComponent<Image> ().sprite = !AudioListener.pause ? onSprite : offSprite;
 		}
-		void Start ()
-		{
+		_childImage = transform.GetChild (0).GetComponent<Image> ();
+
+		_childImage.sprite = !AudioListener.pause ? onSprite : offSprite;
+	}
+	void Start ()
+	{
 				
+	}
+	public void ToggleMute ()
+	{
+		AudioListener.pause = AudioListener.pause ? false : true;
+		if (AudioListener.pause) {
+			PlayerPrefsManager.SetSoundOff ();
+		} else {
+			PlayerPrefsManager.SetSoundOn ();
 		}
-		public void ToggleMute ()
-		{
-				AudioListener.pause = AudioListener.pause ? false : true;
-				if (AudioListener.pause) {
-						PlayerPrefsManager.SetSoundOff ();
-				} else {
-						PlayerPrefsManager.SetSoundOn ();
-				}
 
-				transform.GetComponent<Image> ().sprite = !AudioListener.pause ? onSprite : offSprite;
-		}
+		_childImage.sprite = !AudioListener.pause ? onSprite : offSprite;
+	}
 		
 
 }
