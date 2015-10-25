@@ -1,0 +1,24 @@
+
+<size=60><color=#123456FF>Drole</color><color=#DD8822>Games</color></size>
+
+
+
+<i> -Programming- </i>
+Jesper Turesson
+
+
+<i> -Music- </i>
+Philip Axén
+
+
+<i> -Design- </i>
+Jesper Turesson
+
+
+<i> -Illustrations- </i>
+Christoffer Morales
+Simbryo
+
+
+<i> -Leveldesign- </i>
+Jesper Turesson

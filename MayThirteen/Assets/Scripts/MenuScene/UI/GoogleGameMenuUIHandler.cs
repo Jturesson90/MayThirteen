@@ -12,6 +12,9 @@ public class GoogleGameMenuUIHandler : MonoBehaviour
 	{
 			
 		googleGame = GameObject.Find ("LittleRockstarGoogleGame").GetComponent<LittleRockstarGoogleGame> ();
+#if UNITY_IOS
+		gameObject.SetActive (false);
+#endif
 
 	}
 	public void ShowAchievments ()

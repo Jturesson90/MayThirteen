@@ -60,8 +60,9 @@ public class MusicPlayer : MonoBehaviour
 	{
 		switch (Application.loadedLevelName) {
 			
-		case  "LevelX":
-						//RandomSongType (SongType.LOW);	
+		case  "Credits":
+						//RandomSongType (SongType.LOW);
+			PlaySong (7);
 			break;
 			
 		case "Menu":

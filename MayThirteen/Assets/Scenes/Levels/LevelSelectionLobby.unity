@@ -4029,6 +4029,14 @@ Prefab:
       propertyPath: m_Name
       value: UIArrows
       objectReference: {fileID: 0}
+    - target: {fileID: 22422970, guid: a20be26806c305041bdb959ec1c50b15, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 22498700, guid: a20be26806c305041bdb959ec1c50b15, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11467558, guid: a20be26806c305041bdb959ec1c50b15, type: 2}
     - {fileID: 11420072, guid: a20be26806c305041bdb959ec1c50b15, type: 2}

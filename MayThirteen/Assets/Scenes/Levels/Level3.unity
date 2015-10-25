@@ -1660,6 +1660,10 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 11456346, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
+      propertyPath: NeedFixForIpad
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
   m_IsPrefabParent: 0

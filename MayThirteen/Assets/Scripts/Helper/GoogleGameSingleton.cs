@@ -3,28 +3,28 @@ using System.Collections;
 
 public class GoogleGameSingleton : MonoBehaviour
 {
-		public static GoogleGameSingleton googleGame;
-		// Use this for initialization
+	public static GoogleGameSingleton googleGame;
+	// Use this for initialization
 
-		void Awake ()
-		{
+	void Awake ()
+	{
 		
-				if (googleGame == null) {
-						DontDestroyOnLoad (this.gameObject);
-						googleGame = this;
-				} else if (googleGame != this) {
-						Destroy (gameObject);
-				}
+		if (googleGame == null) {
+			DontDestroyOnLoad (this.gameObject);
+			googleGame = this;
+		} else if (googleGame != this) {
+			Destroy (gameObject);
+		}
 
-		}
-		void Start ()
-		{
+	}
+	void Start ()
+	{
 	
-		}
+	}
 	
-		// Update is called once per frame
-		void Update ()
-		{
+	// Update is called once per frame
+	void Update ()
+	{
 	
-		}
+	}
 }
