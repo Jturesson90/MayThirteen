@@ -70,11 +70,13 @@ public static class GamestrapUIPrefabs
         InstantiateGameObject(menuCommand, "ToggleRadio");
     }
 
-    [MenuItem(dir + "Dropdown", false, priority)]
+#if UNITY_5_2
+        [MenuItem(dir + "Dropdown", false, priority)]
     static void CreateDropdown(MenuCommand menuCommand)
     {
         InstantiateGameObject(menuCommand, "Dropdown");
     }
+#endif
 
     static void InstantiateGameObject(MenuCommand menuCommand, string name)
     {
