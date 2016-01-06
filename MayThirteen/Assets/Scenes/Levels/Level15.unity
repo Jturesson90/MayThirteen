@@ -8,25 +8,25 @@ SceneSettings:
   m_PVSPortalsArray: []
   m_OcclusionBakeSettings:
     smallestOccluder: 5
-    smallestHole: .25
+    smallestHole: 0.25
     backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
   m_Fog: 0
-  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: .00999999978
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_AmbientEquatorColor: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_AmbientGroundColor: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+  m_AmbientSkyColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientEquatorColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientGroundColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SkyboxMaterial: {fileID: 0}
-  m_HaloStrength: .5
+  m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -40,7 +40,7 @@ RenderSettings:
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 5
+  serializedVersion: 6
   m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
@@ -66,7 +66,7 @@ LightmapSettings:
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-  m_LightmapSnapshot: {fileID: 0}
+  m_LightingDataAsset: {fileID: 0}
   m_RuntimeCPUUsage: 25
 --- !u!196 &5
 NavMeshSettings:
@@ -74,15 +74,15 @@ NavMeshSettings:
   m_ObjectHideFlags: 0
   m_BuildSettings:
     serializedVersion: 2
-    agentRadius: .5
+    agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: .400000006
+    agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     accuratePlacement: 0
     minRegionArea: 2
-    cellSize: .166666657
+    cellSize: 0.16666666
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &52546371
@@ -157,6 +157,10 @@ Prefab:
     - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
       propertyPath: m_Name
       value: SawbladeHolder 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
@@ -287,7 +291,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 232331978}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -.00499999989}
+  m_LocalPosition: {x: 0, y: 0, z: -0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1282353849}
@@ -338,7 +342,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 341631088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.7188358, y: 3.66406059, z: 15}
+  m_LocalPosition: {x: -18.718836, y: 3.6640606, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 52546372}
@@ -356,15 +360,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
   splitDist: 1
   splitMiddle: 1
   pixelsPerUnit: 32
-  vertexColor: {r: .509803951, g: .509803951, b: .509803951, a: 1}
-  stretchThreshold: .5
+  vertexColor: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -387,7 +391,7 @@ MonoBehaviour:
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 64000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -451,8 +455,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -470,40 +476,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -112.485725, y: -118.688316}
-  - {x: -174.07399, y: -103.786018}
-  - {x: -156.889175, y: -77.2927628}
-  - {x: -139.704361, y: -62.2560425}
-  - {x: -121.087486, y: -47.9353638}
-  - {x: -100.322502, y: -29.3184814}
-  - {x: -74.9987717, y: -14.476511}
-  - {x: -57.3924866, y: -13.0093212}
-  - {x: -46.1440277, y: -19.3671455}
-  - {x: -40.2752686, y: -17.8999538}
-  - {x: -30.4939976, y: -14.476511}
-  - {x: -24.1361713, y: -13.9874477}
-  - {x: -18.2674122, y: -16.9218292}
-  - {x: -15.3330288, y: -20.8343372}
-  - {x: -10.4423962, y: -24.7468433}
-  - {x: -3.10644341, y: -26.7030983}
+  - {x: -112.485725, y: -118.68832}
+  - {x: -174.07399, y: -103.78602}
+  - {x: -156.88918, y: -77.29276}
+  - {x: -139.70436, y: -62.256042}
+  - {x: -121.08749, y: -47.935364}
+  - {x: -100.3225, y: -29.318481}
+  - {x: -74.99877, y: -14.476511}
+  - {x: -57.392487, y: -13.009321}
+  - {x: -46.144028, y: -19.367146}
+  - {x: -40.27527, y: -17.899954}
+  - {x: -30.493998, y: -14.476511}
+  - {x: -24.136171, y: -13.987448}
+  - {x: -18.267412, y: -16.92183}
+  - {x: -15.333029, y: -20.834337}
+  - {x: -10.442396, y: -24.746843}
+  - {x: -3.1064434, y: -26.703098}
   - {x: 20.857666, y: -19.856205}
-  - {x: 26.2373619, y: -15.4546328}
-  - {x: 38.4639511, y: -11.5421257}
-  - {x: 50.6905365, y: -11.0530605}
-  - {x: 57.5374222, y: -14.4765072}
-  - {x: 62.4280624, y: -20.3452682}
-  - {x: 62.9171219, y: -26.2140312}
-  - {x: 64.3843155, y: -31.593729}
-  - {x: 73.1874542, y: -39.4187469}
-  - {x: 80.0343399, y: -36.9734268}
-  - {x: 95.6843643, y: -28.6593475}
-  - {x: 107.421898, y: -29.637476}
-  - {x: 117.203171, y: -32.5718536}
-  - {x: 123.560997, y: -36.9734268}
-  - {x: 128.45163, y: -43.3312531}
-  - {x: 132.853195, y: -48.7109528}
-  - {x: 186.37355, y: -99.5252228}
-  - {x: 126.441811, y: -116.445602}
+  - {x: 26.237362, y: -15.454633}
+  - {x: 38.46395, y: -11.542126}
+  - {x: 50.690536, y: -11.053061}
+  - {x: 57.537422, y: -14.476507}
+  - {x: 62.428062, y: -20.345268}
+  - {x: 62.91712, y: -26.214031}
+  - {x: 64.384315, y: -31.593729}
+  - {x: 73.187454, y: -39.418747}
+  - {x: 80.03434, y: -36.973427}
+  - {x: 95.684364, y: -28.659348}
+  - {x: 107.4219, y: -29.637476}
+  - {x: 117.20317, y: -32.571854}
+  - {x: 123.561, y: -36.973427}
+  - {x: 128.45163, y: -43.331253}
+  - {x: 132.8532, y: -48.710953}
+  - {x: 186.37355, y: -99.52522}
+  - {x: 126.44181, y: -116.4456}
 --- !u!1 &345582095
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,8 +609,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 37
     localAABB:
-      m_Center: {x: 10.1289978, y: -60.0940018, z: .200000003}
-      m_Extent: {x: 218.404999, y: 117.769005, z: 0}
+      m_Center: {x: 10.128998, y: -60.094, z: 0.2}
+      m_Extent: {x: 218.405, y: 117.769005, z: 0}
   - serializedVersion: 2
     firstByte: 186
     indexCount: 2388
@@ -612,8 +618,8 @@ Mesh:
     firstVertex: 37
     vertexCount: 1084
     localAABB:
-      m_Center: {x: 10.1675034, y: -59.1495018, z: .0500000007}
-      m_Extent: {x: 219.192505, y: 120.258499, z: .0500000007}
+      m_Center: {x: 10.167503, y: -59.1495, z: 0.05}
+      m_Extent: {x: 219.1925, y: 120.2585, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -719,8 +725,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 10.1675034, y: -59.1495018, z: .100000001}
-    m_Extent: {x: 219.192505, y: 120.258499, z: .100000001}
+    m_Center: {x: 10.167503, y: -59.1495, z: 0.1}
+    m_Extent: {x: 219.1925, y: 120.2585, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -899,6 +905,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 19
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -1070,6 +1080,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 18
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -1109,15 +1123,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
   splitDist: 1
   splitMiddle: 1
   pixelsPerUnit: 32
-  vertexColor: {r: .411764711, g: .411764711, b: .411764711, a: 1}
-  stretchThreshold: .5
+  vertexColor: {r: 0.4117647, g: 0.4117647, b: 0.4117647, a: 1}
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -1140,7 +1154,7 @@ MonoBehaviour:
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 640000006400000064000000010000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -1203,8 +1217,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -1222,39 +1238,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -208.276016, y: -161.544418}
-  - {x: -69.7316742, y: -4.77377701}
-  - {x: -61.2927055, y: 19.6992512}
-  - {x: -42.7269592, y: 37.4210968}
-  - {x: -27.3495903, y: 44.5716896}
-  - {x: -8.97106361, y: 47.5478668}
-  - {x: 16.1981735, y: 54.1521988}
-  - {x: 42.5066795, y: 57.6746368}
-  - {x: 68.3050995, y: 56.3938065}
-  - {x: 78.3869476, y: 45.8332481}
-  - {x: 83.5735779, y: 33.6266403}
-  - {x: 80.8036041, y: 30.5302792}
-  - {x: 75.6488342, y: 30.607687}
-  - {x: 68.6903229, y: 32.2708206}
-  - {x: 64.0416794, y: 33.9461594}
-  - {x: 53.7306442, y: 33.7028923}
-  - {x: 45.9832268, y: 29.5888271}
-  - {x: 41.2355042, y: 23.9251366}
-  - {x: 35.5410004, y: 16.7822895}
-  - {x: 36.3870316, y: 12.7636471}
-  - {x: 38.5021057, y: 10.648571}
-  - {x: 40.6171799, y: 8.32198906}
-  - {x: 43.7897949, y: 5.36088181}
-  - {x: 47.1739159, y: 3.88032913}
-  - {x: 55.1651382, y: 1.13350677}
-  - {x: 62.4024544, y: 10.8600788}
-  - {x: 73.2014236, y: 20.2668743}
-  - {x: 79.8990631, y: 22.0980644}
-  - {x: 87.4488831, y: 22.5656967}
-  - {x: 93.2504578, y: 20.8620682}
-  - {x: 97.0922852, y: 17.8894005}
-  - {x: 101.291031, y: 8.91520691}
-  - {x: 228.533951, y: -177.863205}
+  - {x: -208.27602, y: -161.54442}
+  - {x: -69.731674, y: -4.773777}
+  - {x: -61.292706, y: 19.699251}
+  - {x: -42.72696, y: 37.421097}
+  - {x: -27.34959, y: 44.57169}
+  - {x: -8.971064, y: 47.547867}
+  - {x: 16.198174, y: 54.1522}
+  - {x: 42.50668, y: 57.674637}
+  - {x: 68.3051, y: 56.393806}
+  - {x: 78.38695, y: 45.83325}
+  - {x: 83.57358, y: 33.62664}
+  - {x: 80.803604, y: 30.53028}
+  - {x: 75.648834, y: 30.607687}
+  - {x: 68.69032, y: 32.27082}
+  - {x: 64.04168, y: 33.94616}
+  - {x: 53.730644, y: 33.702892}
+  - {x: 45.983227, y: 29.588827}
+  - {x: 41.235504, y: 23.925137}
+  - {x: 35.541, y: 16.78229}
+  - {x: 36.38703, y: 12.763647}
+  - {x: 38.502106, y: 10.648571}
+  - {x: 40.61718, y: 8.321989}
+  - {x: 43.789795, y: 5.360882}
+  - {x: 47.173916, y: 3.8803291}
+  - {x: 55.16514, y: 1.1335068}
+  - {x: 62.402454, y: 10.860079}
+  - {x: 73.20142, y: 20.266874}
+  - {x: 79.89906, y: 22.098064}
+  - {x: 87.44888, y: 22.565697}
+  - {x: 93.25046, y: 20.862068}
+  - {x: 97.092285, y: 17.8894}
+  - {x: 101.29103, y: 8.915207}
+  - {x: 228.53395, y: -177.8632}
 --- !u!4 &637895595
 Transform:
   m_ObjectHideFlags: 0
@@ -1262,7 +1278,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 637895590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.8494759, y: -36.1946869, z: 25}
+  m_LocalPosition: {x: -13.849476, y: -36.194687, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 52546372}
@@ -1309,6 +1325,10 @@ Prefab:
     - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
       propertyPath: m_Name
       value: SawbladeHolder 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
@@ -1492,6 +1512,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 25
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -1634,6 +1658,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 24
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -1730,6 +1758,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 21
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -1776,6 +1808,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 22
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -1805,7 +1841,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1234246014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.7602768, y: -4.68079567, z: 0}
+  m_LocalPosition: {x: -46.760277, y: -4.6807957, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755570857}
@@ -1823,7 +1859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 1
   splitCount: 2
@@ -1831,7 +1867,7 @@ MonoBehaviour:
   splitMiddle: 1
   pixelsPerUnit: 32
   vertexColor: {r: 1, g: 1, b: 1, a: 1}
-  stretchThreshold: .5
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -1844,17 +1880,17 @@ MonoBehaviour:
   sharpCorners: 0
   sharpCornerDistance: 2
   surfaceOffset:
-  - .639999986
-  - .639999986
-  - .639999986
-  - .270000011
+  - 0.64
+  - 0.64
+  - 0.64
+  - 0.27
   physicsMaterial: {fileID: 0}
   physicsMaterial2D: {fileID: 0}
   collidersLeft: 1
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 01000000010000000100000001000000010000006400000064000000640000000100000001000000010000000100000001000000010000000100000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000010000000100000001000000010000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000000100000001000000010000000100000001000000010000000100000064000000640000006400000064000000640000006400000064000000640000000100000064000000640000006400000064000000640000006400000064000000640000000100000001000000010000000100000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -2008,8 +2044,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -2027,130 +2065,130 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: 51.8544617, y: -19.7893753}
-  - {x: 43.9518776, y: -18.9620018}
-  - {x: 37.4299927, y: -16.0068417}
-  - {x: 36.1435776, y: -14.8603268}
-  - {x: 33.7724953, y: -14.3496494}
-  - {x: 32.3693619, y: -10.8255367}
-  - {x: 29.8938332, y: -6.98372841}
-  - {x: 27.4626961, y: -2.09881544}
-  - {x: 23.9533978, y: 3.22356129}
-  - {x: 18.4285145, y: 7.45454216}
-  - {x: 14.2782059, y: 8.94621849}
-  - {x: 9.79826355, y: 9.61427307}
-  - {x: 5.12695312, y: 9.51817131}
-  - {x: .300743103, y: 8.7214222}
-  - {x: -3.4523468, y: 7.45913982}
-  - {x: -6.43811798, y: 4.99635315}
-  - {x: -8.66576004, y: 1.81823921}
-  - {x: -9.37606812, y: -1.90467358}
-  - {x: -9.04105759, y: -6.47683239}
-  - {x: -8.12831116, y: -9.38010693}
-  - {x: -6.00410461, y: -11.5848293}
-  - {x: -2.02970123, y: -14.3571491}
-  - {x: 3.46866608, y: -15.371542}
-  - {x: 9.14873886, y: -15.161171}
-  - {x: 13.1458244, y: -13.2678127}
-  - {x: 15.1567116, y: -11.5744724}
-  - {x: 15.8806763, y: -9.48109818}
-  - {x: 15.5975456, y: -5.31463242}
-  - {x: 14.5375175, y: -2.6138525}
-  - {x: 11.857151, y: -.269871712}
-  - {x: 9.41082001, y: .687778711}
-  - {x: 7.19792557, y: .61831665}
-  - {x: 3.51882172, y: -.462905407}
-  - {x: 1.72789764, y: -2.52051115}
-  - {x: 1.97383499, y: -5.68643379}
-  - {x: 4.42502213, y: -6.28941631}
-  - {x: 8.5176239, y: -4.78643417}
-  - {x: 9.16735077, y: -6.47572231}
-  - {x: 8.60689926, y: -7.49093533}
-  - {x: 7.27989197, y: -8.87636948}
-  - {x: 5.00910187, y: -9.98424339}
-  - {x: 2.30453491, y: -9.92741299}
-  - {x: -.0125808716, y: -8.04069996}
-  - {x: -2.13788223, y: -5.8259964}
-  - {x: -2.13788223, y: -2.70731115}
-  - {x: -1.12525558, y: .00152492523}
-  - {x: .0711860657, y: 1.97071624}
-  - {x: 2.05981827, y: 3.37234688}
-  - {x: 7.51168442, y: 3.61586857}
-  - {x: 14.1292801, y: 2.91093564}
-  - {x: 19.6841812, y: -1.56270027}
-  - {x: 21.5565662, y: -9.7830162}
-  - {x: 19.1507282, y: -16.8527069}
-  - {x: 20.2235031, y: -33.6954651}
-  - {x: 19.8718567, y: -63.2335358}
-  - {x: 30.9486465, y: -80.288269}
-  - {x: 33.7292099, y: -107.532822}
-  - {x: 104.391617, y: -181.843811}
-  - {x: -101.644844, y: -180.758347}
-  - {x: -3.77088165, y: -42.8458252}
-  - {x: -14.8737221, y: -9.06518173}
-  - {x: -15.6752739, y: -2.32841587}
-  - {x: -15.2906418, y: 2.80547905}
-  - {x: -11.7764091, y: 8.45429611}
-  - {x: -5.19034576, y: 14.0537863}
-  - {x: 3.98422241, y: 15.090354}
-  - {x: 19.6842556, y: 14.4250298}
-  - {x: 29.3261452, y: 6.09064722}
-  - {x: 33.6289749, y: -1.63452148}
-  - {x: 36.1931381, y: -6.15651321}
-  - {x: 41.2264442, y: -10.4041338}
-  - {x: 48.6762085, y: -13.4909706}
-  - {x: 59.7119026, y: -13.1835537}
-  - {x: 67.7436981, y: -10.4773655}
-  - {x: 69.0850906, y: -7.93681526}
-  - {x: 70.4936447, y: -5.8481493}
-  - {x: 71.3975372, y: -2.74450493}
-  - {x: 71.6352997, y: .0466861725}
-  - {x: 71.7742233, y: 2.75391483}
-  - {x: 71.338501, y: 6.00024939}
-  - {x: 69.8064117, y: 8.28997993}
-  - {x: 68.1799545, y: 10.284852}
-  - {x: 65.577774, y: 11.7426186}
-  - {x: 61.3194847, y: 12.5692387}
-  - {x: 56.7994957, y: 12.5326633}
-  - {x: 52.9435806, y: 11.7353516}
-  - {x: 49.5135231, y: 10.2503109}
-  - {x: 46.5642395, y: 8.26084805}
-  - {x: 45.7388649, y: 6.03673649}
-  - {x: 45.6930161, y: 3.5804534}
-  - {x: 46.6166916, y: .857551575}
-  - {x: 48.3030739, y: -1.41864252}
-  - {x: 52.1216545, y: -3.94682884}
-  - {x: 57.2818718, y: -2.24812651}
-  - {x: 58.6704178, y: 1.59609199}
-  - {x: 57.8014412, y: 3.40550804}
-  - {x: 55.700676, y: 4.74440861}
-  - {x: 57.6543922, y: 5.77337742}
-  - {x: 59.6081085, y: 6.40759563}
-  - {x: 61.6288223, y: 5.88759613}
-  - {x: 62.5960541, y: 5.02635193}
-  - {x: 63.4429703, y: 2.97105956}
-  - {x: 63.2391777, y: .759131908}
-  - {x: 61.8869514, y: -1.91901016}
-  - {x: 60.2690735, y: -4.15952492}
-  - {x: 57.2995758, y: -5.86511898}
-  - {x: 52.0871696, y: -6.43877316}
-  - {x: 48.1304932, y: -6.15472507}
-  - {x: 44.3737488, y: -3.71317101}
-  - {x: 40.6517487, y: 1.00149775}
-  - {x: 39.7729607, y: 6.02787828}
-  - {x: 41.028759, y: 9.61811924}
-  - {x: 43.7214432, y: 12.7595806}
-  - {x: 48.4694138, y: 14.4526739}
-  - {x: 56.2716827, y: 16.9773407}
-  - {x: 66.0754776, y: 15.6509495}
-  - {x: 72.9192886, y: 12.3735466}
-  - {x: 75.2623138, y: 8.96642017}
-  - {x: 76.2387009, y: 5.01789761}
-  - {x: 76.8376312, y: -4.68485069}
-  - {x: 75.8161469, y: -10.4174633}
-  - {x: 72.8624039, y: -14.4788494}
-  - {x: 67.3037567, y: -17.1357555}
-  - {x: 60.4936371, y: -19.4632759}
+  - {x: 51.85446, y: -19.789375}
+  - {x: 43.951878, y: -18.962002}
+  - {x: 37.429993, y: -16.006842}
+  - {x: 36.143578, y: -14.860327}
+  - {x: 33.772495, y: -14.349649}
+  - {x: 32.36936, y: -10.825537}
+  - {x: 29.893833, y: -6.9837284}
+  - {x: 27.462696, y: -2.0988154}
+  - {x: 23.953398, y: 3.2235613}
+  - {x: 18.428514, y: 7.454542}
+  - {x: 14.278206, y: 8.9462185}
+  - {x: 9.798264, y: 9.614273}
+  - {x: 5.126953, y: 9.518171}
+  - {x: 0.3007431, y: 8.721422}
+  - {x: -3.4523468, y: 7.45914}
+  - {x: -6.438118, y: 4.996353}
+  - {x: -8.66576, y: 1.8182392}
+  - {x: -9.376068, y: -1.9046736}
+  - {x: -9.041058, y: -6.4768324}
+  - {x: -8.128311, y: -9.380107}
+  - {x: -6.0041046, y: -11.584829}
+  - {x: -2.0297012, y: -14.357149}
+  - {x: 3.468666, y: -15.371542}
+  - {x: 9.148739, y: -15.161171}
+  - {x: 13.145824, y: -13.267813}
+  - {x: 15.156712, y: -11.574472}
+  - {x: 15.880676, y: -9.481098}
+  - {x: 15.597546, y: -5.3146324}
+  - {x: 14.537518, y: -2.6138525}
+  - {x: 11.857151, y: -0.2698717}
+  - {x: 9.41082, y: 0.6877787}
+  - {x: 7.1979256, y: 0.61831665}
+  - {x: 3.5188217, y: -0.4629054}
+  - {x: 1.7278976, y: -2.5205112}
+  - {x: 1.973835, y: -5.686434}
+  - {x: 4.425022, y: -6.2894163}
+  - {x: 8.517624, y: -4.786434}
+  - {x: 9.167351, y: -6.4757223}
+  - {x: 8.606899, y: -7.4909353}
+  - {x: 7.279892, y: -8.876369}
+  - {x: 5.009102, y: -9.984243}
+  - {x: 2.304535, y: -9.927413}
+  - {x: -0.012580872, y: -8.0407}
+  - {x: -2.1378822, y: -5.8259964}
+  - {x: -2.1378822, y: -2.7073112}
+  - {x: -1.1252556, y: 0.0015249252}
+  - {x: 0.071186066, y: 1.9707162}
+  - {x: 2.0598183, y: 3.3723469}
+  - {x: 7.5116844, y: 3.6158686}
+  - {x: 14.12928, y: 2.9109356}
+  - {x: 19.684181, y: -1.5627003}
+  - {x: 21.556566, y: -9.783016}
+  - {x: 19.150728, y: -16.852707}
+  - {x: 20.223503, y: -33.695465}
+  - {x: 19.871857, y: -63.233536}
+  - {x: 30.948647, y: -80.28827}
+  - {x: 33.72921, y: -107.53282}
+  - {x: 104.39162, y: -181.84381}
+  - {x: -101.644844, y: -180.75835}
+  - {x: -3.7708817, y: -42.845825}
+  - {x: -14.873722, y: -9.065182}
+  - {x: -15.675274, y: -2.3284159}
+  - {x: -15.290642, y: 2.805479}
+  - {x: -11.776409, y: 8.454296}
+  - {x: -5.190346, y: 14.053786}
+  - {x: 3.9842224, y: 15.090354}
+  - {x: 19.684256, y: 14.42503}
+  - {x: 29.326145, y: 6.090647}
+  - {x: 33.628975, y: -1.6345215}
+  - {x: 36.19314, y: -6.156513}
+  - {x: 41.226444, y: -10.404134}
+  - {x: 48.67621, y: -13.490971}
+  - {x: 59.711903, y: -13.183554}
+  - {x: 67.7437, y: -10.4773655}
+  - {x: 69.08509, y: -7.9368153}
+  - {x: 70.493645, y: -5.8481493}
+  - {x: 71.39754, y: -2.744505}
+  - {x: 71.6353, y: 0.046686172}
+  - {x: 71.77422, y: 2.7539148}
+  - {x: 71.3385, y: 6.0002494}
+  - {x: 69.80641, y: 8.28998}
+  - {x: 68.179955, y: 10.284852}
+  - {x: 65.577774, y: 11.742619}
+  - {x: 61.319485, y: 12.569239}
+  - {x: 56.799496, y: 12.532663}
+  - {x: 52.94358, y: 11.735352}
+  - {x: 49.513523, y: 10.250311}
+  - {x: 46.56424, y: 8.260848}
+  - {x: 45.738865, y: 6.0367365}
+  - {x: 45.693016, y: 3.5804534}
+  - {x: 46.61669, y: 0.8575516}
+  - {x: 48.303074, y: -1.4186425}
+  - {x: 52.121655, y: -3.9468288}
+  - {x: 57.28187, y: -2.2481265}
+  - {x: 58.670418, y: 1.596092}
+  - {x: 57.80144, y: 3.405508}
+  - {x: 55.700676, y: 4.7444086}
+  - {x: 57.654392, y: 5.7733774}
+  - {x: 59.60811, y: 6.4075956}
+  - {x: 61.628822, y: 5.887596}
+  - {x: 62.596054, y: 5.026352}
+  - {x: 63.44297, y: 2.9710596}
+  - {x: 63.239178, y: 0.7591319}
+  - {x: 61.88695, y: -1.9190102}
+  - {x: 60.269073, y: -4.159525}
+  - {x: 57.299576, y: -5.865119}
+  - {x: 52.08717, y: -6.438773}
+  - {x: 48.130493, y: -6.154725}
+  - {x: 44.37375, y: -3.713171}
+  - {x: 40.65175, y: 1.0014977}
+  - {x: 39.77296, y: 6.0278783}
+  - {x: 41.02876, y: 9.618119}
+  - {x: 43.721443, y: 12.759581}
+  - {x: 48.469414, y: 14.452674}
+  - {x: 56.271683, y: 16.97734}
+  - {x: 66.07548, y: 15.6509495}
+  - {x: 72.91929, y: 12.373547}
+  - {x: 75.262314, y: 8.96642}
+  - {x: 76.2387, y: 5.0178976}
+  - {x: 76.83763, y: -4.6848507}
+  - {x: 75.81615, y: -10.417463}
+  - {x: 72.862404, y: -14.478849}
+  - {x: 67.30376, y: -17.135756}
+  - {x: 60.493637, y: -19.463276}
 --- !u!1001 &1278562803
 Prefab:
   m_ObjectHideFlags: 0
@@ -2281,7 +2319,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1355731963}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -84.8169861, y: -103.769753, z: 10}
+  m_LocalPosition: {x: -84.816986, y: -103.76975, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 52546372}
@@ -2299,15 +2337,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
   splitDist: 1
   splitMiddle: 1
   pixelsPerUnit: 32
-  vertexColor: {r: .764705896, g: .764705896, b: .764705896, a: 1}
-  stretchThreshold: .5
+  vertexColor: {r: 0.7647059, g: 0.7647059, b: 0.7647059, a: 1}
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -2330,7 +2368,7 @@ MonoBehaviour:
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -2387,8 +2425,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -2406,33 +2446,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -34.8122711, y: -62.6001816}
-  - {x: -70.856781, y: -3.71478271}
-  - {x: -55.4026489, y: 11.401123}
-  - {x: -45.519165, y: 23.2612991}
-  - {x: -21.4556808, y: 74.2334137}
-  - {x: -10.0828629, y: 80.5522919}
-  - {x: -6.98223114, y: 80.5522919}
-  - {x: -.160850525, y: 79.3120346}
-  - {x: 7.28065491, y: 76.2114105}
-  - {x: 18.4429169, y: 74.3510284}
-  - {x: 38.9070663, y: 65.0491486}
-  - {x: 48.20895, y: 68.1497726}
-  - {x: 59.3712158, y: 71.8705292}
-  - {x: 66.1925964, y: 74.9711609}
-  - {x: 92.2378769, y: 71.2503967}
-  - {x: 103.400139, y: 66.909523}
-  - {x: 110.841644, y: 64.4290161}
-  - {x: 117.663033, y: 61.9485168}
-  - {x: 123.864281, y: 60.7082634}
-  - {x: 135.646667, y: 60.7082634}
-  - {x: 147.429062, y: 64.4290161}
-  - {x: 155.490692, y: 71.2503967}
-  - {x: 179.055466, y: 76.2114105}
-  - {x: 208.486328, y: 62.7952347}
-  - {x: 258.89209, y: 11.401123}
-  - {x: 260.868774, y: -24.1794205}
-  - {x: 242.646973, y: -108.202629}
+  - {x: -34.81227, y: -62.60018}
+  - {x: -70.85678, y: -3.7147827}
+  - {x: -55.40265, y: 11.401123}
+  - {x: -45.519165, y: 23.2613}
+  - {x: -21.45568, y: 74.23341}
+  - {x: -10.082863, y: 80.55229}
+  - {x: -6.982231, y: 80.55229}
+  - {x: -0.16085052, y: 79.312035}
+  - {x: 7.280655, y: 76.21141}
+  - {x: 18.442917, y: 74.35103}
+  - {x: 38.907066, y: 65.04915}
+  - {x: 48.20895, y: 68.14977}
+  - {x: 59.371216, y: 71.87053}
+  - {x: 66.1926, y: 74.97116}
+  - {x: 92.23788, y: 71.2504}
+  - {x: 103.40014, y: 66.90952}
+  - {x: 110.841644, y: 64.429016}
+  - {x: 117.66303, y: 61.948517}
+  - {x: 123.86428, y: 60.708263}
+  - {x: 135.64667, y: 60.708263}
+  - {x: 147.42906, y: 64.429016}
+  - {x: 155.49069, y: 71.2504}
+  - {x: 179.05547, y: 76.21141}
+  - {x: 208.48633, y: 62.795235}
+  - {x: 258.8921, y: 11.401123}
+  - {x: 260.86877, y: -24.17942}
+  - {x: 242.64697, y: -108.20263}
 --- !u!1001 &1439823498
 Prefab:
   m_ObjectHideFlags: 0
@@ -2501,7 +2541,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1452201853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -.00499999989}
+  m_LocalPosition: {x: 0, y: 0, z: -0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 386471183}
@@ -2533,8 +2573,8 @@ Mesh:
     firstVertex: 864
     vertexCount: 31
     localAABB:
-      m_Center: {x: 95.0059967, y: -13.8255005, z: .200000003}
-      m_Extent: {x: 165.862991, y: 94.3775024, z: 0}
+      m_Center: {x: 95.006, y: -13.8255005, z: 0.2}
+      m_Extent: {x: 165.86299, y: 94.3775, z: 0}
   - serializedVersion: 2
     firstByte: 150
     indexCount: 1728
@@ -2542,8 +2582,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 864
     localAABB:
-      m_Center: {x: 93.5879974, y: -12.9135017, z: .0500000007}
-      m_Extent: {x: 168.278, y: 96.8894958, z: .0500000007}
+      m_Center: {x: 93.588, y: -12.913502, z: 0.05}
+      m_Extent: {x: 168.278, y: 96.889496, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -2649,8 +2689,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 93.5879974, y: -12.9135017, z: .100000001}
-    m_Extent: {x: 168.278, y: 96.8894958, z: .100000001}
+    m_Center: {x: 93.588, y: -12.913502, z: 0.1}
+    m_Extent: {x: 168.278, y: 96.889496, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -2752,6 +2792,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 26
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -2805,6 +2849,10 @@ Prefab:
     - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
       propertyPath: m_Name
       value: SawbladeHolder 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
@@ -2918,6 +2966,10 @@ Prefab:
       propertyPath: m_Name
       value: SawbladeHolder 20
       objectReference: {fileID: 0}
+    - target: {fileID: 193012, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 146aeb38cb99e2c4fb0d758a157c9a44, type: 2}
   m_IsPrefabParent: 0
@@ -2936,8 +2988,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 380
     localAABB:
-      m_Center: {x: 1.37350082, y: -82.4334946, z: .200000003}
-      m_Extent: {x: 103.018494, y: 99.4104996, z: 0}
+      m_Center: {x: 1.3735008, y: -82.433495, z: 0.2}
+      m_Extent: {x: 103.01849, y: 99.4105, z: 0}
   - serializedVersion: 2
     firstByte: 2196
     indexCount: 8052
@@ -2945,8 +2997,8 @@ Mesh:
     firstVertex: 380
     vertexCount: 2620
     localAABB:
-      m_Center: {x: 1.32799911, y: -81.4659958, z: .0500000007}
-      m_Extent: {x: 103.787994, y: 101.903999, z: .0500000007}
+      m_Center: {x: 1.3279991, y: -81.465996, z: 0.05}
+      m_Extent: {x: 103.787994, y: 101.904, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -3052,8 +3104,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 1.32799911, y: -81.4659958, z: .100000001}
-    m_Extent: {x: 103.787994, y: 101.903999, z: .100000001}
+    m_Center: {x: 1.3279991, y: -81.465996, z: 0.1}
+    m_Extent: {x: 103.787994, y: 101.904, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -3119,8 +3171,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 34
     localAABB:
-      m_Center: {x: 6.1499939, y: -64.8704987, z: .200000003}
-      m_Extent: {x: 180.223999, y: 53.8175011, z: 0}
+      m_Center: {x: 6.149994, y: -64.8705, z: 0.2}
+      m_Extent: {x: 180.224, y: 53.8175, z: 0}
   - serializedVersion: 2
     firstByte: 192
     indexCount: 1704
@@ -3128,8 +3180,8 @@ Mesh:
     firstVertex: 34
     vertexCount: 748
     localAABB:
-      m_Center: {x: 7.58799744, y: -63.9470024, z: .0500000007}
-      m_Extent: {x: 182.602997, y: 56.2550011, z: .0500000007}
+      m_Center: {x: 7.5879974, y: -63.947002, z: 0.05}
+      m_Extent: {x: 182.603, y: 56.255, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -3235,8 +3287,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 7.58799744, y: -63.9470024, z: .100000001}
-    m_Extent: {x: 182.602997, y: 56.2550011, z: .100000001}
+    m_Center: {x: 7.5879974, y: -63.947002, z: 0.1}
+    m_Extent: {x: 182.603, y: 56.255, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
