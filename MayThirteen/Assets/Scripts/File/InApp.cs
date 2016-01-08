@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using OnePF;
+//using OnePF;
 using System.Collections.Generic;
 using UnityEngine.UI;
 public class InApp : MonoBehaviour
-{
+{/*
 	public static InApp inApp;
 	public string inappLabel = "";
 	const string NO_ADS = "no_ads";
@@ -235,4 +235,5 @@ public class InApp : MonoBehaviour
 			break;
 		}
 	}
+*/
 }

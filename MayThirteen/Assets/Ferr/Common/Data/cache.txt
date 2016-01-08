@@ -2,7 +2,6 @@
 [Ferr2DT_TerrainMaterial]
 Assets/Prefabs/Extern/LittleRockstarAds.prefab
 Assets/Prefabs/Items/SawbladeCorner 1.prefab
-Assets/Plugins/OpenIAB/Prefabs/OpenIABEventManager.prefab
 Assets/Prefabs/Scenes/LevelModels.prefab
 Assets/Prefabs/Enivorment/OutOfBounds.prefab
 Assets/Prefabs/Enivorment/LevelSwitcher.prefab
@@ -50,11 +49,11 @@ Assets/Prefabs/UI/GameUICanvas.prefab
 Assets/Prefabs/LeaderboardButton.prefab
 Assets/Sprites/tree_cartoon_big_0.prefab
 Assets/Prefabs/Extern/LevelHandler.prefab
+Assets/Plugins/UnityPurchasing/Resources/UIFakeStoreCanvas.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Extern/LittleRockstarAds.prefab
 Assets/Prefabs/Items/SawbladeCorner 1.prefab
-Assets/Plugins/OpenIAB/Prefabs/OpenIABEventManager.prefab
 Assets/Prefabs/Scenes/LevelModels.prefab
 Assets/Prefabs/Enivorment/OutOfBounds.prefab
 Assets/Prefabs/Enivorment/LevelSwitcher.prefab
@@ -102,3 +101,4 @@ Assets/Prefabs/UI/GameUICanvas.prefab
 Assets/Prefabs/LeaderboardButton.prefab
 Assets/Sprites/tree_cartoon_big_0.prefab
 Assets/Prefabs/Extern/LevelHandler.prefab
+Assets/Plugins/UnityPurchasing/Resources/UIFakeStoreCanvas.prefab
