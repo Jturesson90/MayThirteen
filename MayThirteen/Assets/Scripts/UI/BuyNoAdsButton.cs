@@ -1,19 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using CompleteProject;
 
 public class BuyNoAdsButton : MonoBehaviour
 {
-
-	// Use this for initialization
-	void Start ()
-	{
-
-		gameObject.SetActive (PlayerPrefsManager.AdsEnabled ());
+    public Purchaser purchaser;
+    // Use this for initialization
+    void Start()
+    {
+        if (purchaser.HasRemovedAds(gameObject))
+        {
+            gameObject.SetActive(false);
+        }
+        //gameObject.SetActive (PlayerPrefsManager.AdsEnabled ());
 
 #if UNITY_IOS
 		gameObject.SetActive (false);
-		#elif UNITY_EDITOR
-		gameObject.SetActive (true);
-		#endif
-	}
+#elif UNITY_EDITOR
+     //   gameObject.SetActive(true);
+#endif
+    }
 }

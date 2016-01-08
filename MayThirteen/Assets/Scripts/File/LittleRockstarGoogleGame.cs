@@ -228,7 +228,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_18;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_18
+            return LittleRockstarGPGSConstants.leaderboard_level_18;
 #endif
         }
     }
