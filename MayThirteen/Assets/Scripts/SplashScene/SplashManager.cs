@@ -9,6 +9,7 @@ public class SplashManager : MonoBehaviour
 		void Start ()
 		{
 				Invoke ("StartGame", startGameIn);
+				Application.targetFrameRate = 60;
 		}
 
 		public void StartGame ()

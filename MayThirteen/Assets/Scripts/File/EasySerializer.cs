@@ -33,58 +33,65 @@ using System.Reflection;
 public class EasySerializer
 {
 	
-		public static void SerializeObjectToFile (object serializableObject, string filePath)
-		{
-				EasySerializer.SetEnvironmentVariables ();
-		
-				Stream stream = File.Open (filePath, FileMode.Create);
-		
-				BinaryFormatter formatter = new BinaryFormatter ();
-				formatter.Binder = new VersionDeserializationBinder ();
-				formatter.Serialize (stream, serializableObject);
-		
-				stream.Close ();
-		
+	public static void SerializeObjectToFile (object serializableObject, string filePath)
+	{
+		EasySerializer.SetEnvironmentVariables ();
+		Stream stream = null;
+		try {
+			stream = File.Open (filePath, FileMode.Create);
+		} catch (FileNotFoundException e) {
+			e.ToString ();
+			return;
 		}
-	
-		public static object DeserializeObjectFromFile (string filePath)
-		{
+		BinaryFormatter formatter = new BinaryFormatter ();
+		formatter.Binder = new VersionDeserializationBinder ();
+		formatter.Serialize (stream, serializableObject);
 		
-				if (!File.Exists (filePath)) {
-						return null;
-				}
+		stream.Close ();
 		
-		
-				EasySerializer.SetEnvironmentVariables ();
-		
-				Stream stream = null;
-		
-				try {
-						stream = File.Open (filePath, FileMode.Open);
-				} catch (FileNotFoundException e) {
-						e.ToString ();
-						return null;
-				}
-		
-				BinaryFormatter formatter = new BinaryFormatter ();
-				formatter.Binder = new VersionDeserializationBinder ();
-				object o = formatter.Deserialize (stream);
-		
-				stream.Close ();
-		
-				return o;
+	}
+
+	public static object DeserializeObjectFromFile (string filePath)
+	{
+		try {
+			if (!File.Exists (filePath)) {
+				return null;
+			}
+		} catch (FileNotFoundException e) {
+			e.ToString ();
+			return null;
 		}
+		
+		EasySerializer.SetEnvironmentVariables ();
+		
+		Stream stream = null;
+		
+		try {
+			stream = File.Open (filePath, FileMode.Open);
+		} catch (FileNotFoundException e) {
+			e.ToString ();
+			return null;
+		}
+		
+		BinaryFormatter formatter = new BinaryFormatter ();
+		formatter.Binder = new VersionDeserializationBinder ();
+		object o = formatter.Deserialize (stream);
+		
+		stream.Close ();
+		
+		return o;
+	}
 	
-		/* SetEnvironmentVariables required to avoid run-time code generation that will break iOS compatibility
+	/* SetEnvironmentVariables required to avoid run-time code generation that will break iOS compatibility
  	 * Suggested by Nico de Poel:
 	 * http://answers.unity3d.com/questions/30930/why-did-my-binaryserialzer-stop-working.html?sort=oldest
  	 */
-		private static void SetEnvironmentVariables ()
-		{
-				#if UNITY_IPHONE
-				Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
-				#endif
-		}
+	private static void SetEnvironmentVariables ()
+	{
+		#if UNITY_IPHONE
+		Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
+		#endif
+	}
 	
 }
 
@@ -94,20 +101,20 @@ public class EasySerializer
  * http://answers.unity3d.com/questions/8480/how-to-scrip-a-saveload-game-option.html
  * */
 public sealed class VersionDeserializationBinder : SerializationBinder
-{ 
-		public override Type BindToType (string assemblyName, string typeName)
-		{ 
-				if (!string.IsNullOrEmpty (assemblyName) && !string.IsNullOrEmpty (typeName)) { 
-						Type typeToDeserialize = null; 
+{
+	public override Type BindToType (string assemblyName, string typeName)
+	{ 
+		if (!string.IsNullOrEmpty (assemblyName) && !string.IsNullOrEmpty (typeName)) { 
+			Type typeToDeserialize = null; 
 			
-						assemblyName = Assembly.GetExecutingAssembly ().FullName; 
+			assemblyName = Assembly.GetExecutingAssembly ().FullName; 
 			
-						// The following line of code returns the type. 
-						typeToDeserialize = Type.GetType (String.Format ("{0}, {1}", typeName, assemblyName)); 
+			// The following line of code returns the type. 
+			typeToDeserialize = Type.GetType (String.Format ("{0}, {1}", typeName, assemblyName)); 
 			
-						return typeToDeserialize; 
-				} 
-		
-				return null; 
+			return typeToDeserialize; 
 		} 
+		
+		return null; 
+	}
 }

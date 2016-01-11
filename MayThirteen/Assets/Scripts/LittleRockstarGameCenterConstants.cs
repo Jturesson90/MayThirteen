@@ -22,10 +22,10 @@ public static class LittleRockstarGameCenterConstants  {
     public const string leaderboard_19 = "level_19";
     public const string leaderboard_20 = "level_20";
 
-    public const string completed_5 = "completed_5";
-    public const string completed_10 = "completed_10";
-    public const string completed_15 = "completed_15";
-    public const string completed_20 = "completed_20";
+	public const string completed_5 = "complete_5";
+    public const string completed_10 = "complete_10";
+    public const string completed_15 = "complete_15";
+    public const string completed_20 = "complete_20";
 
     public const string superstars_5 = "superstars_5";
     public const string superstars_10 = "superstars_10";

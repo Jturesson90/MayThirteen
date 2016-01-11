@@ -372,15 +372,15 @@ public class LittleRockstarGoogleGame : MonoBehaviour
         {
             AchievmentUnlocked(STAR_20);
         }
-        else if (stars >= 15)
+        if (stars >= 15)
         {
             AchievmentUnlocked(STAR_15);
         }
-        else if (stars >= 10)
+        if (stars >= 10)
         {
             AchievmentUnlocked(STAR_10);
         }
-        else if (stars >= 5)
+        if (stars >= 5)
         {
             AchievmentUnlocked(STAR_5);
         }
@@ -393,15 +393,15 @@ public class LittleRockstarGoogleGame : MonoBehaviour
         {
             AchievmentUnlocked(CLEARED_20);
         }
-        else if (levels >= 15)
+        if (levels >= 15)
         {
             AchievmentUnlocked(CLEARED_15);
         }
-        else if (levels >= 10)
+        if (levels >= 10)
         {
             AchievmentUnlocked(CLEARED_10);
         }
-        else if (levels >= 5)
+        if (levels >= 5)
         {
             AchievmentUnlocked(CLEARED_5);
         }

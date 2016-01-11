@@ -33,7 +33,12 @@ namespace CompleteProject
         private const string kProductNameGooglePlayNoAds = "no_ads";
 
 
-
+		void Awake()
+		{
+			#if UNITY_IOS
+			gameObject.SetActive(false);
+			#endif
+		}
         void Start()
         {
             // If we haven't set up the Unity Purchasing reference
