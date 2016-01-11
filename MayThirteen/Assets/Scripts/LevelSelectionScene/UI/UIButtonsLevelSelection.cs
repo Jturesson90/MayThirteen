@@ -3,30 +3,31 @@ using System.Collections;
 
 public class UIButtonsLevelSelection : MonoBehaviour
 {
-		GameObject homeButton;
-		GameObject muteButton;
-		GameObject adButton;
-		// Use this for initialization
-		void Start ()
-		{
-				adButton = GameObject.Find ("BuyNoAdsHolder");
-				adButton.SetActive (false);
-				muteButton = GameObject.Find ("MuteButton");
-				muteButton.SetActive (false);
-				homeButton = GameObject.Find ("HomeButton");
-				homeButton.SetActive (false);
-		}
+	public GameObject homeButton;
+	public GameObject muteButton;
+	public GameObject adButton;
+	// Use this for initialization
+	void Start ()
+	{
+		hidePausedButtons ();
+	}
 
-		public void showPausedButtons ()
-		{
-				muteButton.SetActive (true);
-				homeButton.SetActive (true);
-				adButton.SetActive (true);
-		}
-		public void hidePausedButtons ()
-		{
-				adButton.SetActive (false);
-				muteButton.SetActive (false);
-				homeButton.SetActive (false);
-		}
+	public void showPausedButtons ()
+	{
+		muteButton.SetActive (true);
+		homeButton.SetActive (true);
+		#if UNITY_ANDROID
+		adButton.SetActive (true);
+		#endif
+
+	}
+
+	public void hidePausedButtons ()
+	{
+		#if UNITY_ANDROID
+		adButton.SetActive (false);
+		#endif
+		muteButton.SetActive (false);
+		homeButton.SetActive (false);
+	}
 }

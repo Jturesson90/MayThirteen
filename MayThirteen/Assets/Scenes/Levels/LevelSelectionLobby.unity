@@ -2610,6 +2610,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292306a3469698a4e868e6d59a09b873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  homeButton: {fileID: 877597340}
+  muteButton: {fileID: 1021535201}
+  adButton: {fileID: 1098857828}
 --- !u!1001 &794788351
 Prefab:
   m_ObjectHideFlags: 0
@@ -3523,7 +3526,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -3545,7 +3548,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &1021535204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3941,7 +3944,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -3963,7 +3966,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &1098857831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4781,7 +4784,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4803,7 +4806,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &1352635887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5667,6 +5670,10 @@ Prefab:
       propertyPath: purchaser
       value: 
       objectReference: {fileID: 1560464552}
+    - target: {fileID: 133934, guid: 49f729b82c13f324f8760a977e10d1f8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49f729b82c13f324f8760a977e10d1f8, type: 2}
   m_IsPrefabParent: 0

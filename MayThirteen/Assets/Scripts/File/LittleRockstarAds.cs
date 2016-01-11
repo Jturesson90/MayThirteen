@@ -9,6 +9,9 @@ public class LittleRockstarAds : MonoBehaviour
 
     void Awake()
     {
+		#if UNITY_IOS
+		return;
+		#endif
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -27,6 +30,7 @@ public class LittleRockstarAds : MonoBehaviour
     }
     public void ShowAds()
     {
+		#if !UNITY_IOS
         bool showAds = PlayerPrefsManager.AdsEnabled();
         if (!showAds) return;
         if (!Advertisement.IsReady()) return;
@@ -36,5 +40,6 @@ public class LittleRockstarAds : MonoBehaviour
         {
             Advertisement.Show();
         }
+		#endif
     }
 }

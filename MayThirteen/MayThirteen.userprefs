@@ -1,13 +1,21 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Reverso\ReversoGit\Reverso\Assets\Scripts\OthelloLogics\Othello.cs">
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/File/LittleRockstarGoogleGame.cs">
     <Files>
-      <File FileName="..\..\Reverso\ReversoGit\Reverso\Assets\Scripts\GameBoard.cs" Line="18" Column="81" />
-      <File FileName="..\..\Reverso\ReversoGit\Reverso\Assets\Scripts\OthelloLogics\Othello.cs" Line="57" Column="4" />
+      <File FileName="Assets/Scripts/File/LevelHandlerC.cs" Line="156" Column="14" />
+      <File FileName="Assets/Scripts/File/LittleRockstarGoogleGame.cs" Line="379" Column="25" />
+      <File FileName="Assets/Scripts/File/LittleRockstarAds.cs" Line="14" Column="9" />
+      <File FileName="Assets/Scripts/Purchaser.cs" Line="39" Column="4" />
+      <File FileName="Assets/Scripts/LevelSelectionScene/UI/UIButtonsLevelSelection.cs" Line="27" Column="20" />
+      <File FileName="Assets/Scripts/File/EasySerializer.cs" Line="36" Column="42" />
+      <File FileName="Assets/Scripts/LevelSelectionScene/Interactables/LevelSelectionLevel.cs" Line="81" Column="73" />
+      <File FileName="Assets/Scripts/Interactables/RockPlayer.cs" Line="33" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/jesperturesson/UnityProjects/MayThirteen/MayThirteen/Assets/GooglePlayGames/Editor/GPGSPostBuild.cs" line="29" column="33" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
