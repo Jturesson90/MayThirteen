@@ -7,7 +7,7 @@ public class GameMovement : MonoBehaviour
 
 	private PinchZoom pinchZoom;
 	private FollowTarget followTarget;
-	private float turnSpeed = 55f;
+	public float turnSpeed = 55f;
 	public float touchOffset = 0.25f;
 	
 

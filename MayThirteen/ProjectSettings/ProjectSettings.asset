@@ -89,15 +89,15 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.drolegames.littlerockstar
-  bundleVersion: 2.0.5
+  bundleIdentifier: com.drolegamesj.littlerockstar
+  bundleVersion: 2.1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
   virtualRealitySupported: 0
   productGUID: e1e15c7f8da69b442b394137647fab31
-  AndroidBundleVersionCode: 6
+  AndroidBundleVersionCode: 7
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -162,7 +162,7 @@ PlayerSettings:
   AndroidKeyaliasName: drolegames
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
-  androidEnableBanner: 1
+  androidEnableBanner: 0
   m_AndroidBanners:
   - width: 320
     height: 180
@@ -173,7 +173,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7a9113fa77991f544a7653dc2526f081, type: 3}
+      m_Icon: {fileID: 2800000, guid: dd2dab87a0251144bbe2023a7b21ff19, type: 3}
       m_Width: 128
       m_Height: 128
   - m_BuildTarget: iPhone
@@ -210,6 +210,32 @@ PlayerSettings:
       m_Icon: {fileID: 2800000, guid: d802a504a70b7462080f67cd617c14f4, type: 3}
       m_Width: 57
       m_Height: 57
+  - m_BuildTarget: Android
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 8bc652380dcef664a8a61223ec52dc9a, type: 3}
+      m_Width: 192
+      m_Height: 192
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: d6d7e3ea93f822c4eadf992482516710, type: 3}
+      m_Width: 144
+      m_Height: 144
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 8a8ec4375d327d74d9c75f8acabaddd3, type: 3}
+      m_Width: 96
+      m_Height: 96
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 0dcf5a7f8980b414b92836bc4f4b72e2, type: 3}
+      m_Width: 72
+      m_Height: 72
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: c753cc1d6d618834f8d47eb8027822fd, type: 3}
+      m_Width: 48
+      m_Height: 48
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 1bb3f783cb83dfd498a46a62fa817f87, type: 3}
+      m_Width: 36
+      m_Height: 36
   m_BuildTargetBatching:
   - m_BuildTarget: Android
     m_StaticBatching: 1
