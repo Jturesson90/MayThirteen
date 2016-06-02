@@ -12,12 +12,9 @@ public class GameMovement : MonoBehaviour
 	
 
 	private void Awake ()
-	{
-				
+	{		
 		followTarget = gameObject.GetComponent<FollowTarget> ();
-		pinchZoom = gameObject.GetComponent<PinchZoom> ();
-				
-				
+		pinchZoom = gameObject.GetComponent<PinchZoom> ();		
 	}
 
 	
@@ -30,10 +27,6 @@ public class GameMovement : MonoBehaviour
 		#if UNITY_ANDROID || UNITY_IPHONE
 		MobileMovement ();
 #endif
-
-
-
-
 	}
 	void MobileMovement ()
 	{
