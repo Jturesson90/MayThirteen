@@ -14,7 +14,24 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 	 	*Leaderboard
 	 	*/
 
+    private static LittleRockstarGoogleGame _instance;
 
+    public static LittleRockstarGoogleGame Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+    void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public string LEVEL_1
     {
@@ -24,7 +41,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_1;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_1;
+            return LittleRockstarGPGSConstants.leaderboard_level_1;
 #endif
         }
     }
@@ -36,7 +53,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_2;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_2;
+            return LittleRockstarGPGSConstants.leaderboard_level_2;
 #endif
         }
     }
@@ -48,7 +65,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_3;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_3;
+            return LittleRockstarGPGSConstants.leaderboard_level_3;
 #endif
         }
     }
@@ -60,7 +77,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_4;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_4;
+            return LittleRockstarGPGSConstants.leaderboard_level_4;
 #endif
         }
     }
@@ -72,7 +89,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_5;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_5;
+            return LittleRockstarGPGSConstants.leaderboard_level_5;
 #endif
         }
     }
@@ -84,7 +101,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_6;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_6;
+            return LittleRockstarGPGSConstants.leaderboard_level_6;
 #endif
         }
     }
@@ -96,7 +113,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_7;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_7;
+            return LittleRockstarGPGSConstants.leaderboard_level_7;
 #endif
         }
     }
@@ -108,7 +125,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_8;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_8;
+            return LittleRockstarGPGSConstants.leaderboard_level_8;
 #endif
         }
     }
@@ -120,7 +137,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_9;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_9;
+            return LittleRockstarGPGSConstants.leaderboard_level_9;
 #endif
         }
     }
@@ -132,7 +149,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_10;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_10;
+            return LittleRockstarGPGSConstants.leaderboard_level_10;
 #endif
         }
     }
@@ -144,7 +161,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_11;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_11;
+            return LittleRockstarGPGSConstants.leaderboard_level_11;
 #endif
         }
     }
@@ -156,7 +173,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_12;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_12;
+            return LittleRockstarGPGSConstants.leaderboard_level_12;
 #endif
         }
     }
@@ -168,7 +185,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_13;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_13;
+            return LittleRockstarGPGSConstants.leaderboard_level_13;
 #endif
         }
     }
@@ -180,7 +197,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_14;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_14;
+            return LittleRockstarGPGSConstants.leaderboard_level_14;
 #endif
         }
     }
@@ -192,7 +209,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_15;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_15;
+            return LittleRockstarGPGSConstants.leaderboard_level_15;
 #endif
         }
     }
@@ -204,7 +221,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_16;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_16;
+            return LittleRockstarGPGSConstants.leaderboard_level_16;
 #endif
         }
     }
@@ -216,7 +233,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_17;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_17;
+            return LittleRockstarGPGSConstants.leaderboard_level_17;
 #endif
         }
     }
@@ -240,7 +257,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_19;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_19;
+            return LittleRockstarGPGSConstants.leaderboard_level_19;
 #endif
         }
     }
@@ -252,7 +269,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
             return LittleRockstarGameCenterConstants.leaderboard_20;
 
 #else
-             return LittleRockstarGPGSConstants.leaderboard_level_20;
+            return LittleRockstarGPGSConstants.leaderboard_level_20;
 #endif
         }
     }
@@ -331,7 +348,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-           return LittleRockstarGPGSConstants.achievement_10_superstars;
+            return LittleRockstarGPGSConstants.achievement_10_superstars;
 #endif
         }
     }
@@ -355,11 +372,27 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-        return LittleRockstarGPGSConstants.achievement_20_superstars;
+            return LittleRockstarGPGSConstants.achievement_20_superstars;
 #endif
         }
     }
+    public string IT_BEGINS
+    {
+        get
+        {
+#if UNITY_IOS
+            return LittleRockstarGameCenterConstants.itbegins;
 
+
+#else
+            return LittleRockstarGPGSConstants.achievement_itbegins;
+#endif
+        }
+    }
+    public void ItBegins()
+    {
+        AchievmentUnlocked(IT_BEGINS);
+    }
     public void UpdateAchievemnts(int stars, int levels)
     {
 
@@ -425,7 +458,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 #if UNITY_IOS
         GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
 #else
-         GooglePlayGames.PlayGamesPlatform.Activate();
+        GooglePlayGames.PlayGamesPlatform.Activate();
 #endif
 
 
@@ -575,7 +608,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 #if UNITY_IOS
         GameCenterPlatform.ShowLeaderboardUI(leaderboard, TimeScope.AllTime);
 #else
-          PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
+        PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
 #endif
 
 

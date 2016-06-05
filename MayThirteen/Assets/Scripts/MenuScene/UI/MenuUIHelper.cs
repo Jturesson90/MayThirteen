@@ -18,7 +18,6 @@ public class MenuUIHelper : MonoBehaviour
     }
     void Start()
     {
-        PlayerPrefs.DeleteAll();
         Time.timeScale = 1f;
     }
     void Update()

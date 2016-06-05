@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class IntroSceneUI : MonoBehaviour
 {
@@ -96,5 +97,10 @@ public class IntroSceneUI : MonoBehaviour
     {
         if (arrows != null)
             arrows.SetActive(false);
+    }
+
+    public void OnHomeButtonClicked()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

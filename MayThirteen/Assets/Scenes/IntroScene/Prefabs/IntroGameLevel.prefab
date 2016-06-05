@@ -60,39 +60,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &133574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 454426}
-  - 114: {fileID: 11482854}
-  m_Layer: 0
-  m_Name: Effects
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &152158
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 471628}
-  - 82: {fileID: 8229858}
-  - 114: {fileID: 11421806}
-  m_Layer: 0
-  m_Name: Earthquake
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &185982
 GameObject:
   m_ObjectHideFlags: 1
@@ -162,11 +129,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190790}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18, y: 4.3, z: 0}
+  m_LocalPosition: {x: 44.8, y: 37, z: 0}
   m_LocalScale: {x: 0.51250005, y: 1.6749992, z: 1}
   m_Children: []
   m_Father: {fileID: 493518}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!4 &442884
 Transform:
   m_ObjectHideFlags: 1
@@ -191,19 +158,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 493518}
   m_RootOrder: 0
---- !u!4 &454426
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 133574}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 471628}
-  m_Father: {fileID: 493518}
-  m_RootOrder: 3
 --- !u!4 &459420
 Transform:
   m_ObjectHideFlags: 1
@@ -217,18 +171,6 @@ Transform:
   - {fileID: 497664}
   m_Father: {fileID: 493518}
   m_RootOrder: 1
---- !u!4 &471628
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 454426}
-  m_RootOrder: 0
 --- !u!4 &483336
 Transform:
   m_ObjectHideFlags: 1
@@ -255,7 +197,6 @@ Transform:
   - {fileID: 453766}
   - {fileID: 459420}
   - {fileID: 483336}
-  - {fileID: 454426}
   - {fileID: 430396}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -379,80 +320,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110034}
   m_Enabled: 1
---- !u!82 &8229858
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152158}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0c76d05b5f248584b90600d1e8b59fce, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 1
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!82 &8250344
 AudioSource:
   m_ObjectHideFlags: 1
@@ -545,19 +412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c624584c13dec2741a8f50a5994e15e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11421806
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429452b253ccc95408fe387db4a2ab8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  decayEffect: 0.6
-  amountOfShaking: 0.4
 --- !u!114 &11439844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -592,7 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 108996, guid: 02de879d9b3233c4cac9986300fd6e85, type: 2}
   UI: {fileID: 165504, guid: 63eb272695ed5464aaffa718f0a2fb6d, type: 2}
-  effectsManager: {fileID: 133574}
+  effectsManager: {fileID: 0}
 --- !u!114 &11450432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -630,19 +484,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 80
   touchOffset: 0.25
---- !u!114 &11482854
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 133574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a9eaed5cecefa24dbfd11d5b946f8c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  earthquake: {fileID: 11421806}
-  earthquakeDuration: 5
 --- !u!114 &11493314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -697,7 +538,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 21
   m_Sprite: {fileID: 21300000, guid: cbd413bd2bb10e140bc2cfb70540b171, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

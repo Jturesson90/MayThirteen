@@ -33,12 +33,12 @@ namespace CompleteProject
         private const string kProductNameGooglePlayNoAds = "no_ads";
 
 
-		void Awake()
-		{
-			#if UNITY_IOS
+        void Awake()
+        {
+#if UNITY_IOS
 			gameObject.SetActive(false);
-			#endif
-		}
+#endif
+        }
         void Start()
         {
             // If we haven't set up the Unity Purchasing reference
@@ -100,6 +100,7 @@ namespace CompleteProject
         }
         public bool HasRemovedAds(GameObject go)
         {
+            if (m_StoreController == null) return false;
             Product product = m_StoreController.products.WithID(kProductIDNoAds);
             print("P: " + product.hasReceipt);
             print("P: " + product.metadata.localizedPriceString);
