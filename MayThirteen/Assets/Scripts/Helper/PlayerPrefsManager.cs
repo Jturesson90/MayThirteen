@@ -7,7 +7,7 @@ public class PlayerPrefsManager : MonoBehaviour
 
     private const string LEVELS_DONE = "LevelsDone";
     private const string CURRENT_LEVEL = "CurrentLevel";
-    private const string DONE_FIRST_LEVEL = "DoneFirstLevel";
+    private const string DONE_FIRST_LEVEL = "DoneIntroLevel";
 
     private const string WALLS_DONE_ANIMATED = "Walls_done_animated";
 
@@ -78,6 +78,7 @@ public class PlayerPrefsManager : MonoBehaviour
     }
     public static bool DoneFirstLevel()
     {
+        print("DoneFirstLevel " + (PlayerPrefs.GetInt(DONE_FIRST_LEVEL) == 1 ? true : false));
         return PlayerPrefs.GetInt(DONE_FIRST_LEVEL) == 1 ? true : false;
     }
     /*

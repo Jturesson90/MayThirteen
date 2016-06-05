@@ -50,6 +50,10 @@ Assets/Prefabs/LeaderboardButton.prefab
 Assets/Sprites/tree_cartoon_big_0.prefab
 Assets/Prefabs/Extern/LevelHandler.prefab
 Assets/Plugins/UnityPurchasing/Resources/UIFakeStoreCanvas.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroGameLevel.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroPlayer.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroUI.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroSceneManager.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Extern/LittleRockstarAds.prefab
@@ -102,3 +106,7 @@ Assets/Prefabs/LeaderboardButton.prefab
 Assets/Sprites/tree_cartoon_big_0.prefab
 Assets/Prefabs/Extern/LevelHandler.prefab
 Assets/Plugins/UnityPurchasing/Resources/UIFakeStoreCanvas.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroGameLevel.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroPlayer.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroUI.prefab
+Assets/Scenes/IntroScene/Prefabs/IntroSceneManager.prefab

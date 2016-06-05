@@ -30,8 +30,7 @@ public class ZoomToTargetPerspective : MonoBehaviour
 	void Start ()
 	{
 		fromTarget = transform;
-		controller = GetComponent<GameCameraController> ();
-		
+		controller = GetComponent<GameCameraController> ();	
 	}
 	
 	// Update is called once per frame

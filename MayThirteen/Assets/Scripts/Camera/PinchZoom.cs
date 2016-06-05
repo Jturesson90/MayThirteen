@@ -5,7 +5,6 @@ public class PinchZoom : MonoBehaviour
 {
 		private float perspectiveZoomSpeed = 0.1f;  
 		private float orthoZoomSpeed = 0.1f;
-		[Tooltip("Hello")]
 		public float
 				maximumZoom = 20f;
 

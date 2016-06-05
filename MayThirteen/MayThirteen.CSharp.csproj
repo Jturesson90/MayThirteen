@@ -67,21 +67,6 @@
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -314,6 +299,15 @@
     <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
     <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
     <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
+    <Compile Include="Assets\IntroEffectsManager.cs" />
+    <Compile Include="Assets\IntroEnding.cs" />
+    <Compile Include="Assets\IntroSceneMovement.cs" />
+    <Compile Include="Assets\IntroTextManager.cs" />
+    <Compile Include="Assets\Scenes\IntroScene\Scripts\IntroCameraController.cs" />
+    <Compile Include="Assets\Scenes\IntroScene\Scripts\IntroLevelUiHelper.cs" />
+    <Compile Include="Assets\Scenes\IntroScene\Scripts\IntroSceneLoader.cs" />
+    <Compile Include="Assets\Scenes\IntroScene\Scripts\IntroSceneManager.cs" />
+    <Compile Include="Assets\Scenes\IntroScene\Scripts\IntroSceneUI.cs" />
     <Compile Include="Assets\Scripts\ButtonClick.cs" />
     <Compile Include="Assets\Scripts\Camera\FollowTarget.cs" />
     <Compile Include="Assets\Scripts\Camera\PinchZoom.cs" />
