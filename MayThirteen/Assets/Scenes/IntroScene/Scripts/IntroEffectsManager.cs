@@ -4,7 +4,7 @@ using System.Collections;
 public class IntroEffectsManager : MonoBehaviour
 {
 
-    public EarthquakeEffect earthquake;
+    public EarthquakeEffect Earthquake;
     public float earthquakeDuration = 5f;
 
     private static IntroEffectsManager _instance;
@@ -28,8 +28,8 @@ public class IntroEffectsManager : MonoBehaviour
 
     public void StartEarthQuake()
     {
-        if (earthquake == null) return;
-        earthquake.StartEarthquakeWithLength(earthquakeDuration);
+        if (Earthquake == null) return;
+        Earthquake.StartEarthquakeWithLength(earthquakeDuration);
         print("manager quake");
     }
 

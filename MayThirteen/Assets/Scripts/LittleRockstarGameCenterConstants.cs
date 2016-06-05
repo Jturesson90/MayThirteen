@@ -1,5 +1,6 @@
 ﻿
-public static class LittleRockstarGameCenterConstants  {
+public static class LittleRockstarGameCenterConstants
+{
 
     public const string leaderboard_1 = "level_1";
     public const string leaderboard_2 = "level_2";
@@ -22,7 +23,7 @@ public static class LittleRockstarGameCenterConstants  {
     public const string leaderboard_19 = "level_19";
     public const string leaderboard_20 = "level_20";
 
-	public const string completed_5 = "complete_5";
+    public const string completed_5 = "complete_5";
     public const string completed_10 = "complete_10";
     public const string completed_15 = "complete_15";
     public const string completed_20 = "complete_20";
@@ -31,5 +32,5 @@ public static class LittleRockstarGameCenterConstants  {
     public const string superstars_10 = "superstars_10";
     public const string superstars_15 = "superstars_15";
     public const string superstars_20 = "superstars_20";
-
+    public const string itbegins = "itbegins";
 }

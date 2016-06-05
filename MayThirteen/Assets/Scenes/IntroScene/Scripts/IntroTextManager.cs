@@ -58,7 +58,7 @@ public class IntroTextManager : MonoBehaviour
     {
         FadingInEndText = true;
         endText.text = endTextString;
-        yield return StartCoroutine(WaitForRealSeconds(delay));
+        yield return new WaitForSeconds(delay);
         endText.CrossFadeAlpha(1, endingTextFadeIn, false);
         EndDialogDone = true;
     }
@@ -73,7 +73,7 @@ public class IntroTextManager : MonoBehaviour
     {
 
         endText.CrossFadeAlpha(0, textFadeSeconds, false);
-        yield return StartCoroutine(WaitForRealSeconds(textFadeSeconds));
+        yield return new WaitForSeconds(textFadeSeconds);
         PlayerPrefsManager.SetDoneFirstLevel(true);
         SceneManager.LoadScene(3);
     }
@@ -109,7 +109,7 @@ public class IntroTextManager : MonoBehaviour
     private IEnumerator NextStartTextWithDelay(float delay)
     {
 
-        yield return StartCoroutine(WaitForRealSeconds(delay));
+        yield return new WaitForSeconds(delay);
         StartCoroutine(NextStartText());
     }
 
@@ -120,11 +120,11 @@ public class IntroTextManager : MonoBehaviour
         ReadyForFadeOut = false;
         startText.text = startDialogQueue.Dequeue();
         startText.CrossFadeAlpha(1, textFadeSeconds, false);
-        yield return StartCoroutine(WaitForRealSeconds(textFadeSeconds));
+        yield return new WaitForSeconds(textFadeSeconds);
         print("NextStartText - end");
         ReadyForFadeOut = true;
 
-        yield return StartCoroutine(WaitForRealSeconds(textFadeSeconds));
+        yield return new WaitForSeconds(textFadeSeconds);
         if (ReadyForFadeOut) FadeOutStartDialog();
     }
     public void FadeOutStartDialog()
@@ -138,7 +138,7 @@ public class IntroTextManager : MonoBehaviour
         if (StartDialogIsEmpty) DialogDone = true;
         ReadyForFadeOut = false;
         startText.CrossFadeAlpha(0, textFadeSeconds, false);
-        yield return StartCoroutine(WaitForRealSeconds(textFadeSeconds));
+        yield return new WaitForSeconds(textFadeSeconds);
         ReadyForNextStartDialog = true;
         print("FadeOutStartText - end" + startDialogQueue.Count + " still left in queue");
 

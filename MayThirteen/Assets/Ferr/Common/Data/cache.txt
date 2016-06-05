@@ -45,7 +45,6 @@ Assets/Prefabs/Extern/LittleRockstarGoogleGame.prefab
 Assets/Prefabs/Scenes/GameLevel.prefab
 Assets/Prefabs/Stone/BrokenStone.prefab
 Assets/Gamestrap UI/Prefabs/InputField.prefab
-Assets/Prefabs/UI/GameUICanvas.prefab
 Assets/Prefabs/LeaderboardButton.prefab
 Assets/Sprites/tree_cartoon_big_0.prefab
 Assets/Prefabs/Extern/LevelHandler.prefab
@@ -54,6 +53,10 @@ Assets/Scenes/IntroScene/Prefabs/IntroGameLevel.prefab
 Assets/Scenes/IntroScene/Prefabs/IntroPlayer.prefab
 Assets/Scenes/IntroScene/Prefabs/IntroUI.prefab
 Assets/Scenes/IntroScene/Prefabs/IntroSceneManager.prefab
+Assets/Scenes/IntroScene/Prefabs/Intro Star Parent.prefab
+Assets/Scenes/IntroScene/Prefabs/Intro Stone Door Parent.prefab
+Assets/Scenes/IntroScene/Prefabs/Effects.prefab
+Assets/Prefabs/Items/Arrow.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Extern/LittleRockstarAds.prefab
@@ -101,7 +104,6 @@ Assets/Prefabs/Extern/LittleRockstarGoogleGame.prefab
 Assets/Prefabs/Scenes/GameLevel.prefab
 Assets/Prefabs/Stone/BrokenStone.prefab
 Assets/Gamestrap UI/Prefabs/InputField.prefab
-Assets/Prefabs/UI/GameUICanvas.prefab
 Assets/Prefabs/LeaderboardButton.prefab
 Assets/Sprites/tree_cartoon_big_0.prefab
 Assets/Prefabs/Extern/LevelHandler.prefab
@@ -110,3 +112,7 @@ Assets/Scenes/IntroScene/Prefabs/IntroGameLevel.prefab
 Assets/Scenes/IntroScene/Prefabs/IntroPlayer.prefab
 Assets/Scenes/IntroScene/Prefabs/IntroUI.prefab
 Assets/Scenes/IntroScene/Prefabs/IntroSceneManager.prefab
+Assets/Scenes/IntroScene/Prefabs/Intro Star Parent.prefab
+Assets/Scenes/IntroScene/Prefabs/Intro Stone Door Parent.prefab
+Assets/Scenes/IntroScene/Prefabs/Effects.prefab
+Assets/Prefabs/Items/Arrow.prefab
