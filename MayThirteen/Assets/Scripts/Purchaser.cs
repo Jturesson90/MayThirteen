@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // Placing the Purchaser class in the CompleteProject namespace allows it to interact with ScoreManager, one of the existing Survival Shooter scripts.
@@ -32,12 +34,29 @@ namespace CompleteProject
         private static string kProductNameGooglePlaySubscription = "com.unity3d.test.services.purchasing.subscription";  // Google Play Store identifier for the subscription product.
         private const string kProductNameGooglePlayNoAds = "no_ads";
 
+        private bool _updatedSucceeded;
+        private static Purchaser _instance;
 
+        public static Purchaser Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
         void Awake()
         {
 #if UNITY_IOS
 			gameObject.SetActive(false);
 #endif
+            if (_instance == null)
+                _instance = this;
+            else if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(gameObject);
         }
         void Start()
         {
@@ -47,7 +66,9 @@ namespace CompleteProject
                 // Begin to configure our connection to Purchasing
                 InitializePurchasing();
             }
+            CheckForRemovedAds();
         }
+
 
         public void InitializePurchasing()
         {
@@ -92,35 +113,49 @@ namespace CompleteProject
             BuyProductID(kProductIDNonConsumable);
         }
 
-
+        void OnLevelWasLoaded(int level)
+        {
+            if (!_updatedSucceeded)
+            {
+                CheckForRemovedAds();
+            }
+        }
         public void BuySubscription()
         {
             // Buy the subscription product using its the general identifier. Expect a response either through ProcessPurchase or OnPurchaseFailed asynchronously.
             BuyProductID(kProductIDSubscription);
         }
-        public bool HasRemovedAds(GameObject go)
+        public void CheckForRemovedAds()
         {
-            if (m_StoreController == null) return false;
+            print("CheckForRemovedAds");
+            if (m_StoreController == null) return;
+
             Product product = m_StoreController.products.WithID(kProductIDNoAds);
             print("P: " + product.hasReceipt);
             print("P: " + product.metadata.localizedPriceString);
+
+            IAP.Instance.AdsRemovalCost = product.metadata.localizedPriceString;
+            IAP.Instance.RemovedAds = product.hasReceipt;
+
             if (product.hasReceipt)
             {
                 print("DEACTIVATING!");
-                go.SetActive(false);
                 PlayerPrefsManager.RemoveAds();
-                return true;
+                if (BuyNoAdsButton.Instance != null)
+                {
+                    BuyNoAdsButton.Instance.SetActive(false);
+                }
             }
             else
             {
-                Text removeAdsText = go.GetComponentInChildren<Text>();
-                if (removeAdsText)
+                if (BuyNoAdsButton.Instance != null)
                 {
-                    removeAdsText.text += "\n" + product.metadata.localizedPriceString + "\n";
+                    BuyNoAdsButton.Instance.SetActive(true);
+                    BuyNoAdsButton.Instance.GiveLocalPriceTag("\n" + product.metadata.localizedPriceString + "\n");
                 }
                 PlayerPrefsManager.ShowAds();
-                return false;
             }
+            _updatedSucceeded = true;
         }
 
         void BuyProductID(string productId)
