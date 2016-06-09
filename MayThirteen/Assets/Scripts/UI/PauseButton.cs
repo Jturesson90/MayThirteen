@@ -48,4 +48,11 @@ public class PauseButton : MonoBehaviour
             go.SetActive(activate);
         }
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
 }
