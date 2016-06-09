@@ -1,23 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CompleteProject;
-
+using UnityEngine.UI;
 public class BuyNoAdsButton : MonoBehaviour
 {
-    public Purchaser purchaser;
-    // Use this for initialization
+    private static BuyNoAdsButton _instance;
+
+    public static BuyNoAdsButton Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
+    public Text text;
+    void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        gameObject.SetActive(PlayerPrefsManager.AdsEnabled());
+
+    }
+    public void GiveLocalPriceTag(string s)
+    {
+        if (text != null)
+        {
+            text.text = "Remove Ads " + s;
+        }
+    }
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+    public void BuyNoAds()
+    {
+        Purchaser.Instance.BuyNoAds();
+    }
     void Start()
     {
-        if (purchaser.HasRemovedAds(gameObject))
-        {
-            gameObject.SetActive(false);
-        }
-        //gameObject.SetActive (PlayerPrefsManager.AdsEnabled ());
+        //if (purchaser.HasRemovedAds(gameObject))
+        //{
+        //    //gameObject.SetActive(false);
+        //}
+
 
 #if UNITY_IOS
 		gameObject.SetActive (false);
 #elif UNITY_EDITOR
-     //   gameObject.SetActive(true);
+        //   gameObject.SetActive(true);
 #endif
+        GiveLocalPriceTag(IAP.Instance.AdsRemovalCost);
     }
 }

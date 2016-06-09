@@ -57,6 +57,7 @@ Assets/Scenes/IntroScene/Prefabs/Intro Star Parent.prefab
 Assets/Scenes/IntroScene/Prefabs/Intro Stone Door Parent.prefab
 Assets/Scenes/IntroScene/Prefabs/Effects.prefab
 Assets/Prefabs/Items/Arrow.prefab
+Assets/Prefabs/Purchaser.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Extern/LittleRockstarAds.prefab
@@ -116,3 +117,4 @@ Assets/Scenes/IntroScene/Prefabs/Intro Star Parent.prefab
 Assets/Scenes/IntroScene/Prefabs/Intro Stone Door Parent.prefab
 Assets/Scenes/IntroScene/Prefabs/Effects.prefab
 Assets/Prefabs/Items/Arrow.prefab
+Assets/Prefabs/Purchaser.prefab

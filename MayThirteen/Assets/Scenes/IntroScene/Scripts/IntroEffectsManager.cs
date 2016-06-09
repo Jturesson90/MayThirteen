@@ -24,6 +24,7 @@ public class IntroEffectsManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
     }
 
     public void StartEarthQuake()
