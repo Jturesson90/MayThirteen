@@ -338,6 +338,7 @@
     <Compile Include="Assets\Scripts\GameScene\UI\UIHelper.cs" />
     <Compile Include="Assets\Scripts\Helper\CameraSwitcher.cs" />
     <Compile Include="Assets\Scripts\Helper\GoogleGameSingleton.cs" />
+    <Compile Include="Assets\Scripts\Helper\IAP.cs" />
     <Compile Include="Assets\Scripts\Helper\LevelSwitcher.cs" />
     <Compile Include="Assets\Scripts\Helper\PlayerPrefsManager.cs" />
     <Compile Include="Assets\Scripts\Helper\Vibration.cs" />
