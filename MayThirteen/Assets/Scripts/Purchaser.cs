@@ -115,7 +115,7 @@ namespace CompleteProject
 
         void OnLevelWasLoaded(int level)
         {
-            if (!_updatedSucceeded)
+            if (!_updatedSucceeded && _instance == this)
             {
                 CheckForRemovedAds();
             }
@@ -137,12 +137,13 @@ namespace CompleteProject
             IAP.Instance.AdsRemovalCost = product.metadata.localizedPriceString;
             IAP.Instance.RemovedAds = product.hasReceipt;
 
-            if (product.hasReceipt)
+            if (product.hasReceipt || JespersPhone())
             {
                 print("DEACTIVATING!");
                 PlayerPrefsManager.RemoveAds();
                 if (BuyNoAdsButton.Instance != null)
                 {
+                    print("Setting BuyNoAdsButton active to FALSE");
                     BuyNoAdsButton.Instance.SetActive(false);
                 }
             }
@@ -151,6 +152,7 @@ namespace CompleteProject
                 if (BuyNoAdsButton.Instance != null)
                 {
                     BuyNoAdsButton.Instance.SetActive(true);
+                    print("Setting BuyNoAdsButton active to TRUE");
                     BuyNoAdsButton.Instance.GiveLocalPriceTag("\n" + product.metadata.localizedPriceString + "\n");
                 }
                 PlayerPrefsManager.ShowAds();
@@ -286,6 +288,25 @@ namespace CompleteProject
         {
             // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing this reason with the user.
             Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
+        }
+        private bool JespersPhone()
+        {
+            bool isJespersPhone = false;
+#if UNITY_ANDROID
+            if (!Application.isEditor)
+            {
+                //AndroidJavaClass up = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                //AndroidJavaObject currentActivity = up.GetStatic<AndroidJavaObject>("currentActivity");
+                //AndroidJavaObject contentResolver = currentActivity.Call<AndroidJavaObject>("getContentResolver");
+                //AndroidJavaClass secure = new AndroidJavaClass("android.provider.Settings$Secure");
+                //string id = secure.CallStatic<string>("getString", contentResolver, "android_id");
+                //if ("358809075228447" == id)
+                //{
+                //    isJespersPhone = true;
+                //}
+            }
+#endif
+            return isJespersPhone;
         }
     }
 }

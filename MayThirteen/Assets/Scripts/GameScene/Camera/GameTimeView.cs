@@ -95,16 +95,16 @@ public class GameTimeView : MonoBehaviour
     {
         float[] starTimes = new float[20];
         //Level 1-5
-        starTimes[0] = 7f;
+        starTimes[0] = 5.5f;
         starTimes[1] = 12.50f;
         starTimes[2] = 27f;
-        starTimes[3] = 32f;
+        starTimes[3] = 33.5f;
         starTimes[4] = 16f;
         //Level 6-10
-        starTimes[5] = 6f;
+        starTimes[5] = 5f;
         starTimes[6] = 20f;
         starTimes[7] = 11f;
-        starTimes[8] = 9f;
+        starTimes[8] = 8f;
         starTimes[9] = 37f;
         //Level 11- 15
         starTimes[10] = 28f;

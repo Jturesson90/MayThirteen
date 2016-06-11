@@ -8,25 +8,25 @@ SceneSettings:
   m_PVSPortalsArray: []
   m_OcclusionBakeSettings:
     smallestOccluder: 5
-    smallestHole: .25
+    smallestHole: 0.25
     backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
   m_Fog: 0
-  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: .00999999978
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_AmbientEquatorColor: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_AmbientGroundColor: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+  m_AmbientSkyColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientEquatorColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientGroundColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SkyboxMaterial: {fileID: 0}
-  m_HaloStrength: .5
+  m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -40,7 +40,7 @@ RenderSettings:
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 5
+  serializedVersion: 6
   m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
@@ -66,7 +66,7 @@ LightmapSettings:
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-  m_LightmapSnapshot: {fileID: 0}
+  m_LightingDataAsset: {fileID: 0}
   m_RuntimeCPUUsage: 25
 --- !u!196 &5
 NavMeshSettings:
@@ -74,15 +74,15 @@ NavMeshSettings:
   m_ObjectHideFlags: 0
   m_BuildSettings:
     serializedVersion: 2
-    agentRadius: .5
+    agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: .400000006
+    agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     accuratePlacement: 0
     minRegionArea: 2
-    cellSize: .166666657
+    cellSize: 0.16666666
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
 --- !u!43 &12553411
@@ -100,8 +100,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 27
     localAABB:
-      m_Center: {x: 56.1040039, y: 64.7050018, z: .200000003}
-      m_Extent: {x: 156.707001, y: 64.7050018, z: 0}
+      m_Center: {x: 56.104004, y: 64.705, z: 0.2}
+      m_Extent: {x: 156.707, y: 64.705, z: 0}
   - serializedVersion: 2
     firstByte: 150
     indexCount: 972
@@ -109,8 +109,8 @@ Mesh:
     firstVertex: 27
     vertexCount: 411
     localAABB:
-      m_Center: {x: 56.1344986, y: 67.595993, z: .0500000007}
-      m_Extent: {x: 157.671509, y: 65.25, z: .0500000007}
+      m_Center: {x: 56.1345, y: 67.59599, z: 0.05}
+      m_Extent: {x: 157.67151, y: 65.25, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -216,8 +216,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 56.1344986, y: 66.4229965, z: .100000001}
-    m_Extent: {x: 157.671509, y: 66.4229965, z: .100000001}
+    m_Center: {x: 56.1345, y: 66.423, z: 0.1}
+    m_Extent: {x: 157.67151, y: 66.423, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   splitMiddle: 1
   pixelsPerUnit: 32
   vertexColor: {r: 1, g: 1, b: 1, a: 1}
-  stretchThreshold: .5
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -275,17 +275,17 @@ MonoBehaviour:
   sharpCorners: 0
   sharpCornerDistance: 2
   surfaceOffset:
-  - .639999986
-  - .639999986
-  - .639999986
-  - .25999999
+  - 0.64
+  - 0.64
+  - 0.64
+  - 0.26
   physicsMaterial: {fileID: 0}
   physicsMaterial2D: {fileID: 0}
   collidersLeft: 1
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 64000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -322,8 +322,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -341,13 +343,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -2.83117819, y: 9.04846287}
-  - {x: -2.74947023, y: 12.2580671}
-  - {x: -2.92638159, y: 18.8051586}
-  - {x: .0474410057, y: 18.7346592}
-  - {x: -.0180339813, y: 12.5194969}
-  - {x: 6.94198751, y: 12.3844976}
-  - {x: 6.88698912, y: 8.93563271}
+  - {x: -2.8311782, y: 9.048463}
+  - {x: -2.7494702, y: 12.258067}
+  - {x: -2.9263816, y: 18.805159}
+  - {x: 0.047441006, y: 18.73466}
+  - {x: -0.018033981, y: 12.519497}
+  - {x: 6.9419875, y: 12.384498}
+  - {x: 6.886989, y: 8.935633}
 --- !u!4 &152880071
 Transform:
   m_ObjectHideFlags: 0
@@ -355,7 +357,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 152880066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.1362839, y: 56.3134079, z: -10.109375}
+  m_LocalPosition: {x: 41.136284, y: 56.313408, z: -10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 897636024}
@@ -375,8 +377,8 @@ Mesh:
     firstVertex: 90
     vertexCount: 11
     localAABB:
-      m_Center: {x: -1.46652603, y: 7.02659082, z: .200000003}
-      m_Extent: {x: 4.94371605, y: 4.888906, z: 0}
+      m_Center: {x: -1.466526, y: 7.026591, z: 0.2}
+      m_Extent: {x: 4.943716, y: 4.888906, z: 0}
   - serializedVersion: 2
     firstByte: 30
     indexCount: 156
@@ -384,8 +386,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 90
     localAABB:
-      m_Center: {x: -1.46543169, y: 7.99616575, z: .0500000007}
-      m_Extent: {x: 6.97740412, y: 7.37569189, z: .0500000007}
+      m_Center: {x: -1.4654317, y: 7.9961658, z: 0.05}
+      m_Extent: {x: 6.977404, y: 7.375692, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -491,8 +493,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: -1.46543169, y: 7.99616575, z: .100000001}
-    m_Extent: {x: 6.97740412, y: 7.37569189, z: .100000001}
+    m_Center: {x: -1.4654317, y: 7.9961658, z: 0.1}
+    m_Extent: {x: 6.977404, y: 7.375692, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -549,7 +551,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 585039226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -37.7571487, y: -65.2494583, z: 10.109375}
+  m_LocalPosition: {x: -37.75715, y: -65.24946, z: 10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1547725755}
@@ -571,8 +573,8 @@ Mesh:
     firstVertex: 90
     vertexCount: 11
     localAABB:
-      m_Center: {x: 2.00780296, y: 13.8703957, z: .200000003}
-      m_Extent: {x: 4.93418455, y: 4.93476295, z: 0}
+      m_Center: {x: 2.007803, y: 13.870396, z: 0.2}
+      m_Extent: {x: 4.9341846, y: 4.934763, z: 0}
   - serializedVersion: 2
     firstByte: 30
     indexCount: 156
@@ -580,8 +582,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 90
     localAABB:
-      m_Center: {x: 2.00049281, y: 14.8506956, z: .0500000007}
-      m_Extent: {x: 7.00778103, y: 7.43839741, z: .0500000007}
+      m_Center: {x: 2.0004928, y: 14.850696, z: 0.05}
+      m_Extent: {x: 7.007781, y: 7.4383974, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -687,8 +689,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 2.00049281, y: 14.8506956, z: .100000001}
-    m_Extent: {x: 7.00778103, y: 7.43839741, z: .100000001}
+    m_Center: {x: 2.0004928, y: 14.850696, z: 0.1}
+    m_Extent: {x: 7.007781, y: 7.4383974, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -708,8 +710,8 @@ Mesh:
     firstVertex: 96
     vertexCount: 12
     localAABB:
-      m_Center: {x: 2.00780582, y: 13.8703957, z: .200000003}
-      m_Extent: {x: 4.93418789, y: 4.93476295, z: 0}
+      m_Center: {x: 2.0078058, y: 13.870396, z: 0.2}
+      m_Extent: {x: 4.934188, y: 4.934763, z: 0}
   - serializedVersion: 2
     firstByte: 36
     indexCount: 168
@@ -717,8 +719,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 96
     localAABB:
-      m_Center: {x: 2.06480074, y: 14.8506956, z: .0500000007}
-      m_Extent: {x: 7.07208967, y: 7.43839741, z: .0500000007}
+      m_Center: {x: 2.0648007, y: 14.850696, z: 0.05}
+      m_Extent: {x: 7.0720897, y: 7.4383974, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -824,8 +826,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 2.06480074, y: 14.8506956, z: .100000001}
-    m_Extent: {x: 7.07208967, y: 7.43839741, z: .100000001}
+    m_Center: {x: 2.0648007, y: 14.850696, z: 0.1}
+    m_Extent: {x: 7.0720897, y: 7.4383974, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -852,7 +854,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 897636023}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -37.7571487, y: -65.2494583, z: 10.109375}
+  m_LocalPosition: {x: -37.75715, y: -65.24946, z: 10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1796383958}
@@ -877,8 +879,8 @@ Mesh:
     firstVertex: 90
     vertexCount: 11
     localAABB:
-      m_Center: {x: -1.46652567, y: 7.09965515, z: .200000003}
-      m_Extent: {x: 4.943717, y: 4.81584167, z: 0}
+      m_Center: {x: -1.4665257, y: 7.099655, z: 0.2}
+      m_Extent: {x: 4.943717, y: 4.8158417, z: 0}
   - serializedVersion: 2
     firstByte: 30
     indexCount: 156
@@ -886,8 +888,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 90
     localAABB:
-      m_Center: {x: -1.46543169, y: 8.06668377, z: .0500000007}
-      m_Extent: {x: 6.97740507, y: 7.3051734, z: .0500000007}
+      m_Center: {x: -1.4654317, y: 8.066684, z: 0.05}
+      m_Extent: {x: 6.977405, y: 7.3051734, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -993,8 +995,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: -1.46543169, y: 8.06668377, z: .100000001}
-    m_Extent: {x: 6.97740507, y: 7.3051734, z: .100000001}
+    m_Center: {x: -1.4654317, y: 8.066684, z: 0.1}
+    m_Extent: {x: 6.977405, y: 7.3051734, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -1014,8 +1016,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 109
     localAABB:
-      m_Center: {x: 82.4185028, y: 51.2324982, z: .0500000007}
-      m_Extent: {x: 90.0704956, y: 51.2324982, z: 0}
+      m_Center: {x: 82.4185, y: 51.2325, z: 0.05}
+      m_Extent: {x: 90.070496, y: 51.2325, z: 0}
   - serializedVersion: 2
     firstByte: 594
     indexCount: 2748
@@ -1023,8 +1025,8 @@ Mesh:
     firstVertex: 109
     vertexCount: 887
     localAABB:
-      m_Center: {x: 83.5209961, y: 51.9269981, z: .0500000007}
-      m_Extent: {x: 92.1730042, y: 53.9760017, z: .0500000007}
+      m_Center: {x: 83.520996, y: 51.927, z: 0.05}
+      m_Extent: {x: 92.173004, y: 53.976, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -1130,8 +1132,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 83.5209961, y: 51.9269981, z: .0500000007}
-    m_Extent: {x: 92.1730042, y: 53.9760017, z: .0500000007}
+    m_Center: {x: 83.520996, y: 51.927, z: 0.05}
+    m_Extent: {x: 92.173004, y: 53.976, z: 0.05}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -1172,7 +1174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
@@ -1180,7 +1182,7 @@ MonoBehaviour:
   splitMiddle: 1
   pixelsPerUnit: 32
   vertexColor: {r: 1, g: 1, b: 1, a: 1}
-  stretchThreshold: .5
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -1193,17 +1195,17 @@ MonoBehaviour:
   sharpCorners: 0
   sharpCornerDistance: 2
   surfaceOffset:
-  - .639999986
-  - .639999986
-  - .639999986
-  - .25999999
+  - 0.64
+  - 0.64
+  - 0.64
+  - 0.26
   physicsMaterial: {fileID: 0}
   physicsMaterial2D: {fileID: 0}
   collidersLeft: 1
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 64000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -1240,8 +1242,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -1259,13 +1263,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -3.65118122, y: 9.04846191}
-  - {x: -3.53593969, y: 2.28381348}
-  - {x: -6.21508646, y: 2.38727856}
-  - {x: -6.41024256, y: 11.9154968}
-  - {x: -2.68647575, y: 11.8800888}
-  - {x: 3.47719121, y: 11.8175335}
-  - {x: 3.35919809, y: 8.93563271}
+  - {x: -3.6511812, y: 9.048462}
+  - {x: -3.5359397, y: 2.2838135}
+  - {x: -6.2150865, y: 2.3872786}
+  - {x: -6.4102426, y: 11.915497}
+  - {x: -2.6864758, y: 11.880089}
+  - {x: 3.4771912, y: 11.8175335}
+  - {x: 3.359198, y: 8.935633}
 --- !u!4 &1100079271
 Transform:
   m_ObjectHideFlags: 0
@@ -1273,7 +1277,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1100079266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.2942276, y: 73.1036835, z: -10.109375}
+  m_LocalPosition: {x: 34.294228, y: 73.10368, z: -10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 897636024}
@@ -1297,8 +1301,8 @@ Mesh:
     firstVertex: 96
     vertexCount: 12
     localAABB:
-      m_Center: {x: .830008507, y: 11.7589426, z: .200000003}
-      m_Extent: {x: 7.2038641, y: 5.06368923, z: 0}
+      m_Center: {x: 0.8300085, y: 11.758943, z: 0.2}
+      m_Extent: {x: 7.203864, y: 5.063689, z: 0}
   - serializedVersion: 2
     firstByte: 30
     indexCount: 168
@@ -1306,8 +1310,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 96
     localAABB:
-      m_Center: {x: .847404003, y: 12.7164202, z: .0500000007}
-      m_Extent: {x: 9.18646812, y: 7.54371166, z: .0500000007}
+      m_Center: {x: 0.847404, y: 12.71642, z: 0.05}
+      m_Extent: {x: 9.186468, y: 7.5437117, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -1413,8 +1417,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: .847404003, y: 12.7164202, z: .100000001}
-    m_Extent: {x: 9.18646812, y: 7.54371166, z: .100000001}
+    m_Center: {x: 0.847404, y: 12.71642, z: 0.1}
+    m_Extent: {x: 9.186468, y: 7.5437117, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -1524,7 +1528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
@@ -1532,7 +1536,7 @@ MonoBehaviour:
   splitMiddle: 1
   pixelsPerUnit: 32
   vertexColor: {r: 1, g: 1, b: 1, a: 1}
-  stretchThreshold: .5
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -1545,17 +1549,17 @@ MonoBehaviour:
   sharpCorners: 0
   sharpCornerDistance: 2
   surfaceOffset:
-  - .639999986
-  - .639999986
-  - .639999986
-  - .25999999
+  - 0.64
+  - 0.64
+  - 0.64
+  - 0.26
   physicsMaterial: {fileID: 0}
   physicsMaterial2D: {fileID: 0}
   collidersLeft: 1
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 6400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -1593,8 +1597,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -1612,14 +1618,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -2.83117676, y: 9.04846287}
-  - {x: -2.74946976, y: 12.2580671}
-  - {x: -2.92638206, y: 18.8051586}
-  - {x: .0474414825, y: 18.7346592}
-  - {x: -.0180339813, y: 12.5194969}
-  - {x: 3.25813484, y: 12.1717119}
-  - {x: 6.94199371, y: 12.3844976}
-  - {x: 6.88699341, y: 8.93563271}
+  - {x: -2.8311768, y: 9.048463}
+  - {x: -2.7494698, y: 12.258067}
+  - {x: -2.926382, y: 18.805159}
+  - {x: 0.047441483, y: 18.73466}
+  - {x: -0.018033981, y: 12.519497}
+  - {x: 3.2581348, y: 12.171712}
+  - {x: 6.9419937, y: 12.384498}
+  - {x: 6.8869934, y: 8.935633}
 --- !u!4 &1373118611
 Transform:
   m_ObjectHideFlags: 0
@@ -1627,7 +1633,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1373118606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.1667862, y: 56.4115982, z: -10.109375}
+  m_LocalPosition: {x: 61.166786, y: 56.4116, z: -10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 897636024}
@@ -1664,15 +1670,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .0500000007
+  fillZ: 0.05
   splitCorners: 1
   smoothPath: 1
   splitCount: 2
   splitDist: 1
   splitMiddle: 1
   pixelsPerUnit: 32
-  vertexColor: {r: .513725519, g: .513725519, b: .513725519, a: 1}
-  stretchThreshold: .5
+  vertexColor: {r: 0.5137255, g: 0.5137255, b: 0.5137255, a: 1}
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -1695,7 +1701,7 @@ MonoBehaviour:
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -1740,8 +1746,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -1761,19 +1769,19 @@ MonoBehaviour:
   pathVerts:
   - {x: -6, y: 0}
   - {x: -6, y: 6}
-  - {x: 16.3031158, y: 44.2907715}
-  - {x: 38.5783043, y: 61.1209106}
-  - {x: 51.44841, y: 71.5159912}
-  - {x: 61.3484955, y: 79.931076}
-  - {x: 76.1979446, y: 93.7914505}
-  - {x: 88.4582977, y: 102.465363}
-  - {x: 101.084251, y: 93.5529175}
-  - {x: 112.967499, y: 90.0869751}
-  - {x: 134.753464, y: 76.7183228}
-  - {x: 143.170746, y: 59.6361465}
-  - {x: 161.900635, y: 37.2730179}
-  - {x: 145.204803, y: 13.7623558}
-  - {x: 172.488831, y: 1.90055466}
+  - {x: 16.303116, y: 44.29077}
+  - {x: 38.578304, y: 61.12091}
+  - {x: 51.44841, y: 71.51599}
+  - {x: 61.348495, y: 79.931076}
+  - {x: 76.197945, y: 93.79145}
+  - {x: 88.4583, y: 102.46536}
+  - {x: 101.08425, y: 93.55292}
+  - {x: 112.9675, y: 90.086975}
+  - {x: 134.75346, y: 76.71832}
+  - {x: 143.17075, y: 59.636147}
+  - {x: 161.90063, y: 37.273018}
+  - {x: 145.2048, y: 13.762356}
+  - {x: 172.48883, y: 1.9005547}
 --- !u!4 &1405129242
 Transform:
   m_ObjectHideFlags: 0
@@ -1781,7 +1789,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1405129237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -66.0999985, y: -65.9000015, z: 15}
+  m_LocalPosition: {x: -66.1, y: -65.9, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1317787393}
@@ -1822,15 +1830,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 1
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
   splitDist: 1
   splitMiddle: 1
   pixelsPerUnit: 32
-  vertexColor: {r: .686274529, g: .686274529, b: .686274529, a: 1}
-  stretchThreshold: .5
+  vertexColor: {r: 0.6862745, g: 0.6862745, b: 0.6862745, a: 1}
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -1853,7 +1861,7 @@ MonoBehaviour:
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 6400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -1906,8 +1914,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -1925,29 +1935,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 0
   pathVerts:
-  - {x: -100.60257, y: 2.70218658}
-  - {x: -92.6737366, y: 23.4945068}
-  - {x: -82.92276, y: 41.3152847}
-  - {x: -65.4382019, y: 57.4548492}
-  - {x: -38.5389366, y: 84.3541183}
-  - {x: -32.8228416, y: 94.7775879}
-  - {x: -26.0980186, y: 101.502411}
-  - {x: -14.329586, y: 106.882263}
-  - {x: -1.55241013, y: 108.227226}
-  - {x: 14.9234009, y: 114.952049}
-  - {x: 32.744175, y: 121.004387}
-  - {x: 56.6172867, y: 126.720482}
-  - {x: 69.3944473, y: 127.39296}
-  - {x: 84.8615341, y: 129.410416}
-  - {x: 98.9836578, y: 128.401688}
-  - {x: 110.75209, y: 125.375519}
-  - {x: 123.865494, y: 120.668144}
-  - {x: 138.996338, y: 118.650696}
-  - {x: 151.437256, y: 118.314453}
-  - {x: 170.266754, y: 114.615807}
-  - {x: 189.768738, y: 111.92588}
-  - {x: 202.882141, y: 107.890991}
-  - {x: 212.81131, y: 14.8370361}
+  - {x: -100.60257, y: 2.7021866}
+  - {x: -92.67374, y: 23.494507}
+  - {x: -82.92276, y: 41.315285}
+  - {x: -65.4382, y: 57.45485}
+  - {x: -38.538937, y: 84.35412}
+  - {x: -32.82284, y: 94.77759}
+  - {x: -26.098019, y: 101.50241}
+  - {x: -14.329586, y: 106.88226}
+  - {x: -1.5524101, y: 108.22723}
+  - {x: 14.923401, y: 114.95205}
+  - {x: 32.744175, y: 121.00439}
+  - {x: 56.617287, y: 126.72048}
+  - {x: 69.39445, y: 127.39296}
+  - {x: 84.861534, y: 129.41042}
+  - {x: 98.98366, y: 128.40169}
+  - {x: 110.75209, y: 125.37552}
+  - {x: 123.86549, y: 120.668144}
+  - {x: 138.99634, y: 118.650696}
+  - {x: 151.43726, y: 118.31445}
+  - {x: 170.26675, y: 114.61581}
+  - {x: 189.76874, y: 111.92588}
+  - {x: 202.88214, y: 107.89099}
+  - {x: 212.81131, y: 14.837036}
 --- !u!4 &1567287818
 Transform:
   m_ObjectHideFlags: 0
@@ -1955,7 +1965,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1567287813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52.2598305, y: -121.823486, z: 5}
+  m_LocalPosition: {x: -52.25983, y: -121.82349, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1317787393}
@@ -2046,15 +2056,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 1
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
   splitDist: 1
   splitMiddle: 1
   pixelsPerUnit: 32
-  vertexColor: {r: .411764711, g: .411764711, b: .411764711, a: 1}
-  stretchThreshold: .5
+  vertexColor: {r: 0.4117647, g: 0.4117647, b: 0.4117647, a: 1}
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -2077,7 +2087,7 @@ MonoBehaviour:
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 64000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -2123,8 +2133,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -2142,22 +2154,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 0
   pathVerts:
-  - {x: -163.223465, y: 5.33885956}
-  - {x: -145.377853, y: 54.8582382}
-  - {x: -112.419464, y: 62.7682533}
-  - {x: -92.6444244, y: 73.9741058}
-  - {x: -74.8468781, y: 80.5657883}
-  - {x: -45.8434868, y: 79.2474518}
-  - {x: -38.5926476, y: 87.8166351}
-  - {x: -25.4092827, y: 92.430809}
-  - {x: -12.8850937, y: 91.1124725}
-  - {x: -.875793457, y: 88.943985}
-  - {x: 10.6767387, y: 84.9356995}
-  - {x: 20.7437439, y: 77.1074982}
-  - {x: 27.69837, y: 68.3028946}
-  - {x: 37.970047, y: 58.9957085}
-  - {x: 48.5622482, y: 41.88908}
-  - {x: 55.9465408, y: 18.5356827}
+  - {x: -163.22346, y: 5.3388596}
+  - {x: -145.37785, y: 54.85824}
+  - {x: -112.419464, y: 62.768253}
+  - {x: -92.644424, y: 73.974106}
+  - {x: -74.84688, y: 80.56579}
+  - {x: -45.843487, y: 79.24745}
+  - {x: -38.592648, y: 87.816635}
+  - {x: -25.409283, y: 92.43081}
+  - {x: -12.885094, y: 91.11247}
+  - {x: -0.87579346, y: 88.943985}
+  - {x: 10.676739, y: 84.9357}
+  - {x: 20.743744, y: 77.1075}
+  - {x: 27.69837, y: 68.302895}
+  - {x: 37.970047, y: 58.99571}
+  - {x: 48.56225, y: 41.88908}
+  - {x: 55.94654, y: 18.535683}
 --- !u!4 &1634722557
 Transform:
   m_ObjectHideFlags: 0
@@ -2165,7 +2177,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1634722552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.805378, y: -85.5527954, z: 25}
+  m_LocalPosition: {x: -39.805378, y: -85.552795, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1317787393}
@@ -2202,7 +2214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
@@ -2210,7 +2222,7 @@ MonoBehaviour:
   splitMiddle: 1
   pixelsPerUnit: 32
   vertexColor: {r: 1, g: 1, b: 1, a: 1}
-  stretchThreshold: .5
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -2223,17 +2235,17 @@ MonoBehaviour:
   sharpCorners: 0
   sharpCornerDistance: 2
   surfaceOffset:
-  - .639999986
-  - .639999986
-  - .639999986
-  - .25999999
+  - 0.64
+  - 0.64
+  - 0.64
+  - 0.26
   physicsMaterial: {fileID: 0}
   physicsMaterial2D: {fileID: 0}
   collidersLeft: 1
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 64000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -2270,8 +2282,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -2289,13 +2303,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -3.65118027, y: 9.04846191}
-  - {x: -3.46287537, y: 2.13768482}
-  - {x: -6.21508598, y: 2.38727856}
-  - {x: -6.41024208, y: 11.9154968}
-  - {x: -2.68647575, y: 11.8800888}
-  - {x: 3.47719002, y: 11.8175335}
-  - {x: 3.35919762, y: 8.93563271}
+  - {x: -3.6511803, y: 9.048462}
+  - {x: -3.4628754, y: 2.1376848}
+  - {x: -6.215086, y: 2.3872786}
+  - {x: -6.410242, y: 11.915497}
+  - {x: -2.6864758, y: 11.880089}
+  - {x: 3.47719, y: 11.8175335}
+  - {x: 3.3591976, y: 8.935633}
 --- !u!4 &1706610616
 Transform:
   m_ObjectHideFlags: 0
@@ -2303,7 +2317,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1706610611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.6786499, y: 73.2592926, z: -10.109375}
+  m_LocalPosition: {x: 54.67865, y: 73.25929, z: -10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 897636024}
@@ -2340,7 +2354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fill: 0
   fillY: 0
-  fillZ: .200000003
+  fillZ: 0.2
   splitCorners: 1
   smoothPath: 0
   splitCount: 0
@@ -2348,7 +2362,7 @@ MonoBehaviour:
   splitMiddle: 1
   pixelsPerUnit: 32
   vertexColor: {r: 1, g: 1, b: 1, a: 1}
-  stretchThreshold: .5
+  stretchThreshold: 0.5
   createTangents: 0
   randomByWorldCoordinates: 0
   uvOffset: {x: 0, y: 0}
@@ -2361,17 +2375,17 @@ MonoBehaviour:
   sharpCorners: 0
   sharpCornerDistance: 2
   surfaceOffset:
-  - .639999986
-  - .639999986
-  - .639999986
-  - .25999999
+  - 0.64
+  - 0.64
+  - 0.64
+  - 0.26
   physicsMaterial: {fileID: 0}
   physicsMaterial2D: {fileID: 0}
   collidersLeft: 1
   collidersRight: 1
   collidersTop: 1
   collidersBottom: 1
-  colliderThickness: .100000001
+  colliderThickness: 0.1
   directionOverrides: 64000000640000006400000064000000640000006400000064000000
   vertScales:
   - 1
@@ -2408,8 +2422,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -2427,13 +2443,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: 1
   pathVerts:
-  - {x: -6.37385559, y: 6.9079361}
-  - {x: -6.29483032, y: 10.7998295}
-  - {x: 3.43685532, y: 10.9255419}
-  - {x: 3.81412888, y: 16.8226318}
-  - {x: 8.0338726, y: 16.8226318}
-  - {x: 8.0338726, y: 6.69525337}
-  - {x: 3.38300896, y: 6.85452795}
+  - {x: -6.3738556, y: 6.907936}
+  - {x: -6.2948303, y: 10.7998295}
+  - {x: 3.4368553, y: 10.925542}
+  - {x: 3.8141289, y: 16.822632}
+  - {x: 8.033873, y: 16.822632}
+  - {x: 8.033873, y: 6.6952534}
+  - {x: 3.383009, y: 6.854528}
 --- !u!4 &1796383958
 Transform:
   m_ObjectHideFlags: 0
@@ -2441,7 +2457,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1796383953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.156147, y: 58.4563522, z: -10.109375}
+  m_LocalPosition: {x: 14.156147, y: 58.456352, z: -10.109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 897636024}
@@ -2515,8 +2531,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 20
     localAABB:
-      m_Center: {x: -53.6380043, y: 46.2154999, z: .200000003}
-      m_Extent: {x: 109.585007, y: 46.2154999, z: 0}
+      m_Center: {x: -53.638004, y: 46.2155, z: 0.2}
+      m_Extent: {x: 109.58501, y: 46.2155, z: 0}
   - serializedVersion: 2
     firstByte: 108
     indexCount: 744
@@ -2524,8 +2540,8 @@ Mesh:
     firstVertex: 20
     vertexCount: 293
     localAABB:
-      m_Center: {x: -53.632, y: 50.4225006, z: .0500000007}
-      m_Extent: {x: 110.531998, y: 45.4225006, z: .0500000007}
+      m_Center: {x: -53.632, y: 50.4225, z: 0.05}
+      m_Extent: {x: 110.532, y: 45.4225, z: 0.05}
   m_Shapes:
     vertices: []
     shapes: []
@@ -2631,8 +2647,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: -53.632, y: 47.9225006, z: .100000001}
-    m_Extent: {x: 110.531998, y: 47.9225006, z: .100000001}
+    m_Center: {x: -53.632, y: 47.9225, z: 0.1}
+    m_Extent: {x: 110.532, y: 47.9225, z: 0.1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -2715,6 +2731,26 @@ Prefab:
     - target: {fileID: 478262, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
       propertyPath: m_LocalPosition.y
       value: 14.6999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 468366, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 416698, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 416698, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -23
+      objectReference: {fileID: 0}
+    - target: {fileID: 11456346, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
+      propertyPath: NeedFixForIpad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 468366, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -23
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8436b92ec7d8f2b4080834fc0d1d8a83, type: 2}

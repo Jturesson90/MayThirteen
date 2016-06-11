@@ -17,7 +17,7 @@ public class UIButtonsLevelSelection : MonoBehaviour
 		muteButton.SetActive (true);
 		homeButton.SetActive (true);
 		#if UNITY_ANDROID
-		adButton.SetActive (true);
+		adButton.SetActive (PlayerPrefsManager.AdsEnabled());
 		#endif
 
 	}
