@@ -616,6 +616,8 @@ public class LittleRockstarGoogleGame : MonoBehaviour
     public void PostScoreToLeaderboard(int level, long time)
     {
         string id = GetIDTag(level);
+		if (!LoggedIn ())
+			return;
 #if UNITY_IOS
         time /= 10;
 #endif

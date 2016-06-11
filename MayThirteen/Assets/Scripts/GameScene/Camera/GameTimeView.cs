@@ -96,28 +96,28 @@ public class GameTimeView : MonoBehaviour
         float[] starTimes = new float[20];
         //Level 1-5
         starTimes[0] = 5.5f;
-        starTimes[1] = 12.50f;
-        starTimes[2] = 27f;
+        starTimes[1] = 13.0f;
+        starTimes[2] = 24.5f;
         starTimes[3] = 33.5f;
-        starTimes[4] = 16f;
+        starTimes[4] = 15.5f;
         //Level 6-10
-        starTimes[5] = 5f;
+        starTimes[5] = 5.9f;
         starTimes[6] = 20f;
-        starTimes[7] = 11f;
+        starTimes[7] = 11.4f;
         starTimes[8] = 8f;
-        starTimes[9] = 37f;
+        starTimes[9] = 35.5f;
         //Level 11- 15
-        starTimes[10] = 28f;
-        starTimes[11] = 47f;
+        starTimes[10] = 27f;
+        starTimes[11] = 46.5f;
         starTimes[12] = 7.5f;
-        starTimes[13] = 25f;
-        starTimes[14] = 30.5f;
+        starTimes[13] = 24.5f;
+        starTimes[14] = 30f;
         //Level  16-20
-        starTimes[15] = 28f;
-        starTimes[16] = 13f;
-        starTimes[17] = 34f;
-        starTimes[18] = 41f;
-        starTimes[19] = 41f;
+        starTimes[15] = 26f;
+        starTimes[16] = 11f;
+        starTimes[17] = 31f;
+        starTimes[18] = 40f;
+        starTimes[19] = 30f;
 
         int currentLevel = PlayerPrefsManager.GetCurrentLevel();
         return starTimes[currentLevel - 1];
