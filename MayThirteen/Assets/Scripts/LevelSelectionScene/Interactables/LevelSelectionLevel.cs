@@ -146,7 +146,7 @@ public class LevelSelectionLevel : MonoBehaviour
     }
     void SetStar(bool arg)
     {
-        transform.FindChild("Star").gameObject.SetActive(arg);
+        transform.Find("Star").gameObject.SetActive(arg);
     }
     void SetDoneIcon()
     {

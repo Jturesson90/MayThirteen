@@ -3,50 +3,149 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 
+#if UNITY_5_6_OR_NEWER
+using CapFunction = UnityEditor.Handles.CapFunction;
+#else
+using CapFunction = UnityEditor.Handles.DrawCapFunction;
+#endif
+
 [CustomEditor(typeof(Ferr2D_Path))]
 public class Ferr2D_PathEditor : Editor { 
-	Texture2D texMinus           = Ferr_EditorTools.GetGizmo("dot-minus.png"         );
-	Texture2D texMinusSelected   = Ferr_EditorTools.GetGizmo("dot-minus-selected.png");
-	Texture2D texDot             = Ferr_EditorTools.GetGizmo("dot.png"               );
-	Texture2D texDotSnap         = Ferr_EditorTools.GetGizmo("dot-snap.png"          );
-	Texture2D texDotPlus         = Ferr_EditorTools.GetGizmo("dot-plus.png"          );
-	Texture2D texDotSelected     = Ferr_EditorTools.GetGizmo("dot-selected.png"      );
-	Texture2D texDotSelectedSnap = Ferr_EditorTools.GetGizmo("dot-selected-snap.png" );
-	
-	Texture2D texLeft   = Ferr_EditorTools.GetGizmo("dot-left.png"  );
-	Texture2D texRight  = Ferr_EditorTools.GetGizmo("dot-right.png" );
-	Texture2D texTop    = Ferr_EditorTools.GetGizmo("dot-top.png"   );
-	Texture2D texBottom = Ferr_EditorTools.GetGizmo("dot-down.png"  );
-	Texture2D texAuto   = Ferr_EditorTools.GetGizmo("dot-auto.png"  );
-	Texture2D texReset  = Ferr_EditorTools.GetGizmo("dot-reset.png" );
-	Texture2D texScale  = Ferr_EditorTools.GetGizmo("dot-scale.png" );
-	
-	public static Action  OnChanged = null;
-	public static Vector3 offset    = new Vector3(0, 0, -0.0f);
+	static Texture2D texMinus;
+    static Texture2D texMinusSelected;
+    static Texture2D texDot;
+    static Texture2D texDotSnap;
+    static Texture2D texDotPlus;
+    static Texture2D texDotSelected;
+    static Texture2D texDotSelectedSnap;
+
+	static Texture2D texDot1;
+	static Texture2D texDot2;
+	static Texture2D texDot3;
+	static Texture2D texDot4;
+	static Texture2D texDot5;
+	static Texture2D texDotN;
+
+	static Texture2D texLeft;
+    static Texture2D texRight;
+    static Texture2D texTop;
+    static Texture2D texBottom;
+	static Texture2D texAuto;
+	static Texture2D texReset;
+	static Texture2D texScale;
+
+#if UNITY_5_6_OR_NEWER
+    private void CapDotMinus        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texMinus,           aType);}
+    private void CapDotMinusSelected(int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texMinusSelected,   aType);}
+    private void CapDot             (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot,             aType);}
+    private void CapDotSnap         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotSnap,         aType);}
+    private void CapDotPlus         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotPlus,         aType);}
+    private void CapDotSelected     (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotSelected,     aType);}
+    private void CapDotSelectedSnap (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotSelectedSnap, aType);}
+    private void CapDotLeft         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texLeft,            aType);}
+    private void CapDotRight        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texRight,           aType);}
+    private void CapDotTop          (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texTop,             aType);}
+    private void CapDotBottom       (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texBottom,          aType);}
+    private void CapDotAuto         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texAuto,            aType);}
+    private void CapDotScale        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texScale,           aType);}
+    private void CapDotReset        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texReset,           aType);}
+	private void CapDot1            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot1,            aType);}
+	private void CapDot2            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot2,            aType);}
+	private void CapDot3            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot3,            aType);}
+	private void CapDot4            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot4,            aType);}
+	private void CapDot5            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot5,            aType);}
+	private void CapDotN            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize, EventType aType) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotN,            aType);}
+#else
+    private void CapDotMinus        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texMinus,           Event.current.type);}
+    private void CapDotMinusSelected(int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texMinusSelected,   Event.current.type);}
+    private void CapDot             (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot,             Event.current.type);}
+    private void CapDotSnap         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotSnap,         Event.current.type);}
+    private void CapDotPlus         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotPlus,         Event.current.type);}
+    private void CapDotSelected     (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotSelected,     Event.current.type);}
+    private void CapDotSelectedSnap (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotSelectedSnap, Event.current.type);}
+    private void CapDotLeft         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texLeft,            Event.current.type);}
+    private void CapDotRight        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texRight,           Event.current.type);}
+    private void CapDotTop          (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texTop,             Event.current.type);}
+    private void CapDotBottom       (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texBottom,          Event.current.type);}
+    private void CapDotAuto         (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texAuto,            Event.current.type);}
+    private void CapDotScale        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texScale,           Event.current.type);}
+    private void CapDotReset        (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texReset,           Event.current.type);}
+	private void CapDot1            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot1,            Event.current.type);}
+	private void CapDot2            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot2,            Event.current.type);}
+	private void CapDot3            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot3,            Event.current.type);}
+	private void CapDot4            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot4,            Event.current.type);}
+	private void CapDot5            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDot5,            Event.current.type);}
+	private void CapDotN            (int aControlID, Vector3 aPosition, Quaternion aRotation, float aSize) {Ferr.EditorTools.ImageCapBase(aControlID, aPosition, aRotation, aSize, texDotN,            Event.current.type);}
+#endif
+
+
+	public static Action OnChanged = null;
 	static int updateCount    = 0;
-	bool       showVerts      = false;
 	bool       prevChanged    = false;
 	List<int>  selectedPoints = new List<int>();
+	bool       deleteSelected = false;
 	Vector2    dragStart;
 	bool       drag           = false;
-	
+	Vector3    snap           = Vector3.one;
+
+	static int nudgeIndex = 0;
+
+	SerializedProperty closed;
+	SerializedProperty pathVerts;
+
+	void LoadTextures() {
+        if (texMinus != null) return;
+
+        texMinus           = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-minus.png"         );
+        texMinusSelected   = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-minus-selected.png");
+        texDot             = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot.png"               );
+        texDotSnap         = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-snap.png"          );
+        texDotPlus         = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-plus.png"          );
+        texDotSelected     = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-selected.png"      );
+        texDotSelectedSnap = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-selected-snap.png" );
+
+		texDot1 = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-1.png");
+		texDot2 = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-2.png");
+		texDot3 = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-3.png");
+		texDot4 = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-4.png");
+		texDot5 = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-5.png");
+		texDotN = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-n.png");
+
+		texLeft   = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-left.png" );
+        texRight  = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-right.png");
+        texTop    = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-top.png"  );
+        texBottom = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-down.png" );
+	    texAuto   = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-auto.png" );
+	    texReset  = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-reset.png");
+	    texScale  = Ferr.EditorTools.GetGizmo("2D/Gizmos/dot-scale.png");
+    }
 	private         void OnEnable      () {
+		closed    = serializedObject.FindProperty("closed");
+		pathVerts = serializedObject.FindProperty("pathVerts");
+		
 		selectedPoints.Clear();
+        LoadTextures();
+		
+		if (nudgeIndex == 0)
+			nudgeIndex = UnityEngine.Random.value > 0.5f ? 1 : 2;
 	}
 	private         void OnSceneGUI    () {
-		Ferr2D_Path  path      = (Ferr2D_Path)target;
-		GUIStyle     iconStyle = new GUIStyle();
+		if (!Ferr2DT_PathTerrain.showGUI)
+			return;
+
+		Ferr2D_Path         path      = (Ferr2D_Path)target;
+		Ferr2DT_PathTerrain terrain   = path.GetComponent<Ferr2DT_PathTerrain>();
+		GUIStyle            iconStyle = new GUIStyle();
 		iconStyle.alignment    = TextAnchor.MiddleCenter;
+		snap                   = new Vector3(EditorPrefs.GetFloat("MoveSnapX", 1), EditorPrefs.GetFloat("MoveSnapY", 1), EditorPrefs.GetFloat("MoveSnapZ", 1));
 		
 		// setup undoing things
-		#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
 		Undo.RecordObject(target, "Modified Path");
-		#else
-		Undo.SetSnapshotTarget(target, "Modified Path");
-		Undo.CreateSnapshot();
-		#endif
-		
-        // draw the path line
+
+		if (Event.current.type == EventType.repaint && terrain != null)
+			Ferr2DT_PathTerrainEditor.DrawColliderEdge(terrain);
+
+		// draw the path line
 		if (Event.current.type == EventType.repaint)
 			DoPath(path);
 		
@@ -60,12 +159,28 @@ public class Ferr2D_PathEditor : Editor {
 		
         // draw and interact with all the path handles
 		DoHandles(path, iconStyle);
-		
+
+		// if this was an undo, refresh stuff too
+		if (Event.current.type == EventType.ValidateCommand) {
+			switch (Event.current.commandName) {
+				case "UndoRedoPerformed":
+					// Only rebuild this from an undo if the inspector is not visible.
+					UnityEngine.Object[] objs = Resources.FindObjectsOfTypeAll(Type.GetType("UnityEditor.InspectorWindow, UnityEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", true));
+					if (objs == null || objs.Length == 0) {
+						path.UpdateDependants(true);
+						if (OnChanged != null) OnChanged();
+					}
+					break;
+			}
+		}
+
 		// update everything that relies on this path, if the GUI changed
 		if (GUI.changed) {
-			#if (UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-			Undo.RegisterSnapshot();
-			#endif
+			if (PrefabUtility.GetPrefabParent(target) != null) {
+				NudgeArray(pathVerts);
+				serializedObject.ApplyModifiedProperties();
+			}
+
 			UpdateDependentsSmart(path, false, false);
 			EditorUtility.SetDirty (target);
 			prevChanged = true;
@@ -77,14 +192,9 @@ public class Ferr2D_PathEditor : Editor {
 		}
 	}
 	public override void OnInspectorGUI() {
-		#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-		Undo.RecordObject(target, "Modified Path");
-		#else
-		Undo.SetSnapshotTarget(target, "Modified Path");
-		#endif
-		
 		Ferr2D_Path path = (Ferr2D_Path)target;
-		
+		bool updateMesh = false;
+
 		// if this was an undo, refresh stuff too
 		if (Event.current.type == EventType.ValidateCommand) {
 			switch (Event.current.commandName) {
@@ -95,60 +205,61 @@ public class Ferr2D_PathEditor : Editor {
 				return;
 			}
 		}
-		
-		path.closed = EditorGUILayout.Toggle ("Closed", path.closed);
-		if (path)
-			
-        // display the path verts list info
-			showVerts   = EditorGUILayout.Foldout(showVerts, "Path Vertices");
-		EditorGUI.indentLevel = 2;
-		if (showVerts)
-		{
-			int size = EditorGUILayout.IntField("Count: ", path.pathVerts.Count);
-			while (path.pathVerts.Count > size) path.pathVerts.RemoveAt(path.pathVerts.Count - 1);
-			while (path.pathVerts.Count < size) path.pathVerts.Add     (new Vector2(0, 0));
+
+		EditorGUILayout.PropertyField(closed);
+		EditorGUI.BeginChangeCheck();
+		EditorGUILayout.PropertyField(pathVerts, true);
+		if (EditorGUI.EndChangeCheck() && PrefabUtility.GetPrefabParent(target) != null) {
+			NudgeArray(pathVerts);
 		}
-        // draw all the verts! Long list~
-		for (int i = 0; showVerts && i < path.pathVerts.Count; i++)
-		{
-			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("#" + i, GUILayout.Width(60));
-			path.pathVerts[i] = new Vector2(
-				EditorGUILayout.FloatField(path.pathVerts[i].x),
-				EditorGUILayout.FloatField(path.pathVerts[i].y));
-			EditorGUILayout.EndHorizontal();
+
+		// button for updating the origin of the object
+		if (GUILayout.Button("Center Position")) {
+			Undo.RecordObject(target, "Modified Path");
+			path.ReCenter();
+			updateMesh = true;
 		}
 		
-        // button for updating the origin of the object
-		if (GUILayout.Button("Center Position")) path.ReCenter();
-		
-		bool updateClosed = false;
 		Ferr2DT_PathTerrain terrain = path.GetComponent<Ferr2DT_PathTerrain>();
-		if (!path.closed && terrain != null && (terrain.fill == Ferr2DT_FillMode.Closed || terrain.fill == Ferr2DT_FillMode.InvertedClosed || terrain.fill == Ferr2DT_FillMode.FillOnlyClosed)) {
-			path.closed  = true;
-			updateClosed = true;
+		if (!path.closed && (terrain.fill == Ferr2DT_FillMode.Closed || terrain.fill == Ferr2DT_FillMode.InvertedClosed || terrain.fill == Ferr2DT_FillMode.FillOnlyClosed)) {
+			Undo.RecordObject(target, "Modified Path");
+			path.closed = true;
+			updateMesh  = true;
 		}
 		if (path.closed && (terrain.fill == Ferr2DT_FillMode.FillOnlySkirt || terrain.fill == Ferr2DT_FillMode.Skirt)) {
-			path.closed  = false;
-			updateClosed = true;
+			Undo.RecordObject(target, "Modified Path");
+			path.closed = false;
+			updateMesh  = true;
 		}
 		
         // update dependants when it changes
-		if (GUI.changed || updateClosed)
-		{
-			path.UpdateDependants(false);
+		if (updateMesh || serializedObject.ApplyModifiedProperties()) {
+			if (OnChanged != null) OnChanged();
+			path.UpdateDependants(true);
 			EditorUtility.SetDirty(target);
 		}
 	}
-	
+
+	static private void NudgeArray(SerializedProperty aArray) {
+		for (int i = 0; i < aArray.arraySize; i++) {
+			SerializedProperty item = aArray.GetArrayElementAtIndex(i);
+			if (!item.prefabOverride) {
+				float nudge = nudgeIndex % 2 == 1 ? 0.00001f : -0.00001f;
+				item.vector2Value = new Vector2(item.vector2Value.x + nudge, item.vector2Value.y + nudge);
+			}
+		}
+		nudgeIndex += 1;
+	}
+
 	private void    UpdateDependentsSmart(Ferr2D_Path aPath, bool aForce, bool aFullUpdate) {
-		if (aForce || Ferr_Menu.UpdateTerrainSkipFrames == 0 || updateCount % Ferr_Menu.UpdateTerrainSkipFrames == 0) {
+		if (aForce || Ferr2DT_Menu.UpdateTerrainSkipFrames == 0 || updateCount % Ferr2DT_Menu.UpdateTerrainSkipFrames == 0) {
 			aPath.UpdateDependants(aFullUpdate);
 			if (Application.isPlaying) aPath.UpdateColliders();
 			if (OnChanged != null) OnChanged();
 		}
 		updateCount += 1;
 	}
+	
 	private void    DragSelect           (Ferr2D_Path path) {
 		
 		if (Event.current.type == EventType.repaint) {
@@ -157,7 +268,7 @@ public class Ferr2D_PathEditor : Editor {
 				Vector3 pt2 = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).GetPoint(0.2f);
 				Vector3 pt3 = HandleUtility.GUIPointToWorldRay(new Vector2(dragStart.x, Event.current.mousePosition.y)).GetPoint(0.2f);
 				Vector3 pt4 = HandleUtility.GUIPointToWorldRay(new Vector2(Event.current.mousePosition.x, dragStart.y)).GetPoint(0.2f);
-				Handles.DrawSolidRectangleWithOutline(new Vector3[] { pt1, pt3, pt2, pt4 }, new Color(0, 0.5f, 0.25f, 0.25f), new Color(0, 0.5f, 0.25f, 0.5f));
+				Handles.DrawSolidRectangleWithOutline(new Vector3[] { pt1, pt3, pt2, pt4 }, Ferr2D_Visual.DragBoxInnerColor, Ferr2D_Visual.DragBoxOuterColor);
 			}
 		}
 		
@@ -170,12 +281,17 @@ public class Ferr2D_PathEditor : Editor {
 				SceneView.RepaintAll();
 				break;
 			case EventType.mouseDown:
+				if (Event.current.button != 0) break;
+				
 				dragStart = Event.current.mousePosition;
-				drag = true;
+				drag      = true;
 				
 				break;
 			case EventType.mouseUp:
+				if (Event.current.button != 0) break;
+				
 				Vector2 dragEnd = Event.current.mousePosition;
+				
 				selectedPoints.Clear();
 				for	(int i=0;i<path.pathVerts.Count;i+=1) {
 					float left   = Mathf.Min(dragStart.x, dragStart.x + (dragEnd.x - dragStart.x));
@@ -191,7 +307,7 @@ public class Ferr2D_PathEditor : Editor {
 				
 				HandleUtility.AddDefaultControl(0);
 				drag = false;
-				Repaint();
+				SceneView.RepaintAll();
 				break;
 			case EventType.layout :
 				HandleUtility.AddDefaultControl(GetHashCode());
@@ -204,218 +320,328 @@ public class Ferr2D_PathEditor : Editor {
 	}
 	private void    DoHandles            (Ferr2D_Path path, GUIStyle iconStyle)
 	{
-		Ferr2DT_PathTerrain terrain = path.gameObject.GetComponent<Ferr2DT_PathTerrain>();
-		if (terrain) terrain.MatchOverrides();
-		Quaternion inv = Quaternion.Inverse(path.transform.rotation);
+        Transform           transform    = path.transform;
+        Matrix4x4           mat          = transform.localToWorldMatrix;
+        Matrix4x4           invMat       = transform.worldToLocalMatrix;
+        Transform           camTransform = SceneView.lastActiveSceneView.camera.transform;
+		Ferr2DT_PathTerrain terrain      = path.GetComponent<Ferr2DT_PathTerrain>();
 		
-		Handles.color = new Color(1, 1, 1, 0);
+		terrain.MatchOverrides();
+		
+		Handles.color = Ferr2D_Visual.HandleColor;
 		for (int i = 0; i < path.pathVerts.Count; i++)
 		{
-			Vector3 pos        = path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(path.pathVerts[i].x, path.pathVerts[i].y, 0), path.transform.localScale);
-			Vector3 posOff     = pos + offset;
-			bool    isSelected = selectedPoints.Contains(i);
-			
             // check if we want to remove points
-			if (Event.current.alt)
-			{
-				float handleScale = HandleScale(posOff);
-				if (IsVisible(posOff)) {
-					SetScale(posOff, texMinus, ref iconStyle);
-					Handles.Label(posOff, new GUIContent((isSelected || selectedPoints.Count <= 0) ? texMinusSelected : texMinus), iconStyle);
-				}
-				
-				if (Handles.Button(posOff, SceneView.lastActiveSceneView.camera.transform.rotation, handleScale, handleScale, Handles.CircleCap))
-				{
-					if (!isSelected) {
-						selectedPoints.Clear();
-						selectedPoints.Add(i);
-					}
-					for (int s = 0; s < selectedPoints.Count; s++) {
-						if (terrain) terrain.RemovePoint(selectedPoints[s]);
-						else  path.pathVerts.RemoveAt   (selectedPoints[s]);
-						if (selectedPoints[s] <= i) i--;
-						
-						for (int u = 0; u < selectedPoints.Count; u++) {
-							if (selectedPoints[u] > selectedPoints[s]) selectedPoints[u] -= 1;
-						}
-					}
-					selectedPoints.Clear();
-					GUI.changed = true;
-				} else if (Ferr2DT_SceneOverlay.editMode != Ferr2DT_EditMode.None) {
-					
-					if (terrain && i+1 < path.pathVerts.Count) {
-						float   scale     = handleScale * 0.5f;
-						Vector3 dirOff    = GetTickerOffset(path, pos, i);
-						Vector3 posDirOff = posOff + dirOff;
-						
-						if (IsVisible(posDirOff)) {
-							Texture2D icon = null;
-							if      (Ferr2DT_SceneOverlay.editMode == Ferr2DT_EditMode.Override) icon = GetDirIcon(terrain.directionOverrides[i]);
-							else if (Ferr2DT_SceneOverlay.editMode == Ferr2DT_EditMode.Scale   ) icon = texScale;
-							if      (Event.current.alt)                                          icon = texReset;
-							
-							SetScale(posDirOff, icon, ref iconStyle, 0.5f);
-							Handles.Label(posDirOff, new GUIContent(icon), iconStyle);
-							
-							if (Handles.Button(posDirOff, SceneView.lastActiveSceneView.camera.transform.rotation, scale, scale, Handles.CircleCap)) {
-								if (selectedPoints.Count < 2 || isSelected == false) {
-									selectedPoints.Clear();
-									selectedPoints.Add(i);
-									isSelected = true;
-								}
-								
-								for (int s = 0; s < selectedPoints.Count; s++) {
-									if (Ferr2DT_SceneOverlay.editMode == Ferr2DT_EditMode.Override)
-										terrain.directionOverrides[selectedPoints[s]] = Ferr2DT_TerrainDirection.None;
-									else if (Ferr2DT_SceneOverlay.editMode == Ferr2DT_EditMode.Scale)
-										terrain.vertScales        [selectedPoints[s]] = 1;
-								}
-								GUI.changed = true;
-							}
-						}
-					}
-				}
+			if (Event.current.alt) {
+				DoResetModeHandles (path, terrain, i, mat, invMat, camTransform);
 			} else {
-                // check for moving the point
-				Texture2D tex = null;
-				if (Event.current.control) tex = isSelected ? texDotSelectedSnap : texDotSnap;
-				else                       tex = isSelected ? texDotSelected     : texDot;
+				DoNormalModeHandles(path, terrain, i, mat, invMat, camTransform);
 				
-				if (IsVisible(posOff)) {
-					SetScale(posOff, texMinus, ref iconStyle);
-					Handles.Label(posOff, new GUIContent(tex), iconStyle);
-				}
-				Vector3 snap   = Event.current.control && Ferr_Menu.SnapMode == Ferr2DT_SnapMode.SnapRelative ? new Vector3(EditorPrefs.GetFloat("MoveSnapX"), EditorPrefs.GetFloat("MoveSnapY"), EditorPrefs.GetFloat("MoveSnapZ")) : Vector3.zero;
-				Vector3 result = Handles.FreeMoveHandle(
-					posOff,
-					SceneView.lastActiveSceneView.camera.transform.rotation,
-					HandleScale(pos+offset),
-					snap, 
-					Handles.CircleCap);
-				
-				if (result != posOff) {
-					
-					if (selectedPoints.Count < 2 || isSelected == false) {
-						selectedPoints.Clear();
-						selectedPoints.Add(i);
-						isSelected = true;
-					}
-					
-					if (!(Event.current.control && Ferr_Menu.SnapMode == Ferr2DT_SnapMode.SnapRelative))
-						result = GetRealPoint(result, path.transform.position.z);
-					Vector3 global = (result - offset);
-					if (Event.current.control && Ferr_Menu.SnapMode == Ferr2DT_SnapMode.SnapGlobal) global = SnapVector(global);
-					Vector3 local  = inv * (global - path.transform.position);
-					if (Event.current.control && Ferr_Menu.SnapMode == Ferr2DT_SnapMode.SnapLocal ) local  = SnapVector(local);
-					if (!Event.current.control && Ferr2DT_SceneOverlay.smartSnap) {
-						local = SmartSnap(local, path.pathVerts, selectedPoints, Ferr_Menu.SmartSnapDist);
-					}
-					
-					Vector2 relative = new Vector2(
-						local.x / path.transform.localScale.x,
-						local.y / path.transform.localScale.y) - path.pathVerts[i];
-					
-					for (int s = 0; s < selectedPoints.Count; s++) {
-						path.pathVerts[selectedPoints[s]] += relative;
-					}
-				}
-				
-                // if using terrain, check to see for any edge overrides
-				if (Ferr2DT_SceneOverlay.showIndices) {
-					Vector3 labelPos = posOff + (Vector3)Ferr2D_Path.GetNormal(path.pathVerts, i, path.closed);
-					Handles.color    = Color.white;
-					Handles.Label(labelPos, "" + i);
-					Handles.color    = new Color(1, 1, 1, 0);
-				}
-				
-				if (terrain) {// && i+1 < path.pathVerts.Count) {
-					float   scale     = HandleScale    (pos+offset) * 0.5f;
-					Vector3 dirOff    = GetTickerOffset(path, pos, i);
-					Vector3 posDirOff = posOff + dirOff;
-					
-					if (Ferr2DT_SceneOverlay.editMode == Ferr2DT_EditMode.Override && i+1 < path.pathVerts.Count) {
-						if (IsVisible(posDirOff)) {
-							SetScale(posDirOff, texMinus, ref iconStyle, 0.5f);
-							Handles.Label(posDirOff, new GUIContent(Event.current.alt ? texReset : GetDirIcon(terrain.directionOverrides[i])), iconStyle);
-							
-							if (Handles.Button(posDirOff, SceneView.lastActiveSceneView.camera.transform.rotation, scale, scale, Handles.CircleCap)) {
-								if (selectedPoints.Count < 2 || isSelected == false) {
-									selectedPoints.Clear();
-									selectedPoints.Add(i);
-									isSelected = true;
-								}
-								
-								Ferr2DT_TerrainDirection dir = NextDir(terrain.directionOverrides[i]);
-								for (int s = 0; s < selectedPoints.Count; s++) {
-									terrain.directionOverrides[selectedPoints[s]] = dir;
-								}
-								GUI.changed = true;
-							}
-						}
-						
-					} else if (Ferr2DT_SceneOverlay.editMode == Ferr2DT_EditMode.Scale) {
-						if (IsVisible(posDirOff)) {
-							SetScale(posDirOff, texMinus, ref iconStyle, 0.5f);
-							Handles.Label(posDirOff, new GUIContent(Event.current.alt ? texReset : texScale), iconStyle);
-							
-							Vector3 scaleMove = Handles.FreeMoveHandle(posDirOff, SceneView.lastActiveSceneView.camera.transform.rotation, scale, Vector3.zero, Handles.CircleCap);
-							float   scaleAmt  = scaleMove.y - posDirOff.y;
-							if (Mathf.Abs(scaleAmt) > 0.01f ) {
-								if (selectedPoints.Count < 2 || isSelected == false) {
-									selectedPoints.Clear();
-									selectedPoints.Add(i);
-									isSelected = true;
-								}
-								
-								float vertScale = terrain.vertScales[i] - Event.current.delta.y / 100f;
-								vertScale = Mathf.Clamp(vertScale, 0.2f, 3f);
-								for (int s = 0; s < selectedPoints.Count; s++) {
-									terrain.vertScales[selectedPoints[s]] = vertScale;
-								}
-								GUI.changed = true;
-							}
-						}
-					}
-				}
-				
-                // make sure we can add new point at the midpoints!
-				if (i + 1 < path.pathVerts.Count || path.closed == true) {
-					int     index       = path.closed && i + 1 == path.pathVerts.Count ? 0 : i + 1;
-					Vector3 pos2        = path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(path.pathVerts[index].x, path.pathVerts[index].y, 0), path.transform.localScale);
-					Vector3 mid         = (pos + pos2) / 2;
-					float   handleScale = HandleScale(mid + offset);
-					
-					if (Handles.Button(mid + offset, SceneView.lastActiveSceneView.camera.transform.rotation, handleScale, handleScale, Handles.CircleCap)) {
-						Vector2 pt = inv * new Vector2((mid.x - path.transform.position.x) / path.transform.localScale.x, (mid.y - path.transform.position.y) / path.transform.localScale.y);
-						if (terrain)
-							terrain.AddPoint(pt, index);
-						else
-							path.pathVerts.Insert(index, pt);
-					}
-					if (IsVisible(mid + offset)) {
-						SetScale(mid + offset, texDotPlus, ref iconStyle);
-						Handles.Label(mid + offset, new GUIContent(texDotPlus), iconStyle);
-					}
-				}
 			}
 		}
-		
+		if (Ferr2DT_SceneOverlay.segmentLockMode) {
+			DoCutOverrideModeHandles(path, terrain, mat, camTransform);
+		}
+
+
 		if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Delete && selectedPoints.Count > 0) {
-			for (int s = 0; s < selectedPoints.Count; s++) {
-				if (terrain) terrain.RemovePoint(selectedPoints[s]);
-				else  path.pathVerts.RemoveAt   (selectedPoints[s]);
-				
-				for (int u = 0; u < selectedPoints.Count; u++) {
-					if (selectedPoints[u] > selectedPoints[s]) selectedPoints[u] -= 1;
-				}
-			}
-			selectedPoints.Clear();
+			deleteSelected = true;
 			GUI.changed = true;
 			Event.current.Use();
 		}
+		
+		if (deleteSelected) {
+			DeleteSelected(path, terrain);
+			deleteSelected = false;
+		}
 	}
+	
+	private void DeleteSelected(Ferr2D_Path path, Ferr2DT_PathTerrain terrain) {
+		for (int i = 0; i < selectedPoints.Count; i++) {
+			terrain.RemovePoint(selectedPoints[i]);
+			
+			for (int u = 0; u < selectedPoints.Count; u++) {
+				if (selectedPoints[u] > selectedPoints[i]) selectedPoints[u] -= 1;
+			}
+		}
+		selectedPoints.Clear();
+	}
+	
+	private void DoResetModeHandles(Ferr2D_Path path, Ferr2DT_PathTerrain terrain, int i, Matrix4x4 mat, Matrix4x4 invMat, Transform camTransform) {
+		int     nextId     = i==path.Count-1?(path.closed?i%path.Count:i-1):i+1;
+		Vector3 pos        = mat.MultiplyPoint3x4(path.pathVerts[i]);
+		Vector3 posNext    = mat.MultiplyPoint3x4(path.pathVerts[nextId]);
+		Vector3 normal     = -(Vector3)Ferr2D_Path.GetNormal(path.pathVerts, i, path.closed);
+		Vector3 posStart   = pos;
+		bool    isSelected = false;
+		if (selectedPoints!= null) isSelected = selectedPoints.Contains(i);
+		
+		float       handleScale = HandleScale(posStart) * Ferr2D_Visual.HandleSize;
+		CapFunction cap         = (isSelected || selectedPoints.Count <= 0) ? (CapFunction)CapDotMinusSelected : (CapFunction)CapDotMinus;
+		if (Handles.Button(posStart, camTransform.rotation, handleScale, handleScale, cap))
+		{
+			EnsureVertSelected(i, ref isSelected);
+			deleteSelected = true;
+			GUI.changed = true;
+		} else if (!Ferr2DT_SceneOverlay.segmentLockMode) {
+			handleScale = handleScale * Ferr2D_Visual.SmallHandleSize;
+			
+			// do scaling
+			Vector3 displayPos = pos + normal * terrain.vertScales[i] * 2 * Ferr2DT_Menu.PathScale;
+			if (IsVisible(displayPos) && Handles.Button(displayPos, camTransform.rotation, handleScale, handleScale, CapDotReset)) {
+				EnsureVertSelected(i, ref isSelected);
+				
+				Undo.RecordObject(terrain, "Scale Path Vert");
+				
+				for (int s = 0; s < selectedPoints.Count; s++) {
+					terrain.vertScales[selectedPoints[s]] = 1;
+				}
+				EditorUtility.SetDirty(terrain);
+				GUI.changed = true;
+			}
+			
+			// do edge overrides
+			displayPos = GetOverridePos(i, path, mat, pos, posNext);
+			if (IsVisible(displayPos) && Handles.Button(displayPos, camTransform.rotation, handleScale, handleScale, CapDotReset)) {
+				EnsureVertSelected(i, ref isSelected);
+				
+				Undo.RecordObject(terrain, "Override Vert Direction");
+				
+				for (int s = 0; s < selectedPoints.Count; s++) {
+					terrain.directionOverrides[selectedPoints[s]] = Ferr2DT_TerrainDirection.None;
+				}
+				EditorUtility.SetDirty(terrain);
+				GUI.changed = true;
+			}
+		}
+	}
+	private void DoNormalModeHandles(Ferr2D_Path path, Ferr2DT_PathTerrain terrain, int i, Matrix4x4 mat, Matrix4x4 invMat, Transform camTransform) {
+		int     nextId     = i==path.Count-1?(path.closed?0:i-1):i+1;
+		Vector3 pos        = mat.MultiplyPoint3x4(path.pathVerts[i]);
+		Vector3 posNext    = mat.MultiplyPoint3x4(path.pathVerts[nextId]);
+		Vector3 normal     = -(Vector3)Ferr2D_Path.GetNormal(path.pathVerts, i, path.closed);
+		bool    isSelected = false;
+		if (selectedPoints != null) 
+			isSelected = selectedPoints.Contains(i);
+		
+		// check for moving the point
+		CapFunction cap = CapDot;
+		if (Event.current.control) cap = isSelected ? (CapFunction)CapDotSelectedSnap : (CapFunction)CapDotSnap;
+		else                       cap = isSelected ? (CapFunction)CapDotSelected     : (CapFunction)CapDot;
+		
+		Vector3 result = Handles.FreeMoveHandle(pos, camTransform.rotation, HandleScale(pos) * Ferr2D_Visual.HandleSize, snap, cap);
+		
+		if (result != pos) {
+			EnsureVertSelected(i, ref isSelected);
+			
+			Vector2 relative = GetRelativeMovementWithSnap(result, invMat, i, path);
+			
+			for (int s = 0; s < selectedPoints.Count; s++) {
+				path.pathVerts[selectedPoints[s]] += relative;
+			}
+		}
+		
+		if (Ferr2DT_SceneOverlay.showIndices) {
+			Vector3 labelPos = pos + normal;
+			Handles.color    = Ferr2D_Visual.IndicesColor;
+			Handles.Label(labelPos, "" + i);
+			Handles.color    = Ferr2D_Visual.HandleColor;
+		}
+
+		if (!Ferr2DT_SceneOverlay.segmentLockMode) {
+			float   scale      = HandleScale (pos) * Ferr2D_Visual.SmallHandleSize;
+			Vector3 displayPos = pos;
+		
+			if (path.closed || i+1 < path.pathVerts.Count) {
+				displayPos = GetOverridePos(i, path, mat, pos, posNext);
+			
+				if (IsVisible(displayPos) && terrain.directionOverrides != null) {
+					cap = Event.current.alt ? (CapFunction)CapDotReset : GetDirIcon(terrain.directionOverrides[i]);
+					if (Handles.Button(displayPos, camTransform.rotation, scale, scale, cap)) {
+						EnsureVertSelected(i, ref isSelected);
+					
+						Undo.RecordObject(terrain, "Override Vert Direction");
+					
+						Ferr2DT_TerrainDirection dir = NextDir(terrain.directionOverrides[i]);
+						for (int s = 0; s < selectedPoints.Count; s++) {
+							terrain.directionOverrides[selectedPoints[s]] = dir;
+						}
+						EditorUtility.SetDirty(terrain);
+						GUI.changed = true;
+					}
+				}
+			
+			}
+		
+			displayPos = pos + normal * terrain.vertScales[i]*2*Ferr2DT_Menu.PathScale;
+			if (IsVisible(displayPos)) {
+				cap = Event.current.alt ? (CapFunction)CapDotReset : (CapFunction)CapDotScale;
+			
+				Vector3 scaleMove = Handles.FreeMoveHandle(displayPos, camTransform.rotation, scale, Vector3.zero, cap);
+				float   scaleAmt  = Vector3.Distance(displayPos, scaleMove);
+				if (Mathf.Abs(scaleAmt) > 0.01f ) {
+					EnsureVertSelected(i, ref isSelected);
+				
+					Undo.RecordObject(terrain, "Scale Path Vert");
+				
+					float vertScale = Vector3.Distance(scaleMove, pos) / 2 / Ferr2DT_Menu.PathScale;
+					vertScale = Mathf.Clamp(vertScale, 0.2f, 3f);
+					for (int s = 0; s < selectedPoints.Count; s++) {
+						terrain.vertScales[selectedPoints[s]] = vertScale;
+					}
+					EditorUtility.SetDirty(terrain);
+					GUI.changed = true;
+				}
+			}
+		
+			// make sure we can add new point at the midpoints!
+			if (i + 1 < path.pathVerts.Count || path.closed == true) {
+				Vector3 mid         = (pos + posNext) / 2;
+				float   handleScale = HandleScale(mid) * Ferr2D_Visual.HandleSize;
+			
+				if (Handles.Button(mid, camTransform.rotation, handleScale, handleScale, CapDotPlus)) {
+					Vector2 pt = invMat.MultiplyPoint3x4(mid);
+				
+					terrain.AddPoint(pt, nextId);
+					EditorUtility.SetDirty(terrain);
+					GUI.changed = true;
+				}
+			}
+		}
+	}
+	private void DoCutOverrideModeHandles(Ferr2D_Path path, Ferr2DT_PathTerrain terrain, Matrix4x4 mat, Transform camTransform) {
+		List<List<int>               > segments = new List<List<int>               >();
+        List<Ferr2DT_TerrainDirection> dirs     = new List<Ferr2DT_TerrainDirection>();
+		List<Vector2>                  rawVerts = path.GetVertsRaw();
+
+		// cut the terrain into segments, we need segment info to draw these points
+        segments = terrain.GetSegments(rawVerts, out dirs);
+
+		for (int s = 0; s < segments.Count; s++) {
+			List<int>                              currSeg   = segments[s];
+			List<Vector2>                          currVerts = Ferr2D_Path.IndicesToList(rawVerts, currSeg);
+			List<Ferr2DT_PathTerrain.CutOverrides> overrides = Ferr2D_Path.IndicesToList(terrain.cutOverrides, currSeg);
+			
+			// find information about this segment
+			Ferr2DT_TerrainDirection   currDir  = dirs[s];
+			Ferr2DT_SegmentDescription desc     = default(Ferr2DT_SegmentDescription);
+
+			if (currDir != Ferr2DT_TerrainDirection.None) {
+				desc = terrain.TerrainMaterial.GetDescriptor(currDir);
+			} else {
+				desc = terrain.GetDescription(currSeg);
+			}
+
+			// if there's no body segment choices, don't bother with the rest of this
+			if (desc.body.Length < 2)
+				continue;
+			
+			Vector2 capLeftSlideDir = (currVerts[1] - currVerts[0]);
+			Vector2 capRightSlideDir = (currVerts[currVerts.Count - 2] - currVerts[currVerts.Count - 1]);
+			capLeftSlideDir.Normalize();
+			capRightSlideDir.Normalize();
+			currVerts[0] -= capLeftSlideDir  * desc.capOffset;
+			currVerts[currVerts.Count - 1] -= capRightSlideDir * desc.capOffset;
+
+			float distance = Ferr2D_Path.GetSegmentLength(currVerts);
+
+			// how many texture cuts are there on the segment
+			float bodyWidth   = desc.body[0].width * (terrain.TerrainMaterial.edgeMaterial.mainTexture.width  / terrain.pixelsPerUnit);
+			int   textureCuts = Mathf.Max(1, Mathf.FloorToInt(distance / bodyWidth + 0.5f));
+
+			// data is attached to the points still, check if we've switched to a new point
+			int activePt = -1;
+			int activeLocalCut = -1;
+			for (int c = 0; c < textureCuts; c++) {
+				float pctGlobal = c / (float)textureCuts;
+
+				int   ptLocal  = 0;
+				float pctLocal = 0;
+				Ferr2D_Path.PathGlobalPercentToLocal(currVerts, pctGlobal, out ptLocal, out pctLocal, distance, false);
+
+				if (ptLocal != activePt) {
+					// if they size down, we need to shorten the data too
+					if (activePt != -1) CapListSize<int>(ref overrides[activePt].data, activeLocalCut + 3);
+					activePt = ptLocal;
+					activeLocalCut = 0;
+
+					if (overrides[activePt].data == null)
+						overrides[activePt].data = new List<int>();
+				}
+
+				while (activeLocalCut >= overrides[activePt].data.Count)
+					overrides[activePt].data.Add(0);
+
+				CapFunction cap = CapDotAuto;
+				int activeOverride = overrides[activePt].data[activeLocalCut];
+				if (activeOverride != 0) {
+					if      (activeOverride == 1) cap = CapDot1;
+					else if (activeOverride == 2) cap = CapDot2;
+					else if (activeOverride == 3) cap = CapDot3;
+					else if (activeOverride == 4) cap = CapDot4;
+					else if (activeOverride == 5) cap = CapDot5;
+					else if (activeOverride >= 6) cap = CapDotN;
+				}
+				if (Event.current.alt) {
+					cap = CapDotReset;
+				}
+
+				int   ptShow  = 0;
+				float pctShow = 0;
+				Ferr2D_Path.PathGlobalPercentToLocal(currVerts, pctGlobal + (1f/textureCuts)*0.5f, out ptShow, out pctShow, distance, false);
+
+				Vector2 pt  = Ferr2D_Path.LinearGetPt(currVerts, ptShow, pctShow, false);
+				Vector3 pos = mat.MultiplyPoint3x4(pt);
+				float   sc  = HandleScale(pos) * Ferr2D_Visual.SmallHandleSize;
+				if (Handles.Button(pos, camTransform.rotation, sc, sc, cap)) {
+					Undo.RecordObject(terrain, "Lock Texture Segment");
+
+					overrides[activePt].data[activeLocalCut] = Event.current.alt ? 0 : (activeOverride + 1) % (desc.body.Length+1);
+					EditorUtility.SetDirty(terrain);
+					GUI.changed = true;
+				}
+
+				activeLocalCut += 1;
+			}
+			if (activePt != -1) CapListSize<int>(ref overrides[activePt].data, activeLocalCut + 3);
+		}
+	}
+	private void CapListSize<T>(ref List<T> aList, int aMax) {
+		if (aList.Count > aMax) {
+			int over = aList.Count - aMax;
+			aList.RemoveRange(aList.Count - over, over);
+		}
+	}
+	
+	private void EnsureVertSelected(int aIndex, ref bool aIsSelected) {
+		if (selectedPoints.Count < 2 || aIsSelected == false) {
+			selectedPoints.Clear();
+			selectedPoints.Add(aIndex);
+			aIsSelected = true;
+		}
+	}
+	private Vector3 GetRelativeMovementWithSnap(Vector3 aHandlePos, Matrix4x4 aInvMat, int i, Ferr2D_Path aPath) {
+		if (!(Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapRelative))
+			aHandlePos = GetRealPoint(aHandlePos, aPath.transform);
+		
+		Vector3 global = aHandlePos;
+		if (Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapGlobal) global = SnapVector(global, snap);
+		Vector3 local  = aInvMat.MultiplyPoint3x4(global);
+		if (Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapLocal ) local  = SnapVector(local, snap);
+		if (!Event.current.control && Ferr2DT_SceneOverlay.smartSnap) {
+			local = SmartSnap(local, aPath.pathVerts, selectedPoints, Ferr2DT_Menu.SmartSnapDist);
+		}
+		
+		return new Vector2( local.x, local.y) - aPath.pathVerts[i];
+	}
+	private Vector3 GetOverridePos(int i, Ferr2D_Path aPath, Matrix4x4 aObjTransform, Vector3 currPos, Vector3 nextPos) {
+		Vector3 mid    = (currPos + nextPos) / 2;
+		Vector3 offset = Ferr2D_Path.GetSegmentNormal(i, aPath.pathVerts, aPath.closed) * 0.5f * Ferr2DT_Menu.PathScale;
+		return mid + aObjTransform.MultiplyVector(offset);
+	}
+	
 	private Vector3 GetTickerOffset      (Ferr2D_Path path, Vector3  aRootPos, int aIndex) {
-		float   scale  = HandleScale(aRootPos+offset) * 0.5f;
+		float   scale  = HandleScale(aRootPos) * 0.5f;
 		Vector3 result = Vector3.zero;
 		
 		int     index  = (aIndex + 1) % path.pathVerts.Count;
@@ -427,96 +653,83 @@ public class Ferr2D_PathEditor : Editor {
 	}
 	private void    DoShiftAdd           (Ferr2D_Path path, GUIStyle iconStyle)
 	{
-		Ferr2DT_PathTerrain terrain  = path.gameObject.GetComponent<Ferr2DT_PathTerrain>();
-		Quaternion          inv      = Quaternion.Inverse(path.transform.rotation);
-		Vector2             pos      = GetMousePos(Event.current.mousePosition, path.transform.position.z) - new Vector2(path.transform.position.x, path.transform.position.y);
-		bool                hasDummy = path.pathVerts.Count <= 0;
+        Vector3             snap      = Event.current.control ? new Vector3(EditorPrefs.GetFloat("MoveSnapX"), EditorPrefs.GetFloat("MoveSnapY"), EditorPrefs.GetFloat("MoveSnapZ")) : Vector3.zero;
+		Ferr2DT_PathTerrain terrain   = path.gameObject.GetComponent<Ferr2DT_PathTerrain>();
+        Transform           transform = path.transform;
+        Transform           camTransform = SceneView.lastActiveSceneView.camera.transform;
+		Vector3             pos       = transform.InverseTransformPoint( GetMousePos(Event.current.mousePosition, transform) );
+		bool                hasDummy  = path.pathVerts.Count <= 0;
 		
 		if (hasDummy) path.pathVerts.Add(Vector2.zero);
 		
-		int   closestID  = path.GetClosestSeg(inv * new Vector2(pos.x / path.transform.localScale.x, pos.y / path.transform.localScale.y));
+		int   closestID  = path.GetClosestSeg(pos);
 		int   secondID   = closestID + 1 >= path.Count ? 0 : closestID + 1;
 		
 		float firstDist  = Vector2.Distance(pos, path.pathVerts[closestID]);
 		float secondDist = Vector2.Distance(pos, path.pathVerts[secondID]);
 		
 		Vector3 local  = pos;
-		if (Event.current.control && Ferr_Menu.SnapMode == Ferr2DT_SnapMode.SnapLocal ) local  = SnapVector(local );
-		Vector3 global = path.transform.position + local;
-		if (Event.current.control && Ferr_Menu.SnapMode == Ferr2DT_SnapMode.SnapGlobal) global = SnapVector(global);
-		
-		Handles.color = Color.white;
+		if (Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapLocal ) local  = SnapVector(local,  snap);
+		Vector3 global = transform.TransformPoint(pos);
+		if (Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapGlobal) global = SnapVector(global, snap);
+		Vector3 handlePos = transform.TransformPoint(pos);
+		float scale = HandleScale(handlePos);
+
+		Handles.color = Ferr2D_Visual.PathColor;
 		if (!(secondID == 0 && !path.closed && firstDist > secondDist))
 		{
-			Handles.DrawLine(
-				global,
-				path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(path.pathVerts[closestID].x, path.pathVerts[closestID].y, 0), path.transform.localScale));
+			Handles.DrawDottedLine(transform.TransformPoint(path.pathVerts[closestID]), global, 4);
 		}
 		if (!(secondID == 0 && !path.closed && firstDist < secondDist))
 		{
-			Handles.DrawLine(
-				global,
-				path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(path.pathVerts[secondID].x, path.pathVerts[secondID].y, 0), path.transform.localScale));
+			Handles.DrawDottedLine(transform.TransformPoint(path.pathVerts[secondID]), global, 4);
 		}
-		Handles.color = new Color(1, 1, 1, 0);
-		
-		Vector3 handlePos = new Vector3(pos.x, pos.y, 0) + path.transform.position + offset;
-		if (IsVisible(handlePos)) {
-			if (Handles.Button(handlePos, SceneView.lastActiveSceneView.camera.transform.rotation, HandleScale(handlePos), HandleScale(handlePos), Handles.CircleCap))
-			{
-				Vector3    finalPos = inv * (new Vector3(global.x / path.transform.localScale.x, global.y / path.transform.localScale.y, 0) - path.transform.position);
-				if (secondID == 0) {
-					if (firstDist < secondDist) {
-						if (terrain)
-							terrain.AddPoint(finalPos);
-						else
-							path.pathVerts.Add(finalPos);
-					} else {
-						if (terrain)
-							terrain.AddPoint(finalPos, 0);
-						else
-							path.pathVerts.Insert(0, finalPos);
-					}
+		Handles.color = Ferr2D_Visual.HandleColor;
+
+		scale = scale * Ferr2D_Visual.HandleSize;
+		if (Handles.Button(handlePos, camTransform.rotation, scale, scale, CapDotPlus))
+		{
+			Vector3 finalPos = transform.InverseTransformPoint(global);
+			if (secondID == 0) {
+				if (firstDist < secondDist) {
+					terrain.AddPoint(finalPos);
 				} else {
-					if (terrain)
-						terrain.AddPoint(finalPos, Mathf.Max(closestID, secondID));
-					else
-						path.pathVerts.Insert(Mathf.Max(closestID, secondID), finalPos);
+					terrain.AddPoint(finalPos, 0);
 				}
-				selectedPoints.Clear();
-				GUI.changed = true;
+			} else {
+				terrain.AddPoint(finalPos, Mathf.Max(closestID, secondID));
 			}
-			
-			SetScale(handlePos, texDotPlus, ref iconStyle);
-			Handles.Label(handlePos, new GUIContent(texDotPlus), iconStyle);
+			selectedPoints.Clear();
+			EditorUtility.SetDirty(terrain);
+			GUI.changed = true;
 		}
 		
 		if (hasDummy) path.pathVerts.RemoveAt(0);
 	}
 	private void    DoPath               (Ferr2D_Path path)
 	{
-		Handles.color = Color.white;
-		List<Vector2> verts = path.GetVertsRaw();
+		Handles.color = Ferr2D_Visual.PathColor;
+		List<Vector2> verts     = path.GetVertsRaw();
+        Matrix4x4     mat       = path.transform.localToWorldMatrix;
+
+		Handles.matrix = mat;
 		for (int i = 0; i < verts.Count - 1; i++)
 		{
-			Vector3 pos  = path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(verts[i    ].x, verts[i    ].y, 0), path.transform.localScale);
-			Vector3 pos2 = path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(verts[i + 1].x, verts[i + 1].y, 0), path.transform.localScale);
-			Handles.DrawLine(pos + offset, pos2 + offset);
+			Handles.DrawLine(verts[i], verts[i+1]);
 		}
 		if (path.closed)
 		{
-			Vector3 pos  = path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(verts[0              ].x, verts[0              ].y, 0), path.transform.localScale);
-			Vector3 pos2 = path.transform.position + path.transform.rotation * Vector3.Scale(new Vector3(verts[verts.Count - 1].x, verts[verts.Count - 1].y, 0), path.transform.localScale);
-			Handles.DrawLine(pos + offset, pos2 + offset);
+			Handles.DrawLine(verts[0], verts[verts.Count - 1]);
 		}
+		Handles.matrix = Matrix4x4.identity;
 	}
 	
-	private Texture2D                GetDirIcon(Ferr2DT_TerrainDirection aDir) {
-		if      (aDir == Ferr2DT_TerrainDirection.Top   ) return texTop;
-		else if (aDir == Ferr2DT_TerrainDirection.Right ) return texRight;
-		else if (aDir == Ferr2DT_TerrainDirection.Left  ) return texLeft;
-		else if (aDir == Ferr2DT_TerrainDirection.Bottom) return texBottom;
-		return texAuto;
+	private CapFunction  GetDirIcon(Ferr2DT_TerrainDirection aDir) {
+		if      (aDir == Ferr2DT_TerrainDirection.Top   ) return CapDotTop;
+		else if (aDir == Ferr2DT_TerrainDirection.Right ) return CapDotRight;
+		else if (aDir == Ferr2DT_TerrainDirection.Left  ) return CapDotLeft;
+		else if (aDir == Ferr2DT_TerrainDirection.Bottom) return CapDotBottom;
+		return CapDotAuto;
 	}
 	private Ferr2DT_TerrainDirection NextDir   (Ferr2DT_TerrainDirection aDir) {
 		if      (aDir == Ferr2DT_TerrainDirection.Top   ) return Ferr2DT_TerrainDirection.Right;
@@ -526,11 +739,9 @@ public class Ferr2D_PathEditor : Editor {
 		return Ferr2DT_TerrainDirection.Left;
 	}
 	
-	public static Vector2 GetMousePos  (Vector2 aMousePos, float aZOffset) {
-		
-		//aMousePos.y = Screen.height - (aMousePos.y + 25);
+	public static Vector3 GetMousePos  (Vector2 aMousePos, Transform aTransform) {
 		Ray   ray   = SceneView.lastActiveSceneView.camera.ScreenPointToRay(new Vector3(aMousePos.x, aMousePos.y, 0));
-		Plane plane = new Plane(new Vector3(0,0,-1), aZOffset);
+		Plane plane = new Plane(aTransform.TransformDirection(new Vector3(0,0,-1)), aTransform.position);
 		float dist  = 0;
 		Vector3 result = new Vector3(0,0,0);
 		
@@ -538,7 +749,7 @@ public class Ferr2D_PathEditor : Editor {
 		if (plane.Raycast(ray, out dist)) {
 			result = ray.GetPoint(dist);
 		}
-		return new Vector2(result.x, result.y);
+		return result;
 	}
 	public static float   GetCameraDist(Vector3 aPt) {
 		return Vector3.Distance(SceneView.lastActiveSceneView.camera.transform.position, aPt);
@@ -549,43 +760,29 @@ public class Ferr2D_PathEditor : Editor {
 			return true;
 		return false;
 	}
-	public static void    SetScale     (Vector3 aPos, Texture aIcon, ref GUIStyle aStyle, float aScaleOverride = 1) {
-		float max      = (Screen.width + Screen.height) / 2;
-		float dist     = SceneView.lastActiveSceneView.camera.orthographic ? SceneView.lastActiveSceneView.camera.orthographicSize / 0.5f : GetCameraDist(aPos);
-		
-		float div = (dist / (max / 160));
-		float mul = Ferr_Menu.PathScale * aScaleOverride;
-		
-		aStyle.fixedWidth  = (aIcon.width  / div) * mul;
-		aStyle.fixedHeight = (aIcon.height / div) * mul;
-	}
 	public static float   HandleScale  (Vector3 aPos) {
 		float dist = SceneView.lastActiveSceneView.camera.orthographic ? SceneView.lastActiveSceneView.camera.orthographicSize / 0.45f : GetCameraDist(aPos);
-		return Mathf.Min(0.4f * Ferr_Menu.PathScale, (dist / 5.0f) * 0.4f * Ferr_Menu.PathScale);
+		return Mathf.Min(0.4f * Ferr2DT_Menu.PathScale, (dist / 5.0f) * 0.4f * Ferr2DT_Menu.PathScale);
 	}
 	
-	private static Vector3 SnapVector  (Vector3 aVector) {
-		Vector3 snap = new Vector3(EditorPrefs.GetFloat("MoveSnapX"), EditorPrefs.GetFloat("MoveSnapY"), EditorPrefs.GetFloat("MoveSnapZ"));
+	private static Vector3 SnapVector  (Vector3 aVector, Vector3 aSnap) {
 		return new Vector3(
-			((int)(aVector.x / snap.x + (aVector.x > 0 ? 0.5f : -0.5f))) * snap.x,
-			((int)(aVector.y / snap.y + (aVector.y > 0 ? 0.5f : -0.5f))) * snap.y,
-			((int)(aVector.z / snap.z + (aVector.z > 0 ? 0.5f : -0.5f))) * snap.z);
+			((int)(aVector.x / aSnap.x + (aVector.x > 0 ? 0.5f : -0.5f))) * aSnap.x,
+			((int)(aVector.y / aSnap.y + (aVector.y > 0 ? 0.5f : -0.5f))) * aSnap.y,
+			((int)(aVector.z / aSnap.z + (aVector.z > 0 ? 0.5f : -0.5f))) * aSnap.z);
 	}
-	private static Vector2 SnapVector  (Vector2 aVector) {
-		Vector2 snap = new Vector2(EditorPrefs.GetFloat("MoveSnapX"), EditorPrefs.GetFloat("MoveSnapY"));
+	private static Vector2 SnapVector  (Vector2 aVector, Vector2 aSnap) {
 		return new Vector2(
-			((int)(aVector.x / snap.x + (aVector.x > 0 ? 0.5f : -0.5f))) * snap.x,
-			((int)(aVector.y / snap.y + (aVector.y > 0 ? 0.5f : -0.5f))) * snap.y);
+			((int)(aVector.x / aSnap.x + (aVector.x > 0 ? 0.5f : -0.5f))) * aSnap.x,
+			((int)(aVector.y / aSnap.y + (aVector.y > 0 ? 0.5f : -0.5f))) * aSnap.y);
 	}
-	private static Vector3 GetRealPoint(Vector3 aPoint, float aHeight) {
-		Plane p = new Plane(new Vector3(0, 0, -1), new Vector3(0, 0, aHeight));
+	private static Vector3 GetRealPoint(Vector3 aPoint, Transform aTransform) {
+		Plane p = new Plane( aTransform.TransformDirection(new Vector3(0, 0, -1)), aTransform.position);
 		Ray   r = new Ray  (SceneView.lastActiveSceneView.camera.transform.position, aPoint - SceneView.lastActiveSceneView.camera.transform.position);
 		float d = 0;
 		
 		if (p.Raycast(r, out d)) {
-			Vector3 result = r.GetPoint(d);
-			result.z = aHeight;
-			return result;
+			return r.GetPoint(d);;
 		}
 		return aPoint;
 	}

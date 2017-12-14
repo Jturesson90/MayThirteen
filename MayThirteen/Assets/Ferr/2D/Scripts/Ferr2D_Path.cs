@@ -24,50 +24,6 @@ public class Ferr2D_Path : MonoBehaviour
     #endregion
 
     #region Methods
-	/// <summary>
-	/// Creates a Path object from a JSON string.
-	/// </summary>
-	/// <param name="aJSON">A JSON string, gets parsed and sent to FromJSON(Ferr_JSONValue)</param>
-	public void FromJSON(string aJSON) {
-		FromJSON(Ferr_JSON.Parse(aJSON));
-	}
-	/// <summary>
-	/// Creates a Path object from a JSON value object.
-	/// </summary>
-	/// <param name="aJSON">A JSON object with path data!</param>
-	public void           FromJSON(Ferr_JSONValue aJSON) {
-		closed         = aJSON["closed", false         ];
-		pathVerts      = new List<Vector2>();
-		object[] verts = aJSON["verts",  new object[]{}];
-		
-		for (int i = 0; i < verts.Length; i++) {
-			if (verts[i] is Ferr_JSONValue) {
-				Ferr_JSONValue v = verts[i] as Ferr_JSONValue;
-				pathVerts.Add(new Vector2(v[0,0f], v[1,0f]));
-			}
-		}
-	}
-	/// <summary>
-	/// Creates a JSON value object from this path.
-	/// </summary>
-	/// <returns>JSON Value object, can put it into a larger JSON object, or just ToString it.</returns>
-	public Ferr_JSONValue ToJSON  () {
-		Ferr_JSONValue result = new Ferr_JSONValue();
-		result["closed"] = closed;
-		
-		object[] list = new object[pathVerts.Count];
-		for (int i = 0; i < pathVerts.Count; i++) {
-			Ferr_JSONValue vert = new Ferr_JSONValue();
-			vert[0] = pathVerts[i].x;
-			vert[1] = pathVerts[i].y;
-			list[i] = vert;
-		}
-		
-		result["verts"] = list;
-		
-		return result;
-	}
-
     /// <summary>
     /// Moves the object location to the center of the path verts. Also offsets the path locations to match.
     /// </summary>
@@ -96,7 +52,7 @@ public class Ferr2D_Path : MonoBehaviour
         Component[] coms = gameObject.GetComponents(typeof(Ferr2D_IPath));
         for (int i = 0; i < coms.Length; i++)
         {
-            (coms[i] as Ferr2D_IPath).RecreatePath(aFullUpdate);
+            (coms[i] as Ferr2D_IPath).Build(aFullUpdate);
         }
     }
 	
@@ -186,7 +142,7 @@ public class Ferr2D_Path : MonoBehaviour
             if (closed) CloseEnds(pathVerts, ref segments, ref dirs, aSplitCorners, aInverted);
             if (segments.Count > 1) {
                 for (int i = 0; i < segments.Count; i++) {
-                    List<Vector2> smoothed = SmoothSegment(IndicesToPath(pathVerts, segments[i]), aSplitDistance, false);
+                    List<Vector2> smoothed = SmoothSegment(IndicesToList<Vector2>(pathVerts, segments[i]), aSplitDistance, false);
                     if (i != 0 && smoothed.Count > 0) smoothed.RemoveAt(0);
                     result.AddRange(smoothed);
                 }
@@ -645,15 +601,15 @@ public class Ferr2D_Path : MonoBehaviour
         return true;
     }
     /// <summary>
-    /// Converts a list of path indices to a list of path verts created from the given list.
+    /// Converts a list of indices to a list of data created from the given list.
     /// </summary>
-    /// <param name="aPath">Path to pull vert data from</param>
-    /// <param name="aIndices">List of inidces to pull from the path.</param>
-    /// <returns>A list of path verts as indicated by the index list</returns>
-    public static List<Vector2>            IndicesToPath(List<Vector2> aPath, List<int> aIndices) {
-        List<Vector2> result = new List<Vector2>(aIndices.Count);
+    /// <param name="aPath">Path to pull data from</param>
+    /// <param name="aIndices">List of indices to pull from the data.</param>
+    /// <returns>A list of data as indicated by the index list</returns>
+    public static List<T>                 IndicesToList<T>(List<T> aData, List<int> aIndices) {
+        List<T> result = new List<T>(aIndices.Count);
         for (int i = 0; i < aIndices.Count; i++) {
-            result.Add(aPath[aIndices[i]]);
+            result.Add(aData[aIndices[i]]);
         }
         return result;
     }
@@ -807,5 +763,125 @@ public class Ferr2D_Path : MonoBehaviour
 
         return doIntersect;
     }
-    #endregion
+	
+	/// <summary>
+    /// Gets the smallest distance to the provided path
+    /// </summary>
+    /// <param name="aPoint">The point to check from.</param>
+    /// <returns>Smallest distance! float.MaxValue if none found</returns>
+	public static float GetDistanceFromPath(List<Vector2> aPath, Vector2 aPoint, bool aClosed) {
+		if (aPath.Count <= 1) return float.MaxValue;
+		
+		float dist  = float.MaxValue;
+		int   count = aClosed ? aPath.Count : aPath.Count-1;
+		for (int i = 0; i < count; i++)
+		{
+			int     next  = (i+1) % aPath.Count;
+			Vector2 pt    = GetClosetPointOnLine(aPath[i], aPath[next], aPoint, true);
+			float   tDist = (aPoint - pt).SqrMagnitude();
+			if (tDist < dist)
+				dist = tDist;
+		}
+		return Mathf.Sqrt(dist);
+	}
+	
+	/// <summary>
+    /// Gets the normal at the specified path segment.
+    /// </summary>
+    /// <param name="aPath">The list of vertices used to calculate the normal.</param>
+    /// <param name="i">Index of the first vert of the segment.</param>
+    /// <param name="aClosed">Should we wrap around as though it was closed?</param>
+    /// <returns>A normalized normal!</returns>
+	public static Vector2 GetSegmentNormal(int i, List<Vector2> aPath, bool aClosed) {
+		if (aPath.Count < 2) return Vector2.up;
+		Vector2 dir = aPath[aClosed ? (i+1) % aPath.Count : Mathf.Min(i+1, aPath.Count-1)] - aPath[!aClosed&&i==aPath.Count-1?aPath.Count-2:i];
+		return new Vector2(-dir.y, dir.x).normalized;
+	}
+
+	/// <summary>
+	/// Calculates the length of a path by summing the distances of its segments.
+	/// </summary>
+	/// <param name="aPath">A list of consecutive points.</param>
+	/// <param name="aClosed">Should we include the segment between the first and the last point?</param>
+	/// <returns>Length of the path, 0 if null or only one point.</returns>
+	public static float GetSegmentLength(List<Vector2> aPath, bool aClosed = false) {
+		if (aPath == null || aPath.Count <= 1)
+			return 0;
+
+		float result = 0;
+		for (int i = 0; i < aPath.Count-1; i++) {
+			result += Vector2.Distance(aPath[i], aPath[i+1]);
+		}
+		if (aClosed)
+			result += Vector2.Distance(aPath[0], aPath[aPath.Count-1]);
+
+		return result;
+	}
+
+	public static float GetSegmentLengthToIndex(List<Vector2> aPath, int aIndex) {
+		if (aPath == null || aPath.Count <= 1)
+			return 0;
+
+		float result = 0;
+		for (int i = 0; i < aPath.Count-1 && i < aIndex; i++) {
+			result += Vector2.Distance(aPath[i], aPath[i+1]);
+		}
+
+		return result;
+	}
+
+	public static Vector2 LinearGetPt(List<Vector2> aPath, int aIndex, float aPercent, bool aClosed) {
+		if (aPath == null)
+			return Vector2.zero;
+		if (aPath.Count <= 1)
+			return aPath[0];
+
+		int curr = Mathf.Clamp(aIndex, 0, aPath.Count-1);
+		int next = aClosed ? (curr + 1) % aPath.Count : Mathf.Min(aPath.Count-1, curr+1);
+
+		return Vector2.LerpUnclamped(aPath[curr], aPath[next], aPercent);
+	}
+
+	public static Vector2 LinearGetNormal(List<Vector2> aPath, int aIndex, float aPercent, bool aClosed) {
+		if (aPath == null)
+			return Vector2.zero;
+		if (aPath.Count <= 1)
+			return aPath[0];
+
+		int curr = Mathf.Clamp(aIndex, 0, aPath.Count-1);
+		int next = aClosed ? (curr + 1) % aPath.Count : Mathf.Min(aPath.Count-1, curr+1);
+
+		return Vector2.Lerp(GetNormal(aPath, curr, aClosed), GetNormal(aPath, next, aClosed), aPercent);
+	}
+
+	public static void PathGlobalPercentToLocal(List<Vector2> aPath, float aPercent, out int aLocalPoint, out float aLocalPercent, float aPathLength = 0, bool aClosed = false) {
+		if (aPercent>=1) {
+			if (aClosed)
+				aPercent = aPercent - (int)aPercent;
+			else {
+				aLocalPoint = Mathf.Max(0,aPath.Count-2);
+				aLocalPercent = 1;
+				return;
+			}
+		}
+		aLocalPoint         = 0;
+		aLocalPercent       = 0;
+		float pathLength    = aPathLength == 0 ? GetSegmentLength(aPath) : aPathLength;
+		float percentLength = pathLength * aPercent;
+		
+		float currLength = 0;
+		int   count      = aClosed ? aPath.Count : aPath.Count-1;
+		for (int i = 0; i < count; i++) {
+			int   next      = (i+1) % aPath.Count;
+			float segLength = Vector2.Distance(aPath[i], aPath[next]);
+			
+			if (currLength+segLength >= percentLength) {
+				aLocalPoint = i;
+				aLocalPercent = (percentLength - currLength) / segLength;
+				break;
+			}
+			currLength += segLength;
+		}
+	}
+	#endregion
 }

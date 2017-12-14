@@ -14,7 +14,7 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames
+namespace GooglePlayGames.Editor
 {
     using System;
     using System.IO;
@@ -29,6 +29,7 @@ namespace GooglePlayGames
         private string mClassName = "GooglePlayGames.GPGSIds";
         private string mClassDirectory = "Assets";
         private string mConfigData = string.Empty;
+        private bool mRequiresGooglePlus = false;
         private Vector2 scroll;
 
         [MenuItem("Window/Google Play Games/Setup/iOS setup...", false, 2)]
@@ -39,8 +40,15 @@ namespace GooglePlayGames
             window.minSize = new Vector2(500, 600);
         }
 
-        public void OnEnable()
-        {
+        [MenuItem("Window/Google Play Games/Setup/iOS setup...", true)]
+        public static bool EnableIOSMenu() {
+#if UNITY_IPHONE
+            return true;
+#else
+            return false;
+#endif
+        }
+        public void OnEnable() {
             mBundleId = GPGSProjectSettings.Instance.Get(GPGSUtil.IOSBUNDLEIDKEY);
 
             mWebClientId = GPGSProjectSettings.Instance.Get(GPGSUtil.WEBCLIENTIDKEY);
@@ -50,7 +58,12 @@ namespace GooglePlayGames
 
             if (mBundleId.Trim().Length == 0)
             {
+#if UNITY_5_6_OR_NEWER
+              mBundleId = PlayerSettings.GetApplicationIdentifier(
+                  BuildTargetGroup.iOS);
+#else
                 mBundleId = PlayerSettings.bundleIdentifier;
+#endif
             }
         }
 
@@ -61,10 +74,28 @@ namespace GooglePlayGames
         /// <param name="clientId">Client identifier.</param>
         /// <param name="bundleId">Bundle identifier.</param>
         /// <param name="webClientId">web app clientId.</param>
-        internal static void Save(string clientId, string bundleId, string webClientId)
+        /// <param name="requiresGooglePlus">App requires G+ access</param>
+        internal static void Save(string clientId,
+            string bundleId,
+            string webClientId,
+            bool requiresGooglePlus)
         {
+            if (clientId != null)
+            {
+                clientId = clientId.Trim();
+            }
             GPGSProjectSettings.Instance.Set(GPGSUtil.IOSCLIENTIDKEY, clientId);
+
+            if (bundleId != null)
+            {
+                bundleId = bundleId.Trim();
+            }
             GPGSProjectSettings.Instance.Set(GPGSUtil.IOSBUNDLEIDKEY, bundleId);
+
+            if (webClientId != null)
+            {
+                webClientId = webClientId.Trim();
+            }
             GPGSProjectSettings.Instance.Set(GPGSUtil.WEBCLIENTIDKEY, webClientId);
             GPGSProjectSettings.Instance.Save();
         }
@@ -100,7 +131,7 @@ namespace GooglePlayGames
             GUILayout.Label(GPGSStrings.IOSSetup.BundleIdBlurb, EditorStyles.wordWrappedLabel);
             mBundleId = EditorGUILayout.TextField(GPGSStrings.IOSSetup.BundleId, mBundleId,
             GUILayout.Width(450));
-            
+
             GUILayout.Space(30);
 
             // Client ID field
@@ -167,7 +198,7 @@ namespace GooglePlayGames
         /// </summary>
         internal void DoSetup()
         {
-            if (PerformSetup(mClassDirectory, mClassName, mConfigData, mWebClientId, mBundleId, null))
+            if (PerformSetup(mClassDirectory, mClassName, mConfigData, mWebClientId, mBundleId, null, mRequiresGooglePlus))
             {
                 GPGSUtil.Alert(GPGSStrings.Success, GPGSStrings.IOSSetup.SetupComplete);
                 Close();
@@ -189,19 +220,37 @@ namespace GooglePlayGames
         /// <param name="webClientId">Client identifier.</param>
         /// <param name="bundleId">Bundle identifier.</param>
         /// <param name="nearbySvcId">Nearby svc identifier.</param>
+        /// <param name="requiresGooglePlus">App Requires Google Plus API.</param>
         public static bool PerformSetup(
-            string classDirectory, string className, string resourceXmlData, 
-            string webClientId, string bundleId,  string nearbySvcId)
+            string classDirectory,
+            string className,
+            string resourceXmlData,
+            string webClientId,
+            string bundleId,
+            string nearbySvcId,
+            bool requiresGooglePlus)
         {
             if (ParseResources(classDirectory, className, resourceXmlData))
             {
                 GPGSProjectSettings.Instance.Set(GPGSUtil.CLASSNAMEKEY, className);
                 GPGSProjectSettings.Instance.Set(GPGSUtil.IOSRESOURCEKEY, resourceXmlData);
                 GPGSProjectSettings.Instance.Set(GPGSUtil.WEBCLIENTIDKEY, webClientId);
+                if (string.IsNullOrEmpty(bundleId))
+                {
+                    // get from settings
+                    bundleId = GPGSProjectSettings.Instance.Get(GPGSUtil.IOSBUNDLEIDKEY);
+#if UNITY_5_6_OR_NEWER
+                    PlayerSettings.SetApplicationIdentifier(
+                        BuildTargetGroup.iOS, bundleId);
+#else
+                    PlayerSettings.bundleIdentifier = bundleId;
+#endif
+                }
                 return PerformSetup(GPGSProjectSettings.Instance.Get(GPGSUtil.IOSCLIENTIDKEY),
-                    bundleId, webClientId, nearbySvcId);
+                    bundleId, webClientId, nearbySvcId, requiresGooglePlus);
             }
 
+            Debug.LogError("Failed to parse resources, returing false.");
             return false;
         }
 
@@ -242,6 +291,10 @@ namespace GooglePlayGames
                         clientId = value;
                         GPGSProjectSettings.Instance.Set(GPGSUtil.IOSCLIENTIDKEY, clientId);
                     }
+                    else if (key == "BUNDLE_ID")
+                    {
+                        GPGSProjectSettings.Instance.Set(GPGSUtil.IOSBUNDLEIDKEY, value);
+                    }
                     else if (key.StartsWith("ACH_"))
                     {
                         string prop = "achievement_" + key.Substring(4).ToLower();
@@ -277,6 +330,7 @@ namespace GooglePlayGames
                 GPGSUtil.WriteResourceIds(classDirectory, className, resourceKeys);
             }
 
+            GPGSProjectSettings.Instance.Save();
             return !string.IsNullOrEmpty(clientId);
         }
 
@@ -288,8 +342,9 @@ namespace GooglePlayGames
         /// <param name="bundleId">Bundle identifier.</param>
         /// <param name="webClientId">web app client id.</param>
         /// <param name="nearbySvcId">Nearby connections service Id.</param>
+        /// <param name="requiresGooglePlus">App requires G+ access</param>
         public static bool PerformSetup(string clientId, string bundleId,
-            string webClientId, string nearbySvcId)
+            string webClientId, string nearbySvcId, bool requiresGooglePlus)
         {
             if (!GPGSUtil.LooksLikeValidClientId(clientId))
             {
@@ -304,16 +359,18 @@ namespace GooglePlayGames
             }
 
             // nearby is optional - only set it up if present.
-            if (nearbySvcId != null)
-            {
+            if (nearbySvcId != null) {
+#if (UNITY_IPHONE && !NO_GPGS)
                 bool ok = NearbyConnectionUI.PerformSetup(nearbySvcId, false);
                 if (!ok)
                 {
+                    Debug.LogError("NearbyConnection Setup failed, returing false.");
                     return false;
                 }
+#endif
             }
 
-            Save(clientId, bundleId, webClientId);
+            Save(clientId, bundleId, webClientId, requiresGooglePlus);
             GPGSUtil.UpdateGameInfo();
 
             // Finished!
@@ -324,3 +381,4 @@ namespace GooglePlayGames
         }
     }
 }
+

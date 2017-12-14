@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 400000}
-  - 114: {fileID: 11400000}
+  - component: {fileID: 400000}
+  - component: {fileID: 11400000}
   m_Layer: 0
   m_Name: MossyTerrainMaterial
   m_TagString: Untagged
@@ -28,6 +28,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -39,8 +40,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a21887e1cf80db49978ff567bcdd66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillMaterial: {fileID: 2100000, guid: a2079d6498b7ec14282eeae830ad71b1, type: 2}
-  edgeMaterial: {fileID: 2100000, guid: 6a137a711dab1dd4c9609c5b44c38f5a, type: 2}
+  _fillMaterial: {fileID: 2100000, guid: a2079d6498b7ec14282eeae830ad71b1, type: 2}
+  _edgeMaterial: {fileID: 2100000, guid: 6a137a711dab1dd4c9609c5b44c38f5a, type: 2}
   descriptors:
   - applyTo: 0
     zOffset: 0
@@ -48,31 +49,49 @@ MonoBehaviour:
     leftCap:
       serializedVersion: 2
       x: 0
+      y: 0.064453125
+      width: 0.125
+      height: 0.33203125
+    innerLeftCap:
+      serializedVersion: 2
+      x: 0
       y: 0
-      width: 64
-      height: 220
+      width: 0
+      height: 0
     rightCap:
       serializedVersion: 2
-      x: 448
+      x: 0.875
+      y: 0.064453125
+      width: 0.125
+      height: 0.33203125
+    innerRightCap:
+      serializedVersion: 2
+      x: 0
       y: 0
-      width: 64
-      height: 220
+      width: 0
+      height: 0
     body:
     - serializedVersion: 2
-      x: 64
-      y: 0
-      width: 192
-      height: 220
+      x: 0.125
+      y: 0.064453125
+      width: 0.375
+      height: 0.33203125
     - serializedVersion: 2
-      x: 256
-      y: 0
-      width: 192
-      height: 220
+      x: 0.5
+      y: 0.064453125
+      width: 0.375
+      height: 0.33203125
     capOffset: 0
   - applyTo: 1
-    zOffset: .100000001
+    zOffset: 0.02
     yOffset: 0
     leftCap:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    innerLeftCap:
       serializedVersion: 2
       x: 0
       y: 0
@@ -84,17 +103,29 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
+    innerRightCap:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
     body:
     - serializedVersion: 2
-      x: 5.5
-      y: 231
-      width: 232
-      height: 64
+      x: 0.0107421875
+      y: 0.45117188
+      width: 0.453125
+      height: 0.125
     capOffset: 0
   - applyTo: 2
-    zOffset: .100000001
+    zOffset: 0.02
     yOffset: 0
     leftCap:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    innerLeftCap:
       serializedVersion: 2
       x: 0
       y: 0
@@ -106,17 +137,29 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
+    innerRightCap:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
     body:
     - serializedVersion: 2
-      x: 13
-      y: 231
-      width: 218
-      height: 64
+      x: 0.025390625
+      y: 0.45117188
+      width: 0.42578125
+      height: 0.125
     capOffset: 0
   - applyTo: 3
-    zOffset: .0250000004
+    zOffset: 0.01
     yOffset: 0
     leftCap:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    innerLeftCap:
       serializedVersion: 2
       x: 0
       y: 0
@@ -128,13 +171,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
+    innerRightCap:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
     body:
     - serializedVersion: 2
-      x: 261
-      y: 199.100006
-      width: 231
-      height: 97.5
-    capOffset: .600000024
+      x: 0.5097656
+      y: 0.3888672
+      width: 0.45117188
+      height: 0.19042969
+    capOffset: 0.35
+  isPixel: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -146,4 +196,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
-  m_IsExploded: 1

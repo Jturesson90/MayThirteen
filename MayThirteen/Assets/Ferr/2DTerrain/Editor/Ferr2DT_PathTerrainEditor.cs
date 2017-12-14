@@ -6,243 +6,366 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-[CustomEditor(typeof(Ferr2DT_PathTerrain))]
-public class Ferr2DT_PathTerrainEditor : Editor
-{
-		bool showVisuals = true;
-		bool showTerrainType = true;
-		bool showCollider = true;
+[CustomEditor(typeof(Ferr2DT_PathTerrain)), CanEditMultipleObjects]
+public class Ferr2DT_PathTerrainEditor : Editor {
+    bool showVisuals     = true;
+    bool showTerrainType = true;
+	bool showCollider    = true;
 
-		List<List<Vector2>> cachedColliders = null;
+    static List<List<Vector2>> cachedColliders = null;
+	
+	SerializedProperty fill;
+	SerializedProperty fillY;
+	SerializedProperty fillZ;
+	SerializedProperty invertFillBorder;
+	
+	SerializedProperty splitCorners;
+	SerializedProperty perfectCorners;
+	SerializedProperty smoothPath;
+	SerializedProperty splitCount;
+	SerializedProperty splitDist;
+	SerializedProperty splitMiddle;
+	SerializedProperty pixelsPerUnit;
+	SerializedProperty vertexColorType;
+	SerializedProperty vertexColor;
+	SerializedProperty vertexGradient;
+	SerializedProperty vertexGradientAngle;
+	SerializedProperty vertexGradientDistance;
+	SerializedProperty createTangents;
+	SerializedProperty randomByWorldCoordinates;
+	SerializedProperty uvOffset;
+	SerializedProperty slantAmount;
+	SerializedProperty fillSplit;
+	SerializedProperty fillSplitDistance;
+	
+	SerializedProperty createCollider;
+	SerializedProperty create3DCollider;
+	SerializedProperty usedByEffector;
+	SerializedProperty useEdgeCollider;
+	SerializedProperty isTrigger;
+	SerializedProperty depth;
+	SerializedProperty smoothSphereCollisions;
+	SerializedProperty sharpCorners;
+	SerializedProperty sharpCornerDistance;
+	SerializedProperty surfaceOffset;
+	SerializedProperty physicsMaterial;
+	SerializedProperty physicsMaterial2D;
+	SerializedProperty collidersLeft;
+	SerializedProperty collidersRight;
+	SerializedProperty collidersTop;
+	SerializedProperty collidersBottom;
+	SerializedProperty colliderThickness;
+	
+	private void LoadProperties() {
+		fill                     = serializedObject.FindProperty("fill");
+		fillY                    = serializedObject.FindProperty("fillY");
+		fillZ                    = serializedObject.FindProperty("fillZ");
+		invertFillBorder         = serializedObject.FindProperty("invertFillBorder");
+		
+		splitCorners             = serializedObject.FindProperty("splitCorners");
+		smoothPath               = serializedObject.FindProperty("smoothPath");
+		splitCount               = serializedObject.FindProperty("splitCount");
+		splitDist                = serializedObject.FindProperty("splitDist");
+		splitMiddle              = serializedObject.FindProperty("splitMiddle");
+		pixelsPerUnit            = serializedObject.FindProperty("pixelsPerUnit");
+		vertexColorType          = serializedObject.FindProperty("vertexColorType");
+		vertexColor              = serializedObject.FindProperty("vertexColor");
+		vertexGradient           = serializedObject.FindProperty("vertexGradient");
+		vertexGradientAngle      = serializedObject.FindProperty("vertexGradientAngle");
+		vertexGradientDistance   = serializedObject.FindProperty("vertexGradientDistance");
+		createTangents           = serializedObject.FindProperty("createTangents");
+		randomByWorldCoordinates = serializedObject.FindProperty("randomByWorldCoordinates");
+		uvOffset                 = serializedObject.FindProperty("uvOffset");
+		slantAmount              = serializedObject.FindProperty("slantAmount");
+		fillSplit                = serializedObject.FindProperty("fillSplit");
+		fillSplitDistance        = serializedObject.FindProperty("fillSplitDistance");
+		
+		createCollider           = serializedObject.FindProperty("createCollider");
+		create3DCollider         = serializedObject.FindProperty("create3DCollider");
+		usedByEffector           = serializedObject.FindProperty("usedByEffector");
+		useEdgeCollider          = serializedObject.FindProperty("useEdgeCollider");
+		isTrigger                = serializedObject.FindProperty("isTrigger");
+		depth                    = serializedObject.FindProperty("depth");
+		smoothSphereCollisions   = serializedObject.FindProperty("smoothSphereCollisions");
+		sharpCorners             = serializedObject.FindProperty("sharpCorners");
+		sharpCornerDistance      = serializedObject.FindProperty("sharpCornerDistance");
+		surfaceOffset            = serializedObject.FindProperty("surfaceOffset");
+		physicsMaterial          = serializedObject.FindProperty("physicsMaterial");
+		physicsMaterial2D        = serializedObject.FindProperty("physicsMaterial2D");
+		collidersLeft            = serializedObject.FindProperty("collidersLeft");
+		collidersRight           = serializedObject.FindProperty("collidersRight");
+		collidersTop             = serializedObject.FindProperty("collidersTop");
+		collidersBottom          = serializedObject.FindProperty("collidersBottom");
+		colliderThickness        = serializedObject.FindProperty("colliderThickness");
+	}
+	
+    void OnEnable  () {
+        Ferr2DT_PathTerrain terrain = (Ferr2DT_PathTerrain)target;
+        if (terrain.GetComponent<MeshFilter>().sharedMesh == null)
+        	terrain.Build(true);
+	    cachedColliders = null;
+	    LoadProperties();
+        Ferr2D_PathEditor.OnChanged = () => { cachedColliders = terrain.GetColliderVerts(); };
+    }
+    void OnDisable () {
+        Ferr2D_PathEditor.OnChanged = null;
+    }
+    void OnSceneGUI() {
+		if (!Ferr2DT_PathTerrain.showGUI)
+			return;
 
-		void OnEnable ()
-		{
-				Ferr2DT_PathTerrain terrain = (Ferr2DT_PathTerrain)target;
-				if (terrain.GetComponent<MeshFilter> ().sharedMesh == null)
-						terrain.RecreatePath (true);
-				cachedColliders = null;
-				Ferr2D_PathEditor.OnChanged = () => {
-						cachedColliders = terrain.GetColliderVerts (); };
-		}
-		void OnDisable ()
-		{
-				Ferr2D_PathEditor.OnChanged = null;
-		}
-		void OnSceneGUI ()
-		{
-				Ferr2DT_PathTerrain collider = (Ferr2DT_PathTerrain)target;
-				Ferr2D_Path path = collider.gameObject.GetComponent<Ferr2D_Path> ();
+        Ferr2DT_PathTerrain collider = (Ferr2DT_PathTerrain)target;
 
-				EditorUtility.SetSelectedWireframeHidden (collider.gameObject.GetComponent<Renderer>(), Ferr_Menu.HideMeshes);
+	    #if UNITY_5_5_OR_NEWER
+	    EditorUtility.SetSelectedRenderState(collider.gameObject.GetComponent<Renderer>(), Ferr2DT_Menu.HideMeshes ? EditorSelectedRenderState.Hidden : EditorSelectedRenderState.Highlight);
+		#else
+	    EditorUtility.SetSelectedWireframeHidden(collider.gameObject.GetComponent<Renderer>(), Ferr2DT_Menu.HideMeshes);
+		#endif
+	    
+        Ferr2DT_SceneOverlay.OnGUI();
+    }
+    
+	public override void OnInspectorGUI() {
+		Undo.RecordObject(target, "Modified Path Terrain");
 
-				if (!(collider.enabled == false || path == null || path.pathVerts.Count <= 1 || !collider.createCollider) && Ferr2DT_SceneOverlay.showCollider) {
-						Handles.color = new Color (0, 1, 0, 1);
-						DrawColliderEdge (collider);
-				}
+		Ferr2DT_PathTerrain sprite = (Ferr2DT_PathTerrain)target;
 
-				Ferr2DT_SceneOverlay.OnGUI ();
-		}
-		public override void OnInspectorGUI ()
-		{
-				#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-				Undo.RecordObject (target, "Modified Path Terrain");
-				#else
-        Undo.SetSnapshotTarget(target, "Modified Path Terrain");
-				#endif
+        // render the material selector!
+        EditorGUILayout.LabelField("TERRAIN MATERIAL");
 
-				Ferr2DT_PathTerrain sprite = (Ferr2DT_PathTerrain)target;
+        Ferr.EditorTools.Box(4, ()=>{
+            EditorGUILayout.BeginHorizontal();
+            IFerr2DTMaterial material = sprite.TerrainMaterial;
+            GUIContent button = material != null && material.edgeMaterial != null && material.edgeMaterial.mainTexture != null ? new GUIContent(material.edgeMaterial.mainTexture) : new GUIContent("Pick");
+            if (GUILayout.Button(button, GUILayout.Width(64f), GUILayout.Height(64f))) {
+                Ferr2DT_MaterialSelector.Show((mat) => {
+                    if (mat != sprite.TerrainMaterial) {
+                        SelectMaterial((UnityEngine.Object)mat);
+                    }
+                });
+            }
 
-				// render the material selector!
-				Ferr_EditorTools.Box (4, () => {
-						EditorGUILayout.BeginHorizontal ();
-						GUIContent button = sprite.TerrainMaterial != null && sprite.TerrainMaterial.edgeMaterial != null && sprite.TerrainMaterial.edgeMaterial.mainTexture != null ? new GUIContent (sprite.TerrainMaterial.edgeMaterial.mainTexture) : new GUIContent ("Pick");
-						if (GUILayout.Button (button, GUILayout.Width (48f), GUILayout.Height (48f)))
-								Ferr2DT_MaterialSelector.Show (sprite.SetMaterial);
-						EditorGUILayout.BeginVertical ();
-						EditorGUILayout.LabelField ("Terrain Material:");
-						EditorGUI      .indentLevel = 2;
-						EditorGUILayout.LabelField (sprite.TerrainMaterial == null ? "None" : sprite.TerrainMaterial.name);
-						EditorGUI      .indentLevel = 0;
-						EditorGUILayout.EndVertical ();
-						EditorGUILayout.EndHorizontal ();
-				});
+            UnityEngine.Object obj = EditorGUILayout.ObjectField((UnityEngine.Object)sprite.TerrainMaterial, typeof(Ferr2DT_Material), false, GUILayout.Height(64f));
+            if (obj != (UnityEngine.Object)sprite.TerrainMaterial) {
+                SelectMaterial(obj);
+            }
+            EditorGUILayout.EndHorizontal();
+		});
 		
 		
-				showVisuals = EditorGUILayout.Foldout (showVisuals, "VISUALS");
+        showVisuals = EditorGUILayout.Foldout(showVisuals, "VISUALS");
 		
-				if (showVisuals) {
-						EditorGUI.indentLevel = 2;
-						Ferr_EditorTools.Box (4, () => {
-								// other visual data
-								sprite.vertexColor = EditorGUILayout.ColorField ("Vertex Color", sprite.vertexColor);
-								sprite.pixelsPerUnit = Mathf.Clamp (EditorGUILayout.FloatField ("Pixels Per Unit", sprite.pixelsPerUnit), 1, 768);
-								sprite.stretchThreshold = EditorGUILayout.Slider ("Stretch Threshold", sprite.stretchThreshold, 0f, 1f);
-								sprite.slantAmount = EditorGUILayout.Slider ("Slant Amount", sprite.slantAmount, -2, 2);
-								sprite.splitMiddle = EditorGUILayout.Toggle ("Split Middle", sprite.splitMiddle);
-								sprite.createTangents = EditorGUILayout.Toggle ("Create Tangents", sprite.createTangents);
-								sprite.randomByWorldCoordinates = EditorGUILayout.Toggle ("Randomize Edge by World Coordinates", sprite.randomByWorldCoordinates);
-								sprite.uvOffset = EditorGUILayout.Vector2Field ("Fill UV Offset", sprite.uvOffset);
-								#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-								Type utility = Type.GetType ("UnityEditorInternal.InternalEditorUtility, UnityEditor");
-								if (utility != null) {
-										PropertyInfo sortingLayerNames = utility.GetProperty ("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
-										if (sortingLayerNames != null) {
-												string[] layerNames = sortingLayerNames.GetValue (null, null) as string[];
-												string currName = sprite.GetComponent<Renderer>().sortingLayerName == "" ? "Default" : sprite.GetComponent<Renderer>().sortingLayerName;
-												int nameID = EditorGUILayout.Popup ("Sorting Layer", Array.IndexOf (layerNames, currName), layerNames);
-						
-												sprite.GetComponent<Renderer>().sortingLayerName = layerNames [nameID];
-						
-										} else {
-												sprite.GetComponent<Renderer>().sortingLayerID = EditorGUILayout.IntField ("Sorting Layer", sprite.GetComponent<Renderer>().sortingLayerID);
-										}
-								} else {
-										sprite.GetComponent<Renderer>().sortingLayerID = EditorGUILayout.IntField ("Sorting Layer", sprite.GetComponent<Renderer>().sortingLayerID);
-								}
-								sprite.GetComponent<Renderer>().sortingOrder = EditorGUILayout.IntField ("Order in Layer", sprite.GetComponent<Renderer>().sortingOrder);
-								#endif
-						});
-				}
-				EditorGUI.indentLevel = 0;
+        if (showVisuals) {
+	        EditorGUI.indentLevel = 2;
+	        Ferr.EditorTools.Box(4, ()=>{
+	            // other visual data
+		        EditorGUILayout.PropertyField(vertexColorType);
+		        EditorGUI.indentLevel = 3;
+		        if (!vertexColorType.hasMultipleDifferentValues && vertexColorType.enumValueIndex == (int)Ferr2DT_ColorType.SolidColor) {
+			        EditorGUILayout.PropertyField(vertexColor        );
+		        } else if (!vertexColorType.hasMultipleDifferentValues && vertexColorType.enumValueIndex == (int)Ferr2DT_ColorType.Gradient) {
+			        EditorGUILayout.PropertyField(vertexGradientAngle);
+			        EditorGUILayout.PropertyField(vertexGradient     );
+		        } else if (!vertexColorType.hasMultipleDifferentValues && vertexColorType.enumValueIndex == (int)Ferr2DT_ColorType.DistanceGradient) {
+			        EditorGUILayout.PropertyField(vertexGradientDistance);
+			        EditorGUILayout.PropertyField(vertexGradient        );
+		        }
+		        EditorGUI.indentLevel = 2;
+		        
+		        EditorGUILayout.PropertyField(pixelsPerUnit );
+		        EditorGUILayout.PropertyField(slantAmount   );
+		        EditorGUILayout.PropertyField(splitMiddle   );
+		        EditorGUILayout.PropertyField(createTangents);
+		        EditorGUILayout.PropertyField(randomByWorldCoordinates, new GUIContent("Randomize Edge by World Coordinates"));
+		        EditorGUILayout.PropertyField(uvOffset,                 new GUIContent("Fill UV Offset"));
+		        
+		        if (!serializedObject.isEditingMultipleObjects) {
+			        Renderer renderCom     = sprite.GetComponent<Renderer>();
+			        string[] sortingLayers = Ferr.LayerUtil.GetSortingLayerNames();
+			        if (sortingLayers != null) {
+				        string currName = renderCom.sortingLayerName == "" ? "Default" : renderCom.sortingLayerName;
+				        int    nameID   = EditorGUILayout.Popup("Sorting Layer", Array.IndexOf(sortingLayers, currName), sortingLayers);
+				        
+				        renderCom.sortingLayerName = sortingLayers[nameID];
+			        } else {
+						renderCom.sortingLayerID = EditorGUILayout.IntField("Sorting Layer", renderCom.sortingLayerID);
+			        }
+			        renderCom.sortingOrder = EditorGUILayout.IntField  ("Order in Layer", renderCom.sortingOrder);
+			        
+                    // warn if the shader's aren't likely to work with the settings provided!
+			        if (renderCom.sortingOrder != 0 || (renderCom.sortingLayerName != "Default" && renderCom.sortingLayerName != "")) {
+				        bool opaque = false;
+				        for (int i = 0; i < renderCom.sharedMaterials.Length; ++i) {
+					        Material mat = renderCom.sharedMaterials[i];
+					        if (mat != null && mat.GetTag("RenderType", false, "") == "Opaque") {
+						        opaque = true;
+					        }
+				        }
+				        if (opaque) {
+					        EditorGUILayout.HelpBox("Layer properties won't work properly unless your shaders are all 'transparent'!", MessageType.Warning);
+				        }
+			        }
+		        }
+	        });
+        }
+		EditorGUI.indentLevel = 0;
 
-				showTerrainType = EditorGUILayout.Foldout (showTerrainType, "TERRAIN TYPE");
-				if (showTerrainType) {
-						EditorGUI.indentLevel = 2;
-						Ferr_EditorTools.Box (4, () => {
-								sprite.fill = (Ferr2DT_FillMode)EditorGUILayout.EnumPopup ("Fill Type", sprite.fill);
-								if (sprite.fill == Ferr2DT_FillMode.Closed || sprite.fill == Ferr2DT_FillMode.InvertedClosed || sprite.fill == Ferr2DT_FillMode.FillOnlyClosed && sprite.GetComponent<Ferr2D_Path> () != null)
-										sprite.GetComponent<Ferr2D_Path> ().closed = true;
-								if (sprite.fill != Ferr2DT_FillMode.None && (sprite.TerrainMaterial != null && sprite.TerrainMaterial.fillMaterial == null))
-										sprite.fill = Ferr2DT_FillMode.None;
-								if (sprite.fill != Ferr2DT_FillMode.None)
-										sprite.fillZ = EditorGUILayout.FloatField ("Fill Z Offset", sprite.fillZ);
-								if (sprite.fill == Ferr2DT_FillMode.Skirt)
-										sprite.fillY = EditorGUILayout.FloatField ("Skirt Y Value", sprite.fillY);
-            
-								sprite.splitCorners = EditorGUILayout.Toggle ("Split Corners", sprite.splitCorners);
-								sprite.smoothPath = EditorGUILayout.Toggle ("Smooth Path", sprite.smoothPath);
-								EditorGUI.indentLevel = 3;
-								if (sprite.smoothPath) {
-										sprite.splitCount = EditorGUILayout.IntField ("Edge Splits", sprite.splitCount);
-										sprite.splitDist = EditorGUILayout.Slider ("Fill Split", sprite.splitDist, 0.1f, 4);
-										if (sprite.splitCount < 1)
-												sprite.splitCount = 2;
-								} else {
-										sprite.splitCount = 0;
-										sprite.splitDist = 1;
-								}
-								EditorGUI.indentLevel = 2;
-						});
-				}
-				EditorGUI.indentLevel = 0;
+        showTerrainType = EditorGUILayout.Foldout(showTerrainType, "TERRAIN TYPE");
+        if (showTerrainType) {
+	        EditorGUI.indentLevel = 2;
+	        Ferr.EditorTools.Box(4, ()=>{
+		        EditorGUILayout.PropertyField(fill, new GUIContent("Fill Type"));
+		        if (fill.enumValueIndex == (int)Ferr2DT_FillMode.Closed || fill.enumValueIndex == (int)Ferr2DT_FillMode.InvertedClosed || fill.enumValueIndex == (int)Ferr2DT_FillMode.FillOnlyClosed && sprite.GetComponent<Ferr2D_Path>() != null) sprite.GetComponent<Ferr2D_Path>().closed = true;
+		        if (fill.enumValueIndex != (int)Ferr2DT_FillMode.None && (sprite.TerrainMaterial != null && sprite.TerrainMaterial.fillMaterial == null)) fill.enumValueIndex = (int)Ferr2DT_FillMode.None;
+		        if (fill.enumValueIndex != (int)Ferr2DT_FillMode.None ) EditorGUILayout.PropertyField(fillZ, new GUIContent("Fill Z Offset"));
+		        if (fill.enumValueIndex == (int)Ferr2DT_FillMode.Skirt) EditorGUILayout.PropertyField(fillY, new GUIContent("Skirt Y Value"));
+		        if (fill.enumValueIndex == (int)Ferr2DT_FillMode.InvertedClosed) EditorGUILayout.PropertyField(invertFillBorder);
+		        
+		        EditorGUILayout.PropertyField(splitCorners  );
+		        EditorGUILayout.PropertyField(smoothPath    );
+		        EditorGUI.indentLevel = 3;
+		        if (smoothPath.boolValue) {
+			        EditorGUILayout.PropertyField(splitCount, new GUIContent("Edge Splits"));
+			        EditorGUILayout.PropertyField(splitDist,  new GUIContent("Fill Split" ));
+			        if (splitCount.intValue < 1) splitCount.intValue = 2;
+		        } else {
+			        splitCount.intValue   = 0;
+			        splitDist .floatValue = 1;
+		        }
+		        EditorGUI.indentLevel = 2;
+		        
+		        EditorGUILayout.PropertyField(fillSplit, new GUIContent("Split fill mesh"));
+		        if (fillSplit.boolValue) {
+			        EditorGUI.indentLevel = 3;
+			        EditorGUILayout.PropertyField(fillSplitDistance, new GUIContent("Split Distance"));
+			        EditorGUI.indentLevel = 2;
+		        }
+	        });
+        }
+        EditorGUI.indentLevel = 0;
         
 
-				showCollider = EditorGUILayout.Foldout (showCollider, "COLLIDER");
-				// render collider options
-				if (showCollider) {
-						EditorGUI.indentLevel = 2;
-						Ferr_EditorTools.Box (4, () => {
-								sprite.createCollider = EditorGUILayout.Toggle ("Create Collider", sprite.createCollider);
-								if (sprite.createCollider) {
-										sprite.sharpCorners = EditorGUILayout.Toggle ("Sharp Corners", sprite.sharpCorners);
-										if (sprite.sharpCorners) {
-												EditorGUI.indentLevel = 3;
-												sprite.sharpCornerDistance = Mathf.Max (0, EditorGUILayout.FloatField ("Corner Distance", sprite.sharpCornerDistance));
-												EditorGUI.indentLevel = 2;
-										}
-			    
-			    
-										#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-										sprite.create3DCollider = EditorGUILayout.Toggle ("Use 3D Collider", sprite.create3DCollider);
-										if (sprite.create3DCollider) {
-												EditorGUI.indentLevel = 3;
-												sprite.depth = EditorGUILayout.FloatField ("Collider Width", sprite.depth);
-												sprite.smoothSphereCollisions = EditorGUILayout.Toggle ("Smooth Sphere Collisions", sprite.smoothSphereCollisions);
-												EditorGUI.indentLevel = 2;
-												sprite.isTrigger = EditorGUILayout.Toggle ("Is Trigger", sprite.isTrigger);
-												sprite.physicsMaterial = (PhysicMaterial)EditorGUILayout.ObjectField ("Physics Material", sprite.physicsMaterial, typeof(PhysicMaterial), true);
-										} else {
-												sprite.isTrigger = EditorGUILayout.Toggle ("Is Trigger", sprite.isTrigger);
-												sprite.physicsMaterial2D = (PhysicsMaterial2D)EditorGUILayout.ObjectField ("Physics Material", sprite.physicsMaterial2D, typeof(PhysicsMaterial2D), true);
-										}
-										#else
-			    sprite.depth           = EditorGUILayout.FloatField("Collider Width", sprite.depth);
-			    sprite.physicsMaterial = (PhysicMaterial)EditorGUILayout.ObjectField("Physics Material", sprite.physicsMaterial,typeof(PhysicMaterial), true);
-										#endif
-			    
+        showCollider = EditorGUILayout.Foldout(showCollider, "COLLIDER");
+        // render collider options
+        if (showCollider) {
+	        EditorGUI.indentLevel = 2;
+	        Ferr.EditorTools.Box(4, ()=>{
+		        EditorGUILayout.PropertyField(createCollider);
+		        if (createCollider.boolValue) {
+			        EditorGUILayout.PropertyField(sharpCorners);
+			        if (sharpCorners.boolValue) {
+				        EditorGUI.indentLevel = 3;
+				        EditorGUILayout.PropertyField(sharpCornerDistance, new GUIContent("Corner Distance"));
+				        EditorGUI.indentLevel = 2;
+			        }
+			        
+			        EditorGUILayout.PropertyField(create3DCollider, new GUIContent("Use 3D Collider"));
+			        if (sprite.create3DCollider) {
+				        EditorGUI.indentLevel = 3;
+				        EditorGUILayout.PropertyField(depth, new GUIContent("Collider Width"));
+				        EditorGUILayout.PropertyField(smoothSphereCollisions);
+				        EditorGUI.indentLevel = 2;
+				        EditorGUILayout.PropertyField(isTrigger);
+				        EditorGUILayout.PropertyField(physicsMaterial);
+			        } else {
+				        EditorGUILayout.PropertyField(useEdgeCollider);
+				        EditorGUILayout.PropertyField(usedByEffector);
+				        EditorGUILayout.PropertyField(isTrigger);
+				        EditorGUILayout.PropertyField(physicsMaterial2D);
+			        }
+			        
+			        if (sprite.fill == Ferr2DT_FillMode.None) {
+				        EditorGUILayout.PropertyField(surfaceOffset.GetArrayElementAtIndex((int)Ferr2DT_TerrainDirection.Top   ), new GUIContent("Thickness Top"));
+				        EditorGUILayout.PropertyField(surfaceOffset.GetArrayElementAtIndex((int)Ferr2DT_TerrainDirection.Bottom), new GUIContent("Thickness Bottom"));
+			        }
+			        else {
+				        EditorGUILayout.PropertyField(surfaceOffset.GetArrayElementAtIndex((int)Ferr2DT_TerrainDirection.Top   ), new GUIContent("Offset Top"));
+				        EditorGUILayout.PropertyField(surfaceOffset.GetArrayElementAtIndex((int)Ferr2DT_TerrainDirection.Left  ), new GUIContent("Offset Left"));
+				        EditorGUILayout.PropertyField(surfaceOffset.GetArrayElementAtIndex((int)Ferr2DT_TerrainDirection.Right ), new GUIContent("Offset Right"));
+				        EditorGUILayout.PropertyField(surfaceOffset.GetArrayElementAtIndex((int)Ferr2DT_TerrainDirection.Bottom), new GUIContent("Offset Bottom"));
+			        }
+			        
+                    //EditorGUI.indentLevel = 0;
+			        EditorGUILayout.LabelField("Generate colliders along:");
+			        EditorGUILayout.PropertyField(collidersTop,    new GUIContent("Top"   ));
+			        EditorGUILayout.PropertyField(collidersLeft,   new GUIContent("Left"  ));
+			        EditorGUILayout.PropertyField(collidersRight,  new GUIContent("Right" ));
+			        EditorGUILayout.PropertyField(collidersBottom, new GUIContent("Bottom"));
+			        
+			        if (!collidersBottom.boolValue || !collidersLeft.boolValue || !collidersRight.boolValue || !collidersTop.boolValue) {
+				        EditorGUI.indentLevel = 2;
+				        EditorGUILayout.PropertyField(colliderThickness);
+				        EditorGUI.indentLevel = 0;
+			        }
 
-										if (sprite.fill == Ferr2DT_FillMode.None) {
-												sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Top] = EditorGUILayout.FloatField ("Thickness Top", sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Top]);
-												sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Bottom] = EditorGUILayout.FloatField ("Thickness Bottom", sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Bottom]);
-										} else {
-												sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Top] = EditorGUILayout.FloatField ("Offset Top", sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Top]);
-												sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Left] = EditorGUILayout.FloatField ("Offset Left", sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Left]);
-												sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Right] = EditorGUILayout.FloatField ("Offset Right", sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Right]);
-												sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Bottom] = EditorGUILayout.FloatField ("Offset Bottom", sprite.surfaceOffset [(int)Ferr2DT_TerrainDirection.Bottom]);
-										}
-
-										//EditorGUI.indentLevel = 0;
-										EditorGUILayout.LabelField ("Generate colliders along:");
-										sprite.collidersTop = EditorGUILayout.Toggle ("Top", sprite.collidersTop);
-										sprite.collidersLeft = EditorGUILayout.Toggle ("Left", sprite.collidersLeft);
-										sprite.collidersRight = EditorGUILayout.Toggle ("Right", sprite.collidersRight);
-										sprite.collidersBottom = EditorGUILayout.Toggle ("Bottom", sprite.collidersBottom);
-	            
-										#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-										if (!sprite.collidersBottom || !sprite.collidersLeft || !sprite.collidersRight || !sprite.collidersTop) {
-												EditorGUI.indentLevel = 2;
-												sprite.colliderThickness = EditorGUILayout.FloatField ("Collider Thickness", sprite.colliderThickness);
-												EditorGUI.indentLevel = 0;
-										}
-										#endif
-								}
-						});
-				}
-				EditorGUI.indentLevel = 0;
-
-				if (GUI.changed) {
-						EditorUtility.SetDirty (target);
-						sprite.RecreatePath (true);
-						cachedColliders = sprite.GetColliderVerts ();
-				}
-				if (Event.current.type == EventType.ValidateCommand) {
-						switch (Event.current.commandName) {
-						case "UndoRedoPerformed":
-								sprite.ForceMaterial (sprite.TerrainMaterial, true);
-								sprite.RecreatePath (true);
-								cachedColliders = sprite.GetColliderVerts ();
-								break;
+					if (GUILayout.Button("Prebuild collider")) {
+						for (int i = 0; i < targets.Length; i++) {
+							Ferr2DT_PathTerrain t = targets[i] as Ferr2DT_PathTerrain;
+							if (t != null) t.RecreateCollider();
 						}
+					}
 				}
+	        });
+        }
+		EditorGUI.indentLevel = 0;
+		
+		if(serializedObject.ApplyModifiedProperties() || GUI.changed) {
+			for (int i = 0; i < targets.Length; i++) {
+				EditorUtility.SetDirty(targets[i]);
+				((Ferr2DT_PathTerrain)targets[i]).Build(true);
+			}
+			
+			cachedColliders = sprite.GetColliderVerts();
 		}
+        if (Event.current.type == EventType.ValidateCommand)
+        {
+            switch (Event.current.commandName)
+            {
+                case "UndoRedoPerformed":
+                    sprite.ForceMaterial(sprite.TerrainMaterial, true);
+                    sprite.Build(true);
+                    cachedColliders = sprite.GetColliderVerts();
+                    break;
+            }
+        }
+	}
 
-		bool ColliderNormValid (Ferr2DT_PathTerrain aSprite, Vector2 aOne, Vector2 aTwo)
-		{
-				Ferr2DT_TerrainDirection dir = Ferr2D_Path.GetDirection (aTwo, aOne);
-				if (dir == Ferr2DT_TerrainDirection.Top && aSprite.collidersTop)
-						return true;
-				if (dir == Ferr2DT_TerrainDirection.Left && aSprite.collidersLeft)
-						return true;
-				if (dir == Ferr2DT_TerrainDirection.Right && aSprite.collidersRight)
-						return true;
-				if (dir == Ferr2DT_TerrainDirection.Bottom && aSprite.collidersBottom)
-						return true;
-				return false;
-		}
-		void DrawColliderEdge (Ferr2DT_PathTerrain aTerrain)
-		{
-				if (cachedColliders == null)
-						cachedColliders = aTerrain.GetColliderVerts ();
-				List<List<Vector2>> verts = cachedColliders;
-				for (int t = 0; t < verts.Count; t++) {
-						for (int i = 0; i < verts[t].Count - 1; i++) {
-								Handles.DrawLine (aTerrain.transform.position + aTerrain.transform.rotation * Vector3.Scale ((Vector3)verts [t] [i], aTerrain.transform.localScale), aTerrain.transform.position + aTerrain.transform.rotation * Vector3.Scale ((Vector3)verts [t] [i + 1], aTerrain.transform.localScale));
-						}
-				}
-				if (verts.Count > 0 && verts [verts.Count - 1].Count > 0) {
-						Handles.color = Color.yellow;
-						Handles.DrawLine (aTerrain.transform.position + aTerrain.transform.rotation * Vector3.Scale ((Vector3)verts [0] [0], aTerrain.transform.localScale), aTerrain.transform.position + aTerrain.transform.rotation * Vector3.Scale ((Vector3)verts [verts.Count - 1] [verts [verts.Count - 1].Count - 1], aTerrain.transform.localScale));
-						Handles.color = Color.green;
-				}
-		}
+    bool ColliderNormValid(Ferr2DT_PathTerrain aSprite, Vector2 aOne, Vector2 aTwo) {
+        Ferr2DT_TerrainDirection dir = Ferr2D_Path.GetDirection(aTwo, aOne);
+        if (dir == Ferr2DT_TerrainDirection.Top    && aSprite.collidersTop   ) return true;
+        if (dir == Ferr2DT_TerrainDirection.Left   && aSprite.collidersLeft  ) return true;
+        if (dir == Ferr2DT_TerrainDirection.Right  && aSprite.collidersRight ) return true;
+        if (dir == Ferr2DT_TerrainDirection.Bottom && aSprite.collidersBottom) return true;
+        return false;
+    }
+	public static void DrawColliderEdge (Ferr2DT_PathTerrain aTerrain) {
+		if ((aTerrain.enabled == false || aTerrain.Path == null || aTerrain.Path.Count <= 1 || !aTerrain.createCollider) || !Ferr2DT_SceneOverlay.showCollider)
+			return;
+		Handles.color = Ferr2D_Visual.ColliderColor;
+
+		if (cachedColliders == null) cachedColliders = aTerrain.GetColliderVerts();
+		List<List<Vector2>> verts     = cachedColliders;
+        Matrix4x4           mat       = aTerrain.transform.localToWorldMatrix;
+
+		Handles.matrix = mat;
+        for (int t = 0; t < verts.Count; t++) {
+            for (int i = 0; i < verts[t].Count - 1; i++) {
+				Handles.DrawLine(verts[t][i], verts[t][i+1]);
+            }
+        }
+        if (verts.Count > 0 && verts[verts.Count - 1].Count > 0) {
+            Handles.color = Color.yellow;
+			Handles.DrawLine(verts[0][0], verts[verts.Count - 1][verts[verts.Count - 1].Count - 1]);
+			Handles.color = Ferr2D_Visual.ColliderColor;
+        }
+		Handles.matrix = Matrix4x4.identity;
+	}
+    void SelectMaterial(UnityEngine.Object aMaterial) {
+        for (int i = 0; i<targets.Length; i+=1) {
+            Ferr2DT_PathTerrain curr = (Ferr2DT_PathTerrain)targets[i];
+            Undo.RecordObject(curr, "Changed Terrain Material");
+            curr.SetMaterial((IFerr2DTMaterial)aMaterial);
+            EditorUtility.SetDirty(curr);
+        }
+    }
 }

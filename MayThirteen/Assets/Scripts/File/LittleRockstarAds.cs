@@ -4,14 +4,14 @@ using UnityEngine.Advertisements;
 
 public class LittleRockstarAds : MonoBehaviour
 {
+    private readonly string iosGameId = "1007506";
+    private readonly string androidGameID = "1007507";
+
     public static LittleRockstarAds instance;
     // Use this for initialization
 
     void Awake()
     {
-		#if UNITY_IOS
-		return;
-		#endif
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -26,20 +26,23 @@ public class LittleRockstarAds : MonoBehaviour
     }
     void Start()
     {
-        //	Advertisement.Initialize (GAME_ADS_ID);
+#if UNITY_ANDROID
+        Advertisement.Initialize(androidGameID);
+#elif UNITY_IOS
+        Advertisement.Initialize(iosGameId);
+#endif
     }
     public void ShowAds()
     {
-		#if !UNITY_IOS
+
         bool showAds = PlayerPrefsManager.AdsEnabled();
         if (!showAds) return;
         if (!Advertisement.IsReady()) return;
         int levelsDone = PlayerPrefsManager.GetLevelsDone();
-        print("ShowAds, LevelsDone: " + levelsDone);
         if (Random.value < 0.5f && levelsDone >= 5)
         {
             Advertisement.Show();
         }
-		#endif
+
     }
 }

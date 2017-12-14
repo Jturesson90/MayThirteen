@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 
+using Ferr;
+
 /// <summary>
 /// Describes how the terrain path should be filled.
 /// </summary>
@@ -35,8 +37,31 @@ public enum Ferr2DT_FillMode
     FillOnlySkirt
 }
 
+/// <summary>
+/// Describes the way that Ferr2DT assigns vertex colors to the terrain.
+/// </summary>
+public enum Ferr2DT_ColorType {
+    /// <summary>
+    /// Assigns a single color to all verts.
+    /// </summary>
+	SolidColor,
+    /// <summary>
+    /// Assigns a color gradient across the terrain at a given angle.
+    /// </summary>
+	Gradient,
+    /// <summary>
+    /// Assigns a color gradient based on the vertex distance from the edge
+    /// </summary>
+	DistanceGradient,
+    /// <summary>
+    /// Preserves the existing colors as best as possible, for use with vertex painting and stuff like that.
+    /// </summary>
+	PreserveVertColor
+}
+
+
 [AddComponentMenu("Ferr2DT/Path Terrain"), RequireComponent (typeof (Ferr2D_Path)), RequireComponent (typeof (MeshFilter)), RequireComponent (typeof (MeshRenderer))]
-public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
+public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath, IBlendPaintable {
 	
 	#region Public fields
 	public Ferr2DT_FillMode fill    = Ferr2DT_FillMode.Closed;
@@ -48,6 +73,10 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// In order to combat Z-Fighting, this allows you to set a Z-Offset on the fill.
     /// </summary>
 	public float    fillZ           = 0.05f;
+	/// <summary>
+    /// When fill is inverted, how large is the outside border? Zero will auto-size the border.
+    /// </summary>
+	public Vector2  invertFillBorder = Vector2.zero;
     /// <summary>
     /// This will separate edges at corners, for applying different material parts to different slopes,
     /// as well as creating sharp corners on smoothed paths.
@@ -64,6 +93,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// <summary>
     /// A modifier that allows you to specify a multiplier for many cuts go into the fill/collider relative to the initial value
     /// </summary>
+	[Range(0.1f, 4)]
     public float    splitDist       = 1;
     /// <summary>
     /// Split the edges in half, lengthwise. This doubles tri count along edges, but can improve texture stretching along corners
@@ -73,17 +103,31 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// <summary>
     /// Roughly how many pixels we try to fit into one unit of Unity space
     /// </summary>
+	[Clamp(1,768)]
 	public float    pixelsPerUnit   = 64;
+	    /// <summary>
+    /// Describes the way that Ferr2DT assigns vertex colors to the terrain.
+    /// </summary>
+	public Ferr2DT_ColorType vertexColorType = Ferr2DT_ColorType.SolidColor;
+	
     /// <summary>
     /// The color for every vertex! If you use the right shader (like the Ferr2D shaders) this will influence
     /// the color of the terrain. This is faster, because you don't need additional materials for new colors!
     /// </summary>
-    public Color    vertexColor     = Color.white;
-	/// <summary>
-	/// When a segment is too small to fit 3 texture pieces, but too large to fit 2 texture peices, should it go
-	/// with 2, or 3? Use this value to influence the decision! 0-1, 0 being larger (fewer) pieces, 1 being smaller (more) pieces.
-	/// </summary>
-	public float    stretchThreshold = 0.5f;
+	public Color    vertexColor     = Color.white;
+    /// <summary>
+    /// A gradient that starts at one end of the terrain, and ends at the other, following the angle provided
+    /// by vertexGradientAngle.
+    /// </summary>
+	public Gradient vertexGradient  = null;
+    /// <summary>
+    /// Angle at which the gradient travels across the mesh (degrees).
+    /// </summary>
+	public float    vertexGradientAngle = 90;
+	    /// <summary>
+    /// Maximum distance for the gradient when using DistanceGradient vertex color type
+    /// </summary>
+	public float    vertexGradientDistance = 4;
     /// <summary>
     /// Tangents are important for normal mapping! Sadly, it's a tiny bit expensive, so I don't recommend doing it all the time!
     /// </summary>
@@ -100,25 +144,41 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// <summary>
     /// Z offset value for how slanted the edges should be. This can add a nice parallax effect to your terrain.
     /// </summary>
-    public float    slantAmount = 0;
+	[Range(-2, 2)]
+	public float    slantAmount       = 0;
+	/// <summary>
+	/// Adds extra grid spaced verts to the fill mesh for use with vertex lighting or painting.
+	/// </summary>
+	public bool     fillSplit         = false;
+	/// <summary>
+	/// Distance between vert splits on the fill mesh.
+	/// </summary>
+	public float    fillSplitDistance = 4;
 
     /// <summary>
     /// Should we generate a collider on Start?
     /// </summary>
-    public bool     createCollider  = true;
+    public bool     createCollider    = true;
 	/// <summary>
-	/// By default in Unity versions >= 4.3, Ferr2DT will create a 2D Poly Collider
-	/// Use this to force a 3D mesh collider instead
+	/// Use this to force a 3D mesh collider instead of a 2D collider
 	/// </summary>
-	public bool     create3DCollider = false;
+	public bool     create3DCollider  = false;
+	/// <summary>
+	/// Indicates the collider will be used by any effectors on this object
+	/// </summary>
+	public bool     usedByEffector    = false;
+	/// <summary>
+	/// Use a 2D edge collider instead of a polygon collider
+	/// </summary>
+	public bool     useEdgeCollider   = false;
     /// <summary>
     /// Transfers over into the collider, when it gets generated
     /// </summary>
-    public bool     isTrigger       = false;
+    public bool     isTrigger         = false;
     /// <summary>
     /// How wide should the collider be on the Z axis? (Unity units)
     /// </summary>
-    public float    depth           = 4.0f;
+    public float    depth             = 4.0f;
     /// <summary>
     /// An option to pass along for 3D colliders
     /// </summary>
@@ -135,18 +195,15 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// For offseting the collider, so it can line up with stuff better visually. On fill = None terrain,
     /// this behaves significantly different than regular closed terrain.
     /// </summary>
-    public float[]  surfaceOffset   = new float[] {0,0,0,0};
+    public float[]  surfaceOffset          = new float[] {0,0,0,0};
     /// <summary>
     /// When the collider is created (or Recreated), this will be assigned as its material!
     /// </summary>
-    public PhysicMaterial physicsMaterial = null;
-
-#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
+    public PhysicMaterial physicsMaterial  = null;
 	/// <summary>
 	/// When the collider is created (or Recreated), this will be assigned as its material!
 	/// </summary>
 	public PhysicsMaterial2D physicsMaterial2D = null;
-#endif
 
     public bool  collidersLeft     = true;
     public bool  collidersRight    = true;
@@ -157,8 +214,13 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// <summary>
     /// This property will call SetMaterial when set.
     /// </summary>
-    public Ferr2DT_TerrainMaterial TerrainMaterial { 
-        get { return terrainMaterial; } 
+    public IFerr2DTMaterial TerrainMaterial { 
+	    get { 
+	    	if (terrainMaterialInterface != null)
+		    	return (IFerr2DTMaterial)terrainMaterialInterface;
+		    terrainMaterialInterface = terrainMaterial;
+	    	return (IFerr2DTMaterial)terrainMaterial;
+	    } 
         set { SetMaterial(value); } 
     }
 
@@ -169,6 +231,23 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             return path; 
         }
     }
+    /// <summary>
+    /// Used by IProceduralMesh for saving. Just a call to GetComponent<MeshFilter>!
+    /// </summary>
+    public Mesh MeshData {
+        get {
+            return GetComponent<MeshFilter>().sharedMesh;
+        }
+    }
+    /// <summary>
+    /// Used by IProceduralMesh for saving. Just a call to GetComponent<MeshFilter>!
+    /// </summary>
+    public MeshFilter MeshFilter {
+        get {
+            return GetComponent<MeshFilter>();
+        }
+    }
+
     private Ferr2D_DynamicMesh DMesh {
         get {
             if (dMesh == null)
@@ -177,23 +256,33 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         }
     }
 
+	[Serializable]
+	public class CutOverrides {
+		public List<int> data;
+	}
+
+	[SerializeField()]
+	public List<Ferr2DT_TerrainDirection> directionOverrides = new List<Ferr2DT_TerrainDirection>();
+	[SerializeField()]
+	public List<CutOverrides>             cutOverrides       = new List<CutOverrides>();
     [SerializeField()]
-    public List<Ferr2DT_TerrainDirection> directionOverrides;
-    [SerializeField()]
-    public List<float>                    vertScales;
+    public List<float>                    vertScales         = new List<float>();
 	#endregion
 	
 	#region Private fields
     [SerializeField()]
-    Ferr2DT_TerrainMaterial terrainMaterial;
+	Ferr2DT_TerrainMaterial terrainMaterial;
+	[SerializeField]
+	UnityEngine.Object      terrainMaterialInterface;
 	Ferr2D_Path             path;
 	Ferr2D_DynamicMesh      dMesh;
+	RecolorTree             recolorTree = null;
 	Vector2                 unitsPerUV = Vector2.one;
 	#endregion
 
     #region MonoBehaviour Methods
-    void Start() {
-        if (createCollider) {
+	void Awake() {
+        if (createCollider && GetComponent<Collider>() == null && GetComponent<Collider2D>() == null) {
             RecreateCollider();
         }
         for (int i = 0; i < Camera.allCameras.Length; i++) {
@@ -203,115 +292,16 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     #endregion
 
     #region Creation methods
-	/// <summary>
-	/// Creates a TerrainMaterial from a JSON string. Does NOT recreate mesh data automatically or link materials!
-	/// </summary>
-	/// <param name="aJSON">A JSON string containing TerrainPath and Path data</param>
-	public void           FromJSON(string aJSON) {
-		FromJSON(Ferr_JSON.Parse(aJSON));
-	}
-	/// <summary>
-	/// Creates a TerrainMaterial from a JSON object. Does NOT recreate mesh data automatically or link materials!
-	/// </summary>
-	/// <param name="aJSON">A parsed JSON value containing PathTerrain and Path data</param>
-	public void           FromJSON(Ferr_JSONValue aJSON) {
-		fill             = (Ferr2DT_FillMode)Enum.Parse(typeof(Ferr2DT_FillMode), aJSON["fill", "Closed"]);
-		fillY            = aJSON["fillY",            0];
-		fillZ            = aJSON["fillZ",            0.2f];
-		splitCorners     = aJSON["splitCorners",     true];
-		smoothPath       = aJSON["smoothPath",       false];
-		splitCount       = (int)aJSON["splitCount",  4];
-		splitDist        = aJSON["splitDist",        1];
-		splitMiddle      = aJSON["splitMiddle",      true];
-		pixelsPerUnit    = aJSON["pixelsPerUnit",    32];
-		stretchThreshold = aJSON["stretchThreshold", 0.5f];
-		vertexColor      = Ferr_Color.FromHex(aJSON["vertexColor", "FFFFFF"]);
-		createTangents   = aJSON["createTangents",   false];
-		createCollider   = aJSON["createCollider",   true];
-		create3DCollider = aJSON["create3DCollider", false];
-		depth            = aJSON["depth",            4];
-		isTrigger        = aJSON["isTrigger",        false];
-		sharpCorners     = aJSON["sharpCorners",     false];
-		sharpCornerDistance      = aJSON["sharpCornerDist", 2];
-		smoothSphereCollisions   = aJSON["ssCollisions",    false];
-		randomByWorldCoordinates = aJSON["randomBWC",       false];
-		slantAmount      = aJSON["slantAmount",      0];
-		uvOffset.x       = aJSON["uvOffset.x",       0];
-		uvOffset.y       = aJSON["uvOffset.y",       0];
-		surfaceOffset[0] = aJSON["surfaceOffset.0",  0];
-		surfaceOffset[1] = aJSON["surfaceOffset.1",  0];
-		surfaceOffset[2] = aJSON["surfaceOffset.2",  0];
-		surfaceOffset[3] = aJSON["surfaceOffset.3",  0];
-		collidersBottom  = aJSON["colliders.bottom", true];
-		collidersTop     = aJSON["colliders.top",    true];
-		collidersLeft    = aJSON["colliders.left",   true];
-		collidersRight   = aJSON["colliders.right",  true];
-		
-		Ferr_JSONValue overrides = aJSON["directionOverrides"];
-		for (int i = 0; i < overrides.Length; i++) { 
-			directionOverrides.Add ( (Ferr2DT_TerrainDirection)Enum.Parse(typeof(Ferr2DT_TerrainDirection), overrides[i,"None"]) );
-            vertScales.Add(1);
-		}
-		
-		Path.FromJSON (aJSON["path"]);
-	}
-	/// <summary>
-	/// Creates a JSON object containing PathTerrain and Path data.
-	/// </summary>
-	/// <returns>A JSON Value containing PathTerrain and Path data. You can ToString this for the JSON string.</returns>
-	public Ferr_JSONValue ToJSON  () {
-		Ferr_JSONValue result = new Ferr_JSONValue();
-		result["fill"            ] = ""+fill;
-		result["fillY"           ] = fillY;
-		result["fillZ"           ] = fillZ;
-		result["splitCorners"    ] = splitCorners;
-		result["smoothPath"      ] = smoothPath;
-		result["splitDist"       ] = splitDist;
-		result["splitCount"      ] = splitCount;
-		result["splitMiddle"     ] = splitMiddle;
-		result["pixelsPerUnit"   ] = pixelsPerUnit;
-		result["stretchThreshold"] = stretchThreshold;
-		result["vertexColor"     ] = Ferr_Color.ToHex(vertexColor);
-		result["createTangents"  ] = createTangents;
-		result["randomBWC"       ] = randomByWorldCoordinates;
-		result["slantAmount"     ] = slantAmount;
-		result["createCollider"  ] = createCollider;
-		result["create3DCollider"] = create3DCollider;
-		result["isTrigger"       ] = isTrigger;
-		result["ssCollisions"    ] = smoothSphereCollisions;
-		result["sharpCorners"    ] = sharpCorners;
-		result["sharpCornerDist" ] = sharpCornerDistance;
-		result["depth"           ] = depth;
-		result["uvOffset.x"      ] = uvOffset.x;
-		result["uvOffset.y"      ] = uvOffset.y;
-		result["surfaceOffset.0" ] = surfaceOffset[0];
-		result["surfaceOffset.1" ] = surfaceOffset[1];
-		result["surfaceOffset.2" ] = surfaceOffset[2];
-		result["surfaceOffset.3" ] = surfaceOffset[3];
-		result["colliders.bottom"] = collidersBottom;
-		result["colliders.top"   ] = collidersTop;
-		result["colliders.left"  ] = collidersLeft;
-		result["colliders.right" ] = collidersRight;
-		
-		result["directionOverrides"] = 0;
-		Ferr_JSONValue dir = result["directionOverrides"];
-		for (int i = 0; i < directionOverrides.Count; i++) {
-			dir[i] = directionOverrides[i].ToString ();
-		}
-		result["path"] = Path.ToJSON();
-		return result;
-	}
-
     /// <summary>
-    /// The Ferr2DT_IPath method, gets called automatically whenever the Ferr2DT path gets updated in the 
+    /// This method gets called automatically whenever the Ferr2DT path gets updated in the 
     /// editor. This will completely recreate the the visual mesh (only) for the terrain. If you want
     /// To recreate the collider as well, that's a separate call to RecreateCollider.
     /// </summary>
-    public  void RecreatePath    (bool aFullUpdate = true) {
-        //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        //sw.Start();
+    public  void Build    (bool aFullBuild = true) {
+	    //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+	    //sw.Start();
 
-        if (terrainMaterial == null) {
+	    if (TerrainMaterial == null) {
             Debug.LogWarning("Cannot create terrain without a Terrain Material!");
             return;
         }
@@ -319,12 +309,12 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             GetComponent<MeshFilter>().sharedMesh = null;
             return;
         }
-		
+	    
+	    MarkColorSave();
 		MatchOverrides();
-        ForceMaterial (terrainMaterial, true, false);
+	    ForceMaterial (TerrainMaterial, true, false);
 
 		DMesh.Clear ();
-        DMesh.color = vertexColor;
 		
         if (fill != Ferr2DT_FillMode.FillOnlyClosed && fill != Ferr2DT_FillMode.FillOnlySkirt) {
             AddEdge();
@@ -332,18 +322,20 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 		int[] submesh1 = DMesh.GetCurrentTriangleList();
 		
 		// add a fill if the user desires
-        if        ((fill == Ferr2DT_FillMode.Skirt  || fill == Ferr2DT_FillMode.FillOnlySkirt) && terrainMaterial.fillMaterial != null) {
-			AddFill(true);
-        } else if ((fill == Ferr2DT_FillMode.Closed || fill == Ferr2DT_FillMode.InvertedClosed || fill == Ferr2DT_FillMode.FillOnlyClosed) && terrainMaterial.fillMaterial != null) {
-            AddFill(false);
+	    if        ((fill == Ferr2DT_FillMode.Skirt  || fill == Ferr2DT_FillMode.FillOnlySkirt) && TerrainMaterial.fillMaterial != null) {
+	        AddFill(true,  aFullBuild);
+	    } else if ((fill == Ferr2DT_FillMode.Closed || fill == Ferr2DT_FillMode.InvertedClosed || fill == Ferr2DT_FillMode.FillOnlyClosed) && TerrainMaterial.fillMaterial != null) {
+            AddFill(false, aFullBuild);
         }
 		int[] submesh2 = DMesh.GetCurrentTriangleList(submesh1.Length);
-		
-		// compile the mesh!
-	    Mesh m = GetComponent<MeshFilter>().sharedMesh = GetMesh();
-		DMesh.Build(ref m, createTangents && aFullUpdate);
-		
-		// set up submeshes and submaterials
+
+        // compile the mesh!
+        Mesh m = GetComponent<MeshFilter>().sharedMesh = GetMesh();
+	    DMesh.Build(ref m, createTangents && aFullBuild);
+	    
+	    CreateVertColors();
+
+        // set up submeshes and submaterials
         if (submesh1.Length > 0 && submesh2.Length > 0) {
             m.subMeshCount = 2;
             m.SetTriangles(submesh1, 1);
@@ -355,14 +347,21 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             m.subMeshCount = 1;
             m.SetTriangles(submesh2, 0);
         }
-
+	    
+	    bool hasCollider = GetComponent<MeshCollider>() != null || GetComponent<PolygonCollider2D>() != null || GetComponent<EdgeCollider2D>() != null;
+	    if (createCollider && hasCollider) {
+		    RecreateCollider();
+	    }
 #if UNITY_EDITOR
-        if (aFullUpdate) {
+	    if (aFullBuild && gameObject.isStatic) {
             UnityEditor.Unwrapping.GenerateSecondaryUVSet(m);
         }
 #endif
-        //sw.Stop();
-        //Debug.Log("Creating mesh took: " + sw.Elapsed.TotalMilliseconds + "ms");
+	    
+	    if (aFullBuild) ClearColorSave();
+	    
+	    //sw.Stop();
+	    //Debug.Log("Creating mesh took: " + sw.Elapsed.TotalMilliseconds + "ms");
 	}
 	
 	Mesh GetMesh() {
@@ -425,9 +424,77 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 
             return name;
         } else {
-            return gameObject.name + gameObject.GetInstanceID() + "-Mesh";
+	        return string.Format("{0}{1}-Mesh", gameObject.name, gameObject.GetInstanceID());
         }
     }
+	
+	public  void MarkColorSave   () {
+		if (vertexColorType == Ferr2DT_ColorType.PreserveVertColor && recolorTree == null) {
+			recolorTree = new RecolorTree(MeshFilter.sharedMesh);
+		}
+	}
+	public  void ClearColorSave  () {
+		recolorTree = null;
+	}
+	private void CreateVertColors() {
+		Mesh mesh = MeshFilter.sharedMesh;
+		
+		if (vertexColorType == Ferr2DT_ColorType.SolidColor) {
+			
+			Color[] colors = new Color[mesh.vertexCount];
+			for (int i=0; i<colors.Length; i+=1) { 
+				colors[i] = vertexColor;
+			}
+			mesh.colors = colors;
+		} else if (vertexColorType == Ferr2DT_ColorType.Gradient) {
+			if (vertexGradient == null) {
+				Debug.LogError("Gradient hasn't been created! Can't use a vertexColorType of gradient unless vertexGradient has been initialized!");
+				return;
+			}
+			
+			Color  [] colors = new Color[mesh.vertexCount];
+			Vector3[] verts  = mesh.vertices;
+			Vector2 center = new Vector2(mesh.bounds.center.x, mesh.bounds.center.y);
+			float   radius = mesh.bounds.extents.magnitude;
+			float   angle  = vertexGradientAngle * Mathf.Deg2Rad;
+			Vector2 bottom = center + new Vector2( Mathf.Cos(angle+Mathf.PI), Mathf.Sin(angle+Mathf.PI)) * radius;
+			Vector2 top    = center + new Vector2( Mathf.Cos(angle         ), Mathf.Sin(angle)         ) * radius;
+			
+			for (int i=0; i<verts.Length; i+=1) {
+				
+				Vector2 pt   = Ferr2D_Path.GetClosetPointOnLine(bottom, top, verts[i], false);
+				float   dist = Vector2.Distance( pt, bottom );
+				colors[i] = vertexGradient.Evaluate(dist/(radius*2));
+			}
+			mesh.colors = colors;
+		} else if (vertexColorType == Ferr2DT_ColorType.DistanceGradient) {
+			if (vertexGradient == null) {
+				Debug.LogError("Gradient hasn't been created! Can't use a vertexColorType of gradient unless vertexGradient has been initialized!");
+				return;
+			}
+			
+			Color  [] colors = new Color[mesh.vertexCount];
+			Vector3[] verts  = mesh.vertices;
+			List<Vector2> tPath = path.pathVerts;
+			
+			for (int i=0; i<verts.Length; i+=1) {
+				float dist = Ferr2D_Path.GetDistanceFromPath(tPath, verts[i], path.closed);
+				
+				colors[i] = vertexGradient.Evaluate(Mathf.Clamp01(dist/vertexGradientDistance));
+			}
+			mesh.colors = colors;
+			
+		} else if (vertexColorType == Ferr2DT_ColorType.PreserveVertColor) {
+			
+			if (recolorTree == null) {
+				Debug.LogError("Color save point wasn't marked! Can't restore previous colors!");
+				return;
+			}
+			
+			mesh.colors = recolorTree.Recolor(mesh.vertices);
+		}
+	}
+	
 
 	/// <summary>
 	/// Creates a mesh or poly and adds it to the collider object. This is automatically calld on Start,
@@ -435,16 +502,13 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 	/// attached already.
 	/// </summary>
 	public  void RecreateCollider() {
-        if (!createCollider) return;
-#if UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0
-		RecreateCollider3D();
-#else
+		if (!createCollider) return;
+		
 		if (create3DCollider) {
 			RecreateCollider3D();
 		} else {
 			RecreateCollider2D();
 		}
-#endif
 	}
 
     private void                RecreateCollider3D()
@@ -468,61 +532,105 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         if (!collidersBottom) colMesh.RemoveFaces(new Vector3( 0,-1,0), 45);
 
         // make sure there's a MeshCollider component on this object
-        if (GetComponent<MeshCollider>() == null) {
-            gameObject.AddComponent<MeshCollider>();
+		MeshCollider collider = GetComponent<MeshCollider>();
+        if (collider == null) {
+            collider = gameObject.AddComponent<MeshCollider>();
         }
-        if (physicsMaterial != null) GetComponent<MeshCollider>().sharedMaterial = physicsMaterial;
-        GetComponent<MeshCollider>().smoothSphereCollisions = smoothSphereCollisions;
-        GetComponent<MeshCollider>().isTrigger              = isTrigger;
+        if (physicsMaterial != null) collider.sharedMaterial = physicsMaterial;
+		#if !UNITY_5_3_OR_NEWER
+        collider.smoothSphereCollisions = smoothSphereCollisions; 
+		#endif
+        collider.isTrigger              = isTrigger;
 
         // compile the mesh!
-        Mesh   m    = GetComponent<MeshCollider>().sharedMesh;
-        string name = "Ferr2DT_PathCollider_" + gameObject.GetInstanceID();
+        Mesh   m    = collider.sharedMesh;
+	    string name = string.Format("Ferr2DT_PathCollider_{0}", gameObject.GetInstanceID());
         if (m == null || m.name != name) {
-            GetComponent<MeshCollider>().sharedMesh = m = new Mesh();
+            collider.sharedMesh = m = new Mesh();
             m.name = name;
         }
-        GetComponent<MeshCollider>().sharedMesh = null;
+        collider.sharedMesh = null;
         colMesh.Build(ref m, createTangents);
-        GetComponent<MeshCollider>().sharedMesh = m;
+        collider.sharedMesh = m;
     }
 	private void                RecreateCollider2D() {
-#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-
-		// make sure there's a collider component on this object
-		if (GetComponent<PolygonCollider2D>() == null) {
-			gameObject.AddComponent<PolygonCollider2D>();
-		}
-		if (physicsMaterial2D != null) GetComponent<PolygonCollider2D>().sharedMaterial = physicsMaterial2D;
-
-        List<List<Vector2>> segs = GetColliderVerts();
-		PolygonCollider2D   poly = GetComponent<PolygonCollider2D>();
-		poly.pathCount = segs.Count;
-        poly.isTrigger = isTrigger;
-        if (segs.Count > 1 || (!collidersBottom || !collidersLeft || !collidersRight || !collidersTop)) {
+		List<Collider2D>    colliders = new List<Collider2D>(1);
+		List<List<Vector2>> segs      = GetColliderVerts();
+		bool                closed    = collidersBottom && collidersLeft && collidersRight && collidersTop;
+		
+		if (useEdgeCollider) {
+			EdgeCollider2D[]     edges    = GetComponents<EdgeCollider2D>();
+			List<EdgeCollider2D> edgePool = new List<EdgeCollider2D>(edges);
+			int                  extra    = edges.Length - segs.Count;
+			
+			if (extra > 0) {
+				// we have too many, remove a few
+				for (int i=0; i<extra; i+=1) {
+					Destroy(edgePool[0]);
+					edgePool.RemoveAt(0);
+				}
+			} else {
+				// we have too few, add in a few
+				for (int i=0; i<Mathf.Abs(extra); i+=1) {
+					edgePool.Add(gameObject.AddComponent<EdgeCollider2D>());
+				}
+			}
+			
 			for (int i = 0; i < segs.Count; i++) {
-				poly.SetPath (i, ExpandColliderPath(segs[i], colliderThickness).ToArray());
+				EdgeCollider2D edge = edgePool[i];
+				edge.points = segs[i].ToArray();
+				colliders.Add(edge);
 			}
 		} else {
-			if (fill == Ferr2DT_FillMode.InvertedClosed) {
-				Rect bounds = Ferr2D_Path.GetBounds(segs[0]);
-				poly.pathCount = 2;
-				poly.SetPath (0, segs[0].ToArray());
-				poly.SetPath (1, new Vector2[]{
-					new Vector2(bounds.xMin-bounds.width, bounds.yMax+bounds.height),
-					new Vector2(bounds.xMax+bounds.width, bounds.yMax+bounds.height),
-					new Vector2(bounds.xMax+bounds.width, bounds.yMin-bounds.height),
-					new Vector2(bounds.xMin-bounds.width, bounds.yMin-bounds.height)
-				});
+			// make sure there's a collider component on this object
+			PolygonCollider2D poly = GetComponent<PolygonCollider2D>();
+			if (poly == null) {
+				poly = gameObject.AddComponent<PolygonCollider2D>();
+			}
+			colliders.Add(poly);
+			
+			poly.pathCount = segs.Count;
+			if (segs.Count > 1 || !closed) {
+				for (int i = 0; i < segs.Count; i++) {
+					poly.SetPath (i, ExpandColliderPath(segs[i], colliderThickness).ToArray());
+				}
 			} else {
-                if (segs.Count > 0 && segs[0].Count > 0) {
-                    poly.SetPath(0, segs[0].ToArray());
-                }
+				if (fill == Ferr2DT_FillMode.InvertedClosed) {
+					Rect bounds = Ferr2D_Path.GetBounds(segs[0]);
+					poly.pathCount = 2;
+					poly.SetPath (0, segs[0].ToArray());
+					if (invertFillBorder != Vector2.zero) {
+						poly.SetPath(1, new Vector2[]{
+							new Vector2(bounds.xMin-invertFillBorder.x, bounds.yMax-invertFillBorder.y),
+							new Vector2(bounds.xMax+invertFillBorder.x, bounds.yMax-invertFillBorder.y),
+							new Vector2(bounds.xMax+invertFillBorder.x, bounds.yMin+invertFillBorder.y),
+							new Vector2(bounds.xMin-invertFillBorder.x, bounds.yMin+invertFillBorder.y)
+						});
+					} else {
+						poly.SetPath(1, new Vector2[]{
+							new Vector2(bounds.xMin-bounds.width, bounds.yMax+bounds.height),
+							new Vector2(bounds.xMax+bounds.width, bounds.yMax+bounds.height),
+							new Vector2(bounds.xMax+bounds.width, bounds.yMin-bounds.height),
+							new Vector2(bounds.xMin-bounds.width, bounds.yMin-bounds.height)
+						});
+					}
+				} else {
+	                if (segs.Count > 0 && segs[0].Count > 0) {
+	                    poly.SetPath(0, segs[0].ToArray());
+	                }
+				}
 			}
 		}
-#else
-		Debug.LogWarning("Ferr2DTerrain cannot create a 2D collider in Unity versions < 4.3! No collider has been generated!");
-#endif
+		
+		
+		for (int i=0; i<colliders.Count; i+=1) {
+
+			colliders[i].isTrigger      = isTrigger;
+			colliders[i].sharedMaterial = physicsMaterial2D;
+			#if UNITY_5
+			colliders[i].usedByEffector = usedByEffector;
+			#endif
+		}
 	}
 	private List<Vector2>       ExpandColliderPath(List<Vector2> aList, float aAmount) {
 		int count = aList.Count;
@@ -548,7 +656,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             tVerts.Add(new Vector2(start.x, start.y));
         }
 
-        float                           fillDist = (terrainMaterial.ToUV(terrainMaterial.GetBody((Ferr2DT_TerrainDirection)0, 0)).width * (terrainMaterial.edgeMaterial.mainTexture.width / pixelsPerUnit)) / (Mathf.Max(1, splitCount)) * splitDist;
+		float                           fillDist = (TerrainMaterial.ToUV(TerrainMaterial.GetBody((Ferr2DT_TerrainDirection)0, 0)).width * (TerrainMaterial.edgeMaterial.mainTexture.width / pixelsPerUnit)) / (Mathf.Max(1, splitCount)) * splitDist;
         List<Ferr2DT_TerrainDirection>  dirs     = new List<Ferr2DT_TerrainDirection>();
         List<List<Vector2>>             result   = new List<List<Vector2>           >();
         List<List<int>>                 list     = GetSegments(tVerts, out dirs);
@@ -593,14 +701,19 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 
         return result;
 	}
-    List<Vector2> OffsetColliderVerts(List<Vector2> aSegment, List<float> aSegmentScales, Ferr2DT_TerrainDirection aDir) {
+
+	List<Vector2> OffsetColliderVerts(List<Vector2> aSegment, List<float> aSegmentScales, Ferr2DT_TerrainDirection aDir) {
         List<Vector2> result = new List<Vector2>(aSegment);
         int           count  = aSegment.Count;
         
         for (int v = count - 1; v >= 0; v--) {
             Vector2 norm  = smoothPath ? Ferr2D_Path.HermiteGetNormal(aSegment, v, 0, false) : Ferr2D_Path.GetNormal(aSegment, v, false);
-            float   scale = v >= aSegmentScales.Count ? 1 : aSegmentScales[v];
-            if (fill == Ferr2DT_FillMode.None) {
+			Vector2 segNormal = Ferr2D_Path.GetSegmentNormal(v, aSegment, false);
+			float   scale = v >= aSegmentScales.Count ? 1 : aSegmentScales[v];
+			float   rootScale = smoothPath ? 1 : 1f/Mathf.Abs(Mathf.Cos(Vector2.Angle(-segNormal, norm)*Mathf.Deg2Rad));
+			scale = scale * rootScale;
+
+			if (fill == Ferr2DT_FillMode.None) {
                 result.Add(aSegment[v] +  new Vector2(norm.x *  surfaceOffset[(int)Ferr2DT_TerrainDirection.Top   ], norm.y *  surfaceOffset[(int)Ferr2DT_TerrainDirection.Top   ]) * scale);
                 result[v]              += new Vector2(norm.x * -surfaceOffset[(int)Ferr2DT_TerrainDirection.Bottom], norm.y * -surfaceOffset[(int)Ferr2DT_TerrainDirection.Bottom]) * scale;
             } else {
@@ -650,122 +763,200 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         for (int i = 0; i < segments.Count; i++) order.Add(i);
         
         order.Sort(
-            new Ferr_LambdaComparer<int>(
+            new Ferr.LambdaComparer<int>(
                 (x, y) => {
                     Ferr2DT_TerrainDirection dirx = dirs[x] == Ferr2DT_TerrainDirection.None ? Ferr2D_Path.GetDirection(Path.pathVerts, segments[x], 0, fill == Ferr2DT_FillMode.InvertedClosed) : dirs[x];
                     Ferr2DT_TerrainDirection diry = dirs[y] == Ferr2DT_TerrainDirection.None ? Ferr2D_Path.GetDirection(Path.pathVerts, segments[y], 0, fill == Ferr2DT_FillMode.InvertedClosed) : dirs[y];
-                    return terrainMaterial.GetDescriptor(diry).zOffset.CompareTo(terrainMaterial.GetDescriptor(dirx).zOffset);
+	                return TerrainMaterial.GetDescriptor(diry).zOffset.CompareTo(TerrainMaterial.GetDescriptor(dirx).zOffset);
                 }
             ));
 
         // process the segments into meshes
-        for (int i = 0; i < order.Count; i++) {
-            AddSegment(Ferr2D_Path.IndicesToPath(Path.pathVerts, segments[order[i]]), GetScalesFromIndices(segments[order[i]]), order.Count <= 1 && Path.closed, smoothPath, dirs[order[i]]);
+	    for (int i = 0; i < order.Count; i++) {
+		    List<int> currSeg = segments[order[i]];
+		    List<int> prevSeg = order[i]-1 < 0 ?  segments[segments.Count-1] : segments[order[i]-1];
+		    List<int> nextSeg = segments[(order[i]+1) % segments.Count];
+		    
+		    int curr = currSeg[0];
+		    int prev = prevSeg[prevSeg.Count-2];
+		    int next = currSeg[1];
+		    
+		    Vector2 p1 = Path.pathVerts[prev] - Path.pathVerts[curr];
+		    Vector2 p2 = Path.pathVerts[next] - Path.pathVerts[curr];
+		    bool leftInner = Mathf.Atan2(p1.x*p2.y - p1.y*p2.x, Vector2.Dot(p1, p2)) < 0;
+		    
+		    curr = currSeg[currSeg.Count-1];
+		    prev = currSeg[currSeg.Count-2];
+		    next = nextSeg[1];
+		    
+		    p1 = Path.pathVerts[prev] - Path.pathVerts[curr];
+		    p2 = Path.pathVerts[next] - Path.pathVerts[curr];
+		    bool rightInner = Mathf.Atan2(p1.x*p2.y - p1.y*p2.x, Vector2.Dot(p1, p2)) < 0;
+		    
+		    AddSegment(Ferr2D_Path.IndicesToList<Vector2>(Path.pathVerts, segments[order[i]]), leftInner, rightInner, Ferr2D_Path.IndicesToList<float>(vertScales, segments[order[i]]), Ferr2D_Path.IndicesToList<CutOverrides>(cutOverrides, segments[order[i]]), order.Count <= 1 && Path.closed, smoothPath, dirs[order[i]]);
         }
     }
-	private void AddSegment(List<Vector2> aSegment, List<float> aScale, bool aClosed, bool aSmooth, Ferr2DT_TerrainDirection aDir = Ferr2DT_TerrainDirection.None) {
+	private void AddSegment(List<Vector2> aSegment, bool aLeftInner, bool aRightInner, List<float> aScale, List<CutOverrides> aCutOverrides, bool aClosed, bool aSmooth, Ferr2DT_TerrainDirection aDir = Ferr2DT_TerrainDirection.None) {
 		Ferr2DT_SegmentDescription desc;
-		if (aDir != Ferr2DT_TerrainDirection.None) { desc = terrainMaterial.GetDescriptor(aDir); }
+		if (aDir != Ferr2DT_TerrainDirection.None) { desc = TerrainMaterial.GetDescriptor(aDir); }
 		else                                       { desc = GetDescription(aSegment);            }
 
-		int     tSeed     = UnityEngine.Random.seed;
-		Rect    body      = terrainMaterial.ToUV( desc.body[0] );
+        #if UNITY_5_4_OR_NEWER
+		UnityEngine.Random.State tSeed = UnityEngine.Random.state;
+        #else
+        int tSeed = UnityEngine.Random.seed;
+        #endif
+		Rect    body      = TerrainMaterial.ToUV( desc.body[0] );
 		float   bodyWidth = body.width * unitsPerUV.x;
-		Vector3 point1,  point2;
-		float   distance;
-		int     cuts;
-
+		
+		#if UNITY_5_4_OR_NEWER
+		UnityEngine.Random.InitState((int)(aSegment[0].x * 100000 + aSegment[0].y * 10000));
+		#else
 		UnityEngine.Random.seed = (int)(aSegment[0].x * 100000 + aSegment[0].y * 10000);
-
+		#endif
+		
         Vector2 capLeftSlideDir  = (aSegment[1                 ] - aSegment[0                 ]);
         Vector2 capRightSlideDir = (aSegment[aSegment.Count - 2] - aSegment[aSegment.Count - 1]);
         capLeftSlideDir .Normalize();
         capRightSlideDir.Normalize();
         aSegment[0                 ] -= capLeftSlideDir  * desc.capOffset;
         aSegment[aSegment.Count - 1] -= capRightSlideDir * desc.capOffset;
-
-		point2   = aSegment[0];
-
-		for (int i = 0; i < aSegment.Count-1; i++) {
-			point1   = point2;
-			point2   = aSegment[i+1];
-			distance = Vector3.Distance(point1, point2);
-			cuts     = Mathf.Max(1,Mathf.FloorToInt(distance / bodyWidth + stretchThreshold));
-
-			for (int t = 0; t < cuts; t++) {
-                float p1 = (float)(t) / cuts;
-                float p2 = (float)(t + 1) / cuts;
-                SlicedQuad(aSegment, i, p1, p2, Mathf.Max(2, splitCount + 2), aSmooth, aClosed, desc, Mathf.Lerp(aScale[i], aScale[i + 1], p1), Mathf.Lerp(aScale[i], aScale[i + 1], p2));
-			}
-		}
+		
+		CreateBody(desc, aSegment, aScale, aCutOverrides, bodyWidth, Mathf.Max(2, splitCount+2), aClosed);
         
 		if (!aClosed) {
-			AddCap(aSegment, desc, -1, aScale[0], aSmooth);
-			AddCap(aSegment, desc,  1, aScale[aScale.Count-1], aSmooth);
+			AddCap(aSegment, desc, aLeftInner, -1, aScale[0], aSmooth);
+			AddCap(aSegment, desc, aRightInner, 1, aScale[aScale.Count-1], aSmooth);
 		}
+		#if UNITY_5_4_OR_NEWER
+		UnityEngine.Random.state = tSeed;
+		#else
 		UnityEngine.Random.seed = tSeed;
+		#endif
 	}
-	private void SlicedQuad(List<Vector2> aSegment, int aVert, float aStart, float aEnd, int aCuts, bool aSmoothed, bool aClosed, Ferr2DT_SegmentDescription aDesc, float aStartScale, float aEndScale) {
-        Vector2[] pos    = new Vector2[aCuts];
-		Vector2[] norm   = new Vector2[aCuts];
-        float  [] scales = new float  [aCuts];
-		Vector3   tn1  = Ferr2D_Path.GetNormal(aSegment, aVert,   aClosed);
-		Vector3   tn2  = Ferr2D_Path.GetNormal(aSegment, aVert+1, aClosed);
+	private void CreateBody(Ferr2DT_SegmentDescription aDesc, List<Vector2> aSegment, List<float> aSegmentScale, List<CutOverrides> aCutOverrides, float aBodyWidth, int aTextureSlices, bool aClosed) {
+		float distance    = Ferr2D_Path.GetSegmentLength(aSegment);
+		int   textureCuts = Mathf.Max(1, Mathf.FloorToInt(distance / aBodyWidth + 0.5f));
 
-        // get the data needed to make the quad
-        for (int i = 0; i < aCuts; i++) {
-            float percent = aStart + (i / (float)(aCuts - 1)) * (aEnd - aStart);
-            if (aSmoothed) {
-                pos [i] = Ferr2D_Path.HermiteGetPt    (aSegment, aVert, percent, aClosed);
-                norm[i] = Ferr2D_Path.HermiteGetNormal(aSegment, aVert, percent, aClosed);
-            } else {
-                pos [i] = Vector2.Lerp(aSegment[aVert], aSegment[aVert + 1], percent);
-                norm[i] = Vector2.Lerp(tn1,             tn2,                 percent);
-            }
-            scales[i] = Mathf.Lerp(aStartScale, aEndScale, (i / (float)(aCuts - 1)));
-        }
+		Ferr2D_DynamicMesh mesh = DMesh;
 
-        int tSeed = 0;
-        if (randomByWorldCoordinates) {
-            tSeed = UnityEngine.Random.seed;
-            UnityEngine.Random.seed = (int)(pos[0].x * 700000 + pos[0].y * 30000);
-        }
+		Rect  body = PickBody(aDesc, aCutOverrides, aSegment[0], 0, 0);
+		float d    = (body.height / 2) * unitsPerUV.y;
+		float yOff = fill == Ferr2DT_FillMode.InvertedClosed ? -aDesc.yOffset : aDesc.yOffset;
+		
+		int p1 = 0, p2 = 0, p3 = 0;
+		int pIndex = 0;
+		int cutIndex = 0;
+		// loop for each instance of the texture
+		for (int t = 0; t < textureCuts; t++) {
+			float texPercent     = (t/(float)(textureCuts));
+			float texPercentStep = (1f/(float)(textureCuts));
+			
+			// slice each texture chunk a number of times
+			for (int i = 0; i < aTextureSlices; i++) {
+				float slicePercent = (i/(float)(aTextureSlices-1));
+				float totalPercent = texPercent + slicePercent*texPercentStep;
 
-        Rect  body  = terrainMaterial.ToUV(aDesc.body[UnityEngine.Random.Range(0, aDesc.body.Length)]);
-		float d     = (body.height / 2) * unitsPerUV.y;
-		float yOff  = fill == Ferr2DT_FillMode.InvertedClosed ? -aDesc.yOffset : aDesc.yOffset;
-        if (randomByWorldCoordinates) {
-            UnityEngine.Random.seed = tSeed;
-        }
+				int   ptLocal  = 0;
+				float pctLocal = 0;
+				Ferr2D_Path.PathGlobalPercentToLocal(aSegment, totalPercent, out ptLocal, out pctLocal, distance, aClosed);
 
-        // put the data together into a mesh
-		int p1=0, p2=0, p3=0;
-		for (int i = 0; i < aCuts; i++) {
-			float percent = (i/(float)(aCuts-1));
-
-			Vector3 pos1 = pos [i  ];
-			Vector3 n1   = norm[i  ];
-			int   v1 = DMesh.AddVertex(pos1.x + n1.x * (d*scales[i] + yOff), pos1.y + n1.y * (d*scales[i] + yOff), -slantAmount + aDesc.zOffset, Mathf.Lerp(body.x, body.xMax, percent), fill == Ferr2DT_FillMode.InvertedClosed ? body.yMax : body.y   );
-			int   v2 = DMesh.AddVertex(pos1.x - n1.x * (d*scales[i] - yOff), pos1.y - n1.y * (d*scales[i] - yOff),  slantAmount + aDesc.zOffset, Mathf.Lerp(body.x, body.xMax, percent), fill == Ferr2DT_FillMode.InvertedClosed ? body.y    : body.yMax);
-			int   v3 = splitMiddle ? DMesh.AddVertex(pos1.x + n1.x * yOff, pos1.y + n1.y * yOff, aDesc.zOffset, Mathf.Lerp(body.x, body.xMax, percent), Mathf.Lerp(body.y,body.yMax,0.5f)) : -1;
-
-			if (i != 0) {
-				if (!splitMiddle) {
-					DMesh.AddFace(v2, p2, p1, v1);
-				} else {
-					DMesh.AddFace(v2, p2, p3, v3);
-					DMesh.AddFace(v3, p3, p1, v1);
+				// if we skip over path points, we need to add slices at each path point to prevent the mesh from bypassing it.
+				for (int extra = 0; extra < ptLocal-pIndex; extra++) {
+					float traveledDist = Ferr2D_Path.GetSegmentLengthToIndex(aSegment, pIndex + extra + 1);
+					float v = (traveledDist / distance) * textureCuts;
+					v = v-(int)v;
+					AddVertexColumn(aDesc, aSegment, aSegmentScale, aClosed, mesh, body, d, yOff, i!=0, v, pIndex + extra + 1, 0, ref p1, ref p2, ref p3);
+					cutIndex = -1;
 				}
+				pIndex = ptLocal;
+				
+				AddVertexColumn(aDesc, aSegment, aSegmentScale, aClosed, mesh, body, d, yOff, i!=0, slicePercent, ptLocal, pctLocal, ref p1, ref p2, ref p3);
 			}
 
-			p1 = v1;
-			p2 = v2;
-			p3 = v3;
+			cutIndex += 1;
+			body = PickBody(aDesc, aCutOverrides, mesh.GetVert(p2), pIndex, cutIndex);
 		}
 	}
-	private void AddCap    (List<Vector2> aSegment, Ferr2DT_SegmentDescription aDesc, float aDir, float aScale, bool aSmooth) {
-		int     index = 0;
-		Vector2 dir   = Vector2.zero;
+	private Rect PickBody(Ferr2DT_SegmentDescription aDesc, List<CutOverrides> aCutOverrides, Vector2 aStartPos, int aCurrIndex, int aCurrCut) {
+		int  cutOverride = -1;
+		Rect result = default(Rect);
+		
+		if (aCutOverrides[aCurrIndex].data != null && aCurrCut < aCutOverrides[aCurrIndex].data.Count)
+			cutOverride = aCutOverrides[aCurrIndex].data[aCurrCut]-1;
+
+		if (cutOverride == -1 || cutOverride >= aDesc.body.Length) {
+			result = GetRandomBodyRect(aStartPos, aDesc);
+		} else {
+			// trigger this so a random number is consumed
+			GetRandomBodyRect(aStartPos, aDesc);
+			result = TerrainMaterial.ToUV(aDesc.body[cutOverride]);
+		}
+		return result;
+	}
+	private Rect GetRandomBodyRect(Vector2 aInitialPos, Ferr2DT_SegmentDescription aDesc) {
+#if UNITY_5_4_OR_NEWER
+		UnityEngine.Random.State tSeed = default(UnityEngine.Random.State);
+#else
+        int tSeed = 0;
+#endif
+		if (randomByWorldCoordinates) {
+#if UNITY_5_4_OR_NEWER
+			tSeed = UnityEngine.Random.state;
+			UnityEngine.Random.InitState((int)(aInitialPos.x + aInitialPos.y));
+#else
+            tSeed = UnityEngine.Random.seed;
+            UnityEngine.Random.seed = (int)(aInitialPos.x + aInitialPos.y);
+#endif
+		}
+
+		Rect body = TerrainMaterial.ToUV(aDesc.body[UnityEngine.Random.Range(0, aDesc.body.Length)]);
+		if (randomByWorldCoordinates) {
+#if UNITY_5_4_OR_NEWER
+			UnityEngine.Random.state = tSeed;
+#else
+			UnityEngine.Random.seed = tSeed;
+#endif
+		}
+		return body;
+	}
+
+	private void AddVertexColumn(Ferr2DT_SegmentDescription aDesc, List<Vector2> aSegment, List<float> aSegmentScale, bool aClosed, Ferr2D_DynamicMesh mesh, Rect body, float d, float yOff, bool aConnectFace, float slicePercent, int ptLocal, float pctLocal, ref int p1, ref int p2, ref int p3) {
+		
+		Vector2 pos1 = smoothPath ? Ferr2D_Path.HermiteGetPt    (aSegment, ptLocal, pctLocal, aClosed) : Ferr2D_Path.LinearGetPt    (aSegment, ptLocal, pctLocal, aClosed);
+		Vector2 n1   = smoothPath ? Ferr2D_Path.HermiteGetNormal(aSegment, ptLocal, pctLocal, aClosed) : Ferr2D_Path.LinearGetNormal(aSegment, ptLocal, pctLocal, aClosed);
+		float   s    = aClosed    ? Mathf.Lerp(aSegmentScale[ptLocal], aSegmentScale[(ptLocal+1)%aSegmentScale.Count], pctLocal) : Mathf.Lerp(aSegmentScale[ptLocal], aSegmentScale[Mathf.Min(ptLocal+1, aSegmentScale.Count-1)], pctLocal);
+		
+		// this compensates for scale distortion when corners are very sharp, but the normals are not long enough to keep the edge the appropriate width
+		// not actually a problem for smooth paths
+		if (!smoothPath) {
+			n1.Normalize();
+			float rootScale = 1f/Mathf.Abs(Mathf.Cos(Vector2.Angle(Ferr2D_Path.GetSegmentNormal(ptLocal, aSegment, aClosed), n1)*Mathf.Deg2Rad));
+			s = s * rootScale;
+		}
+
+		int v1 = mesh.AddVertex(pos1.x + n1.x * (d*s + yOff), pos1.y + n1.y * (d*s + yOff), -slantAmount + aDesc.zOffset, Mathf.Lerp(body.x, body.xMax, slicePercent), fill == Ferr2DT_FillMode.InvertedClosed ? body.yMax : body.y);
+		int v2 = mesh.AddVertex(pos1.x - n1.x * (d*s - yOff), pos1.y - n1.y * (d*s - yOff),  slantAmount + aDesc.zOffset, Mathf.Lerp(body.x, body.xMax, slicePercent), fill == Ferr2DT_FillMode.InvertedClosed ? body.y : body.yMax);
+		int v3 = splitMiddle ? mesh.AddVertex(pos1.x + n1.x * yOff, pos1.y + n1.y * yOff, aDesc.zOffset, Mathf.Lerp(body.x, body.xMax, slicePercent), Mathf.Lerp(body.y, body.yMax, 0.5f)) : -1;
+		if (aConnectFace) {
+			if (!splitMiddle) {
+				mesh.AddFace(v2, p2, p1, v1);
+			} else {
+				mesh.AddFace(v2, p2, p3, v3);
+				mesh.AddFace(v3, p3, p1, v1);
+			}
+		}
+
+		p1 = v1;
+		p2 = v2;
+		p3 = v3;
+	}
+	
+	private void AddCap    (List<Vector2> aSegment, Ferr2DT_SegmentDescription aDesc, bool aInner, float aDir, float aScale, bool aSmooth) {
+		IFerr2DTMaterial   mat   = TerrainMaterial;
+		Ferr2D_DynamicMesh mesh  = DMesh;
+		int                index = 0;
+		Vector2            dir   = Vector2.zero;
 		if (aDir < 0) {
 			index = 0;
 			dir   = aSegment[0] - aSegment[1];
@@ -778,8 +969,13 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 		Vector2 pos  = aSegment[index];
         float   yOff = fill == Ferr2DT_FillMode.InvertedClosed ? -aDesc.yOffset : aDesc.yOffset;
         Rect cap;
-        if (aDir < 0) cap = fill == Ferr2DT_FillMode.InvertedClosed ? terrainMaterial.ToUV(aDesc.rightCap) : terrainMaterial.ToUV(aDesc.leftCap );
-        else          cap = fill == Ferr2DT_FillMode.InvertedClosed ? terrainMaterial.ToUV(aDesc.leftCap ) : terrainMaterial.ToUV(aDesc.rightCap);
+		if (aDir < 0) {
+			if (fill == Ferr2DT_FillMode.InvertedClosed) cap = (!aInner && aDesc.innerRightCap.width > 0) ? mat.ToUV(aDesc.innerRightCap) : mat.ToUV(aDesc.rightCap);
+			else                                         cap = ( aInner && aDesc.innerLeftCap .width > 0) ? mat.ToUV(aDesc.innerLeftCap ) : mat.ToUV(aDesc.leftCap );
+		} else        {
+			if (fill == Ferr2DT_FillMode.InvertedClosed) cap = (!aInner && aDesc.innerLeftCap .width > 0) ? mat.ToUV(aDesc.innerLeftCap ) : mat.ToUV(aDesc.leftCap );
+			else                                         cap = ( aInner && aDesc.innerRightCap.width > 0) ? mat.ToUV(aDesc.innerRightCap) : mat.ToUV(aDesc.rightCap);
+		}
         
 		float width =  cap.width     * unitsPerUV.x;
 		float scale = (cap.height/2) * unitsPerUV.y * aScale;
@@ -795,37 +991,39 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             maxU = t;
         }
 
-        int v1  =           DMesh.AddVertex(pos + dir * width + norm * (scale + yOff), -slantAmount + aDesc.zOffset, new Vector2(minU, minV));
-        int v2  =           DMesh.AddVertex(pos +               norm * (scale + yOff), -slantAmount + aDesc.zOffset, new Vector2(maxU, minV));
+        int v1  =           mesh.AddVertex(pos + dir * width + norm * (scale + yOff), -slantAmount + aDesc.zOffset, new Vector2(minU, minV));
+        int v2  =           mesh.AddVertex(pos +               norm * (scale + yOff), -slantAmount + aDesc.zOffset, new Vector2(maxU, minV));
 
-        int v15 = splitMiddle ? DMesh.AddVertex(pos + dir * width +        (norm  * yOff),  aDesc.zOffset,           new Vector2(minU, cap.y + (cap.height / 2))) : -1;
-        int v25 = splitMiddle ? DMesh.AddVertex(pos               +        (norm  * yOff),  aDesc.zOffset,           new Vector2(maxU, cap.y + (cap.height / 2))) : -1;
+        int v15 = splitMiddle ? mesh.AddVertex(pos + dir * width +        (norm  * yOff),  aDesc.zOffset,           new Vector2(minU, cap.y + (cap.height / 2))) : -1;
+        int v25 = splitMiddle ? mesh.AddVertex(pos               +        (norm  * yOff),  aDesc.zOffset,           new Vector2(maxU, cap.y + (cap.height / 2))) : -1;
 
-        int v3  =           DMesh.AddVertex(pos -               norm * (scale - yOff),  slantAmount + aDesc.zOffset, new Vector2(maxU, maxV));
-        int v4  =           DMesh.AddVertex(pos + dir * width - norm * (scale - yOff),  slantAmount + aDesc.zOffset, new Vector2(minU, maxV));
+        int v3  =           mesh.AddVertex(pos -               norm * (scale - yOff),  slantAmount + aDesc.zOffset, new Vector2(maxU, maxV));
+        int v4  =           mesh.AddVertex(pos + dir * width - norm * (scale - yOff),  slantAmount + aDesc.zOffset, new Vector2(minU, maxV));
 
         if (splitMiddle && aDir < 0) {
-            DMesh.AddFace(v1,  v2,  v25, v15);
-            DMesh.AddFace(v15, v25, v3,  v4 );
+            mesh.AddFace(v1,  v2,  v25, v15);
+            mesh.AddFace(v15, v25, v3,  v4 );
         } else if (splitMiddle && aDir >= 0) {
-            DMesh.AddFace(v2,  v1,  v15, v25);
-            DMesh.AddFace(v25, v15, v4,  v3 );
+            mesh.AddFace(v2,  v1,  v15, v25);
+            mesh.AddFace(v25, v15, v4,  v3 );
         } else if (aDir < 0){
-            DMesh.AddFace(v1, v2, v3, v4);
+            mesh.AddFace(v1, v2, v3, v4);
         } else {
-            DMesh.AddFace(v2, v1, v4, v3);
+            mesh.AddFace(v2, v1, v4, v3);
         }
 	}
-	private void AddFill   (bool aSkirt) {
-		float         fillDist  = (terrainMaterial.ToUV( terrainMaterial.GetBody((Ferr2DT_TerrainDirection)0,0) ).width * (terrainMaterial.edgeMaterial.mainTexture.width  / pixelsPerUnit)) / (Mathf.Max(1, splitCount)) * splitDist;
-		List<Vector2> fillVerts = GetSegmentsCombined(fillDist);
-        Vector2       scale     = Vector2.one;
+	private void AddFill   (bool aSkirt, bool aFullBuild) {
+		IFerr2DTMaterial mat       = TerrainMaterial;
+		float            texWidth  = mat.edgeMaterial ? 256 : mat.edgeMaterial.mainTexture.width;
+		float            fillDist  = (mat.ToUV( mat.GetBody((Ferr2DT_TerrainDirection)0,0) ).width * (texWidth  / pixelsPerUnit)) / (Mathf.Max(1, splitCount)) * splitDist;
+		List<Vector2>    fillVerts = GetSegmentsCombined(fillDist);
+        Vector2          scale     = Vector2.one;
 
         // scale is different for the fill texture
-        if (terrainMaterial.fillMaterial != null && terrainMaterial.fillMaterial.mainTexture != null) {
+		if (mat.fillMaterial != null && mat.fillMaterial.mainTexture != null) {
             scale = new Vector2(
-            terrainMaterial.fillMaterial.mainTexture.width  / pixelsPerUnit,
-            terrainMaterial.fillMaterial.mainTexture.height / pixelsPerUnit);
+	        mat.fillMaterial.mainTexture.width  / pixelsPerUnit,
+	        mat.fillMaterial.mainTexture.height / pixelsPerUnit);
         }
 
         if (aSkirt) {
@@ -839,7 +1037,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         }
 
         int       offset  = DMesh.VertCount;
-        List<int> indices = Ferr2D_Triangulator.GetIndices(ref fillVerts, true, fill == Ferr2DT_FillMode.InvertedClosed);
+		List<int> indices = Ferr2D_Triangulator.GetIndices(ref fillVerts, true, fill == Ferr2DT_FillMode.InvertedClosed, invertFillBorder, fillSplit && aFullBuild ? fillSplitDistance : 0);
         for (int i = 0; i < fillVerts.Count; i++) {
             DMesh.AddVertex(fillVerts[i].x, fillVerts[i].y, fillZ, (fillVerts[i].x + uvOffset.x + transform.position.x) / scale.x, (fillVerts[i].y + uvOffset.y + transform.position.y ) / scale.y);
         }
@@ -860,7 +1058,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// Sets the material of the mesh. Calls ForceMaterial with an aForceUpdate of false.
     /// </summary>
     /// <param name="aMaterial">The terrain material! Usually from a terrain material prefab.</param>
-    public  void                        SetMaterial     (Ferr2DT_TerrainMaterial aMaterial) { 
+    public  void                        SetMaterial     (IFerr2DTMaterial aMaterial) { 
         ForceMaterial(aMaterial, false); 
     }
     /// <summary>
@@ -869,11 +1067,11 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// <param name="aMaterial">The terrain material! Usually from a terrain material prefab.</param>
     /// <param name="aForceUpdate">Force it to set the material, even if it's already the set material, or no?</param>
     /// <param name="aRecreate">Should we recreate the mesh? Usually, this is what you want (only happens if the material changes, or is forced to change)</param>
-    public  void                        ForceMaterial   (Ferr2DT_TerrainMaterial aMaterial, bool aForceUpdate, bool aRecreate = true)
+    public  void                        ForceMaterial   (IFerr2DTMaterial aMaterial, bool aForceUpdate, bool aRecreate = true)
     {
-        if (terrainMaterial != aMaterial || aForceUpdate)
+	    if (terrainMaterialInterface != (UnityEngine.Object)aMaterial || aForceUpdate)
         {
-            terrainMaterial = aMaterial;
+		    terrainMaterialInterface = (UnityEngine.Object)aMaterial;
 
             // copy the materials into the renderer
             Material[] newMaterials = null;
@@ -892,15 +1090,16 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
                 };
             }
             GetComponent<Renderer>().sharedMaterials = newMaterials;
-
+		    
             // make sure we update the units per UV
-            if (terrainMaterial.edgeMaterial != null && terrainMaterial.edgeMaterial.mainTexture != null) {
-                unitsPerUV.x = terrainMaterial.edgeMaterial.mainTexture.width  / pixelsPerUnit;
-                unitsPerUV.y = terrainMaterial.edgeMaterial.mainTexture.height / pixelsPerUnit;
+		    Material edgeMat = TerrainMaterial.edgeMaterial;
+		    if (edgeMat != null && edgeMat.mainTexture != null) {
+			    unitsPerUV.x = edgeMat.mainTexture.width  / pixelsPerUnit;
+			    unitsPerUV.y = edgeMat.mainTexture.height / pixelsPerUnit;
             }
 
             if (aRecreate) {
-                RecreatePath(true);
+                Build(true);
             }
         }
     }
@@ -916,12 +1115,14 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         if (aAtIndex == -1) {
             Path              .Add(aPt                          );
             directionOverrides.Add(Ferr2DT_TerrainDirection.None);
+			cutOverrides      .Add(new CutOverrides()         );
             vertScales        .Add(1                            );
             return Path.pathVerts.Count;
         } else {
             Path.pathVerts    .Insert(aAtIndex, aPt                          );
             directionOverrides.Insert(aAtIndex, Ferr2DT_TerrainDirection.None);
-            vertScales        .Insert(aAtIndex, 1                            );
+			cutOverrides      .Insert(aAtIndex, new CutOverrides()         );
+			vertScales        .Insert(aAtIndex, 1                            );
             return aAtIndex;
         }
     }
@@ -942,7 +1143,8 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         if (aPtIndex < 0 || aPtIndex >= Path.pathVerts.Count) throw new ArgumentOutOfRangeException();
         Path.pathVerts    .RemoveAt(aPtIndex);
         directionOverrides.RemoveAt(aPtIndex);
-        vertScales        .RemoveAt(aPtIndex);
+		cutOverrides      .RemoveAt(aPtIndex);
+		vertScales        .RemoveAt(aPtIndex);
     }
     /// <summary>
     /// Removes all points from the terrain properly. Does not rebuild meshes.
@@ -950,18 +1152,19 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     public void                         ClearPoints     () {
         Path.pathVerts    .Clear();
         directionOverrides.Clear();
+		cutOverrides      .Clear();
         vertScales        .Clear();
     }
 
-    private Ferr2DT_SegmentDescription	GetDescription	    (List<Vector2> aSegment  ) {
+    public  Ferr2DT_SegmentDescription	GetDescription	    (List<Vector2> aSegment  ) {
         Ferr2DT_TerrainDirection dir = Ferr2D_Path.GetDirection(aSegment, 0, fill == Ferr2DT_FillMode.InvertedClosed);
-        return terrainMaterial.GetDescriptor(dir);
+	    return TerrainMaterial.GetDescriptor(dir);
 	}
-    private Ferr2DT_SegmentDescription  GetDescription      (List<int>     aSegment  ) {
+    public  Ferr2DT_SegmentDescription  GetDescription      (List<int>     aSegment  ) {
         Ferr2DT_TerrainDirection dir = Ferr2D_Path.GetDirection(Path.pathVerts, aSegment, 0, fill == Ferr2DT_FillMode.InvertedClosed);
-        return terrainMaterial.GetDescriptor(dir);
+	    return TerrainMaterial.GetDescriptor(dir);
     }
-    private List<List<int>>             GetSegments         (List<Vector2> aPath, out List<Ferr2DT_TerrainDirection> aSegDirections)
+    public  List<List<int>>             GetSegments         (List<Vector2> aPath, out List<Ferr2DT_TerrainDirection> aSegDirections)
     {
         List<List<int>> segments = new List<List<int>>();
         if (splitCorners) {
@@ -979,49 +1182,78 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         }
         if (Path.closed ) {
             Ferr2D_Path.CloseEnds(aPath, ref segments, ref aSegDirections, splitCorners, fill == Ferr2DT_FillMode.InvertedClosed);
+			Ferr2DT_TerrainDirection dir = directionOverrides[segments[segments.Count-1][0]];
+			if (dir != Ferr2DT_TerrainDirection.None)
+				aSegDirections[aSegDirections.Count-1] = dir;
         }
         return segments;
     }
 	private List<Vector2>               GetSegmentsCombined (float         aSplitDist) {
+		Ferr2D_Path                    path   = Path;
 		List<Ferr2DT_TerrainDirection> dirs   = new List<Ferr2DT_TerrainDirection>();
 		List<Vector2                 > result = new List<Vector2>();
-		List<List<int>               > list   = GetSegments(Path.GetVertsRaw(), out dirs);
+		List<List<int>               > list   = GetSegments(path.GetVertsRaw(), out dirs);
 
 		for (int i = 0; i < list.Count; i++) {
 			if (smoothPath && list[i].Count > 2) {
-				result.AddRange(Ferr2D_Path.SmoothSegment( Ferr2D_Path.IndicesToPath(Path.pathVerts, list[i]), aSplitDist, false));
+				result.AddRange(Ferr2D_Path.SmoothSegment( Ferr2D_Path.IndicesToList<Vector2>(path.pathVerts, list[i]), aSplitDist, false));
 			} else {
-                result.AddRange(Ferr2D_Path.IndicesToPath(Path.pathVerts, list[i]));
+                result.AddRange(Ferr2D_Path.IndicesToList<Vector2>(path.pathVerts, list[i]));
 			}
 		}
 		return result;
 	}
-    private List<float>                 GetScalesFromIndices(List<int>     aIndices  ) {
-        List<float> result = new List<float>(aIndices.Count);
-        for (int i = 0; i < aIndices.Count; i++) {
-            result.Add(vertScales[aIndices[i]]);
-        }
-        return result;
-    }
 
     /// <summary>
     /// This method ensures that path overrides are properly present. Adds them if there aren't enough, and removes them if there are too many.
     /// </summary>
     public  void                        MatchOverrides  () {
         if (directionOverrides == null) directionOverrides = new List<Ferr2DT_TerrainDirection>();
-        if (vertScales         == null) vertScales         = new List<float>();
+	    if (vertScales         == null) vertScales         = new List<float>();
+		if (cutOverrides       == null) cutOverrides       = new List<CutOverrides>();
+		Ferr2D_Path path = Path;
 
-        for (int i = directionOverrides.Count; i < Path.pathVerts.Count; i++) {
+        for (int i = directionOverrides.Count; i < path.pathVerts.Count; i++) {
             directionOverrides.Add(Ferr2DT_TerrainDirection.None);
         }
-        for (int i = vertScales.Count; i < Path.pathVerts.Count; i++) {
+		for (int i = cutOverrides.Count; i < path.pathVerts.Count; i++) {
+			cutOverrides      .Add(new CutOverrides());
+		}
+		for (int i = vertScales.Count; i < path.pathVerts.Count; i++) {
             vertScales        .Add(1);
         }
-        if (directionOverrides.Count > Path.pathVerts.Count && Path.pathVerts.Count > 0) {
-            int diff = directionOverrides.Count - Path.pathVerts.Count;
+        if (directionOverrides.Count > path.pathVerts.Count && path.pathVerts.Count > 0) {
+            int diff = directionOverrides.Count - path.pathVerts.Count;
             directionOverrides.RemoveRange(directionOverrides.Count - diff - 1, diff);
-            vertScales        .RemoveRange(vertScales.Count - diff - 1, diff);
-        }
+            vertScales        .RemoveRange(vertScales        .Count - diff - 1, diff);
+			cutOverrides      .RemoveRange(cutOverrides    .Count - diff - 1, diff);
+		}
     }
+	#endregion
+
+	#region IBlendPaintable
+	#if UNITY_EDITOR
+	public static bool showGUI = true;
+	#endif
+	public void OnPainterSelected(IBlendPaintType aType) {
+		if (GetComponent<Collider>() == null) {
+			BoxCollider box = gameObject.AddComponent<BoxCollider>();
+			box.size = new Vector3(100000, 100000, 0);
+			box.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector;
+		}
+		this.vertexColorType = Ferr2DT_ColorType.PreserveVertColor;
+
+		#if UNITY_EDITOR
+		showGUI = false;
+		#endif
+	}
+	public void OnPainterUnselected(IBlendPaintType aType) {
+		BoxCollider box = GetComponent<BoxCollider>();
+		if (box != null)
+			DestroyImmediate(box);
+		#if UNITY_EDITOR
+		showGUI = true;
+		#endif
+	}
 	#endregion
 }

@@ -13,8 +13,9 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
+#if (UNITY_ANDROID || (UNITY_IPHONE && !NO_GPGS))
 
-namespace GooglePlayGames
+namespace GooglePlayGames.Editor
 {
     using UnityEngine;
     using UnityEditor;
@@ -99,17 +100,27 @@ namespace GooglePlayGames
                 // create needed directories
                 GPGSUtil.EnsureDirExists("Assets/Plugins");
                 GPGSUtil.EnsureDirExists("Assets/Plugins/Android");
-                GPGSUtil.CopySupportLibs();
 
                 // Generate AndroidManifest.xml
-                GPGSUtil.GenerateAndroidManifest(false);
+                GPGSUtil.GenerateAndroidManifest();
 
-                // refresh assets, and we're done
-                AssetDatabase.Refresh();
-                GPGSProjectSettings.Instance.Set("android.NearbySetupDone", true);
+                GPGSProjectSettings.Instance.Set(GPGSUtil.NEARBYSETUPDONEKEY, true);
                 GPGSProjectSettings.Instance.Save();
+
+                // Resolve the dependencies
+                Google.VersionHandler.VerboseLoggingEnabled = true;
+                Google.VersionHandler.UpdateVersionedAssets(forceUpdate: true);
+                Google.VersionHandler.Enabled = true;
+                AssetDatabase.Refresh();
+
+                Google.VersionHandler.InvokeStaticMethod(
+                    Google.VersionHandler.FindClass(
+                   "Google.JarResolver",
+                   "GooglePlayServices.PlayServicesResolver"),
+                   "MenuResolve", null);
             }
             return true;
         }
     }
 }
+#endif

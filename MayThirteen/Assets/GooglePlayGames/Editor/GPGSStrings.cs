@@ -14,7 +14,9 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames
+// Keep the strings all the time even if on an unsupported configuration.
+
+namespace GooglePlayGames.Editor
 {
     public class GPGSStrings
     {
@@ -45,7 +47,6 @@ namespace GooglePlayGames
 
             public const string AppIdError = "The App Id does not appear to be valid. " +
                                              "It must consist solely of digits, usually 10 or more.";
-
 
             public const string WebClientIdTitle = "Web App Client ID (Optional)";
             public const string ClientId = "Client ID";

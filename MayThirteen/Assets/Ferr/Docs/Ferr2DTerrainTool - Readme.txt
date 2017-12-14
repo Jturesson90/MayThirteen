@@ -1,7 +1,9 @@
-Thanks for buying Simbryo's Ferr2D Terrain Tool for Unity3D! We hope your experience with it is the best ever, and should it ever be less than that, please drop us a note and let us know!
+Thanks for buying the Ferr2D Terrain Tool for Unity3D! We hope your experience with it is the best ever, and should it ever be less than that, please drop us a note and let us know!
+
+If you see Gizmo icon related warnings, and/or the handles aren't displaying properly, please delete the Ferr folder, and re-install the plugin!
 
 For documentation and tutorial videos go here! Or check out the quickstart guide and reference in the same folder as this file.
-http://www.simbryocorp.com/Ferr2DTerrain
+http://ferrlib.com/page/Ferr2D_Terrain_Tool
 
 We can always be reached either by email, or on twitter!
 support@simbryocorp.com
@@ -18,22 +20,128 @@ GameObject->Create Ferr2D Terrain->Create Physical 2D Terrain (Ctrl+T)
 GameObject->Create Ferr2D Terrain->Create Decorative 2D Terrain (Ctrl+Shift+T)
 	Same as previous, but with colliders off.
 	
-GameObject->Create Ferr2D Terrain->Create Terrain Material OR
-Project Window->Create->Create Terrain Material
+GameObject->Create Ferr2D Terrain->Create Terrain Material
 	This creates a basic empty terrain material prefab. Hook up some materials to it, define some sides, and go!
 
+Tools->Ferr->2D Terrain->Rebuild Ferr2D terrain in scene
+	Forces all terrain in the scene to rebuild their meshes. Great if you've modified terrain materials with one scene open, but want to update the meshes in another scene.
 
-PATH CONTROLS
+Tools->Ferr->2D Terrain->Update scene Ferr2D objs with new material assets
+	Looks for old format terrain materials (created in 1.0.9 or earlier) in the current scene, creates new formats when needed, and relinks objects with the new material assets!
+
+Edit->Preferences->Ferr
+	Various configuration options for visual and default values.
+
+KEY CONTROLS
+SHIFT+CTRL:  drag select path points
 SHIFT+Click: add path point
-CTRL +Click: removes path points
+ALT  +Click: removes path points
+CTRL +Click: snap move points
+Ctrl +R:     toggle smart snap
+Ctrl +L:     toggle segment lock mode
 
 KNOWN ISSUES
 -If you drag your mouse outside the material editor window and let go while dragging a region, no undo data will be saved.
 -Forcing an edge type on the closing segment will have no effect, however, forcing the edge type before the closing segment will affect both.
--Building your game will NOT prebuild terrain prefabs! Only playing the game will, so make sure you play a scene, or 'Assets->Prebuild Ferr2D Terrain' before building your game!
 
 VERSION LOG
 
+v1.12 2017-9
++Terrain
+ -Fixed UV glitch on extremely large or distant terrains
+ -Improvements to scene GUI rendering
+ -Fixed bug with colliders not obeying the Inverted Fill Border settings
+ -Fixed issue with colliders on unsmoothed terrains warping on extreme corners
++General
+ -Updated FerrCommon, added namespaces for name collision protection
+ -Added hooks for Ferr2D to behave nicely with the upcoming Ferr vertex painting tool
+
+v1.11 2017-6
++Terrain
+ -Added a Segment Lock Mode [Ctrl+L and scene menu] where you can override the random body texture segments
+ -Edge texture slicing is now independant of path points, resulting in way less stretching
+ -Path points now automatically compensate scale to keep the top and bottom of the edge parallel
+ -New terrain material picker shows recently used, and utilizes Unity's object picker
+ -Inverted fill now has controls for how far the outer area extends
+ -Added a button for generating colliders in editor instead of at start
++Shaders
+ -Improved falloff algorithm for lights
+ -Added fog compatibility
++General
+ -Fixed 5.6 warnings and updated minimum version to 5.3, initial 2017.1 compatibility check
+ -Switched terrain materials to ScriptableObjects, old materials still work, but are phasing out
+ -ComponentTracker is now gone, ScriptableObjects are king
+ -Fixed various issues with undo and marking modified objects dirty
+ -Changed namespace on Poly2Tri to avoid collisions with other tools, please modify if you already have a version in your project!
+
+NOTE: Materials that were created in v1.0.9 or earlier will need to be upgraded to appear in the material selector. Visit each scene with terrain objects, and choose the menu item "Tools->Ferr->2D Terrain->Update scene Ferr2D objs with new material assets". This will automatically create new material assets and connect terrain objects to them! You can also create new materials through the "Create Updated Material Object" button on the old assets, and relink them manually.
+
+v1.10 2016-9
++Terrain
+ -Added vertex color modes for angle gradients, edge distance gradients, and paint preservation
+ -UI now shows edge overrides and scale tabs at the same time
+ -Added multi-selection-edit, only for the inspector
++Shaders
+ -Added vertex lit Ferr2D shaders
+ -Switched lighting example scene to use vertex lit shaders
++General
+ -Added support for external terrain materials
+ -Improved undo support
+ -Updated FerrCommon
+ 
+v1.0.9 2015-6
++Terrain
+ -Added inner elbow caps (uncheck simple in material editor)
+ -Added split fill feature, which adds verts to enable vertex lighting and vertex painting
+ -Added EdgeCollider2D support
+ -Added UsedByEffector toggle
+ -Colliders will now update with the terrain whenever a collider is present
++Shaders
+ -Added lit wavy shader
+ -Updated shaders for Unity 5
++General
+ -Ferr2D is now directory independant
+ -Improved handle control and performance
+ -Switched triangulation library to poly2tri
+ -Removed legacy code for Unity < v4.3
+ -Removed JSON support
+ -Updated FerrCommon
++Bug fixes
+ -Fixed component tracker occasionally collecting duplicate items
+ -Fixed a bug where empty edge materials would occasionally cause crashes
+ -Fixed a bug with snap settings going crazy on first time use
+
+v1.0.8 2014-10
++Path Terrain
+ -Added per-node path scaling
+ -Added scene toolbar for improved UI experience
+ -Added a parallax edge tilt option
+ -Added lightmap UV support
+ -Added sharp collider corners option
+ -Terrain objects now use a single draw call on terrain objects that only use 1 material
+ -Added options for 2D Sort Layer and Order in Layer
+ -Default values are now editable in preferences for PPU and Smoothing
+ -Terrain collision mesh now updates while playing if modified in the editor
++Path
+ -Added multi select and edit
+ -Improved snapping (Ctrl is now snapping, delete is attached to Alt)
+ -Added smart snapping, for snapping to other path point axes
+ -Improved path point handle movement in non-2D views
++Shaders
+ -Added lit shaders + Lighting demo scene
+ -Added wavy shaders for underwater or wind effects
+ -Added tinted unlit shaders
+ -Improved unlit shader performance
++Editor
+ -Faster build time due to improved component finding
+ -Better prefab mesh saving
+ -Bug fixes and small improvements to the material editor
+ -Textures can now be resized without destrying the atlas
++Demos
+ -Added a blob shadow component
+ -Better loop seams on demo materials
+ -Added FerrLib logo
+ 
 v1.0.7 2014-3
 +Improved smoothed terrain support, it's very useable now =D
 +Improved triangulation performance, and no more weird holes!

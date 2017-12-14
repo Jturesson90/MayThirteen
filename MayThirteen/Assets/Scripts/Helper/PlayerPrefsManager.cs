@@ -105,7 +105,7 @@ public class PlayerPrefsManager : MonoBehaviour
     }
     public static bool AdsEnabled()
     {
-        return PlayerPrefs.GetInt(NO_ADS, 0) == 0 ? true : false;
+        return PlayerPrefs.GetInt(NO_ADS, 0) == 0;
     }
 
 

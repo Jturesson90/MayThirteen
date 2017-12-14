@@ -13,9 +13,19 @@ public class ProceduralInsert : MonoBehaviour {
 			if (p.Raycast(r, out dist)) {
 				Vector3 intersection = r.GetPoint(dist) - terrain.transform.position;
 				terrain.AddAutoPoint(new Vector2(intersection.x, intersection.y));
-				terrain.RecreatePath();
+				terrain.Build(false);
 				terrain.RecreateCollider();
 			}
+		}
+		
+		if (Input.GetButtonDown("Fire2")) {
+			terrain.ClearPoints();
+			terrain.AddPoint(new Vector2(-16,  4));
+			terrain.AddPoint(new Vector2( 16,  4));
+			terrain.AddPoint(new Vector2( 16, -4));
+			terrain.AddPoint(new Vector2(-16, -4));
+			terrain.Build(false);
+			terrain.RecreateCollider();
 		}
 	}
 }

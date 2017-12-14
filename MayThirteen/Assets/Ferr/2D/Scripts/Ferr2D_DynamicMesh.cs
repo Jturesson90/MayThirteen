@@ -12,15 +12,9 @@ public class Ferr2D_DynamicMesh
     List<Vector3> mVerts;
 	List<int    > mIndices;
 	List<Vector2> mUVs;
-    List<Color  > mColors;
     List<Vector2> mUV2s;
     List<Vector4> mTans;
     List<Vector3> mNorms;
-
-    /// <summary>
-    /// The color assigned to any new verticies.
-    /// </summary>
-    public Color color = Color.white;
 
     /// <summary>
     /// The number of vertices currently in the mesh.
@@ -36,7 +30,6 @@ public class Ferr2D_DynamicMesh
 		mVerts   = new List<Vector3>();
 		mUVs     = new List<Vector2>();
 		mIndices = new List<int>();
-        mColors  = new List<Color>();
         mTans    = new List<Vector4>();
         mNorms   = new List<Vector3>();
 	}
@@ -51,7 +44,6 @@ public class Ferr2D_DynamicMesh
         mVerts  .Clear();
         mIndices.Clear();
         mUVs    .Clear();
-        mColors .Clear();
         mTans   .Clear();
         mNorms  .Clear();
         if (Application.isEditor) {
@@ -59,7 +51,6 @@ public class Ferr2D_DynamicMesh
         } else if (mUV2s != null) {
         	mUV2s.Clear();
         }
-        color = Color.white;
     }
     /// <summary>
     /// Clears out the mesh, fills in the data, and recalculates normals and bounds.
@@ -68,20 +59,25 @@ public class Ferr2D_DynamicMesh
     public void  Build                 (ref Mesh aMesh, bool aCalculateTangents)
     {
     	// round off a few decimal points to try and get better pixel-perfect results
-    	for(int i=0;i<mVerts.Count;i+=1) mVerts[i] = new Vector3(
+    	/*for(int i=0;i<mVerts.Count;i+=1) mVerts[i] = new Vector3(
     		(float)System.Math.Round(mVerts[i].x, 3),
     		(float)System.Math.Round(mVerts[i].y, 3),
-    		(float)System.Math.Round(mVerts[i].z, 3));
+    		(float)System.Math.Round(mVerts[i].z, 3));*/
+
+        
     	
         aMesh.Clear();
         aMesh.vertices  = mVerts  .ToArray();
         aMesh.uv        = mUVs    .ToArray();
         aMesh.triangles = mIndices.ToArray();
-        aMesh.colors    = mColors .ToArray();
         aMesh.normals   = mNorms  .ToArray();
         aMesh.tangents  = mTans   .ToArray();
         if (mUV2s != null) {
-            aMesh.uv2 = mUV2s.ToArray();
+			#if UNITY_5_3_OR_NEWER
+			aMesh.uv2 = mUV2s.ToArray();
+			#else
+            aMesh.uv1 = mUV2s.ToArray();
+			#endif
         }
         if (mNorms.Count == 0) aMesh.RecalculateNormals();
         if (aCalculateTangents && mTans.Count == 0) {
@@ -102,8 +98,7 @@ public class Ferr2D_DynamicMesh
         int count    = mVerts.Count;
         int indCount = mIndices.Count;
 
-        mUVs   .AddRange(mUVs   .ToArray());
-        mColors.AddRange(mColors.ToArray());
+        mUVs.AddRange(mUVs.ToArray());
 
         Vector3 off = new Vector3(0,0, aDist);
         for (int i = 0; i < count; i++)
@@ -163,6 +158,16 @@ public class Ferr2D_DynamicMesh
 		}
 		return result;
 	}
+
+	/// <summary>
+	/// Returns the vert at the indicated index. Index isn't checked for validity.
+	/// </summary>
+	/// <param name="aIndex">Value between 0 and number of verts in the mesh.</param>
+	/// <returns>Vertex from the indicated index</returns>
+	public Vector3 GetVert(int aIndex) {
+		return mVerts[aIndex];
+	}
+
     private void RecalculateTangents(Mesh aMesh) {
         Vector3[] tan2     = new Vector3[aMesh.vertices.Length];
         Vector3[] tan1     = new Vector3[aMesh.vertices.Length];
@@ -223,99 +228,50 @@ public class Ferr2D_DynamicMesh
     #endregion 
 
     #region Vertex and Face Methods
-    public int AddVertex(float aX, float aY, float aZ) {
-		mVerts .Add(new Vector3(aX, aY, aZ));
-		mUVs   .Add(new Vector2(0,0));
-        mColors.Add(color);
-        
-        if (mUV2s        != null) mUV2s .Add(new Vector3(0, 0, -1));
-        if (mNorms.Count != 0   ) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0   ) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-		return mVerts.Count-1;
-	}
     public int AddVertex(float aX, float aY, float aZ, float aU, float aV) {
-		mVerts .Add(new Vector3(aX, aY, aZ));
-		mUVs   .Add(new Vector2(aU,aV));
-        mColors.Add(color);
-        
-        if (mUV2s        != null) mUV2s .Add(new Vector3(0, 0, -1));
-        if (mNorms.Count != 0   ) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0   ) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-		return mVerts.Count-1;
-	}
-    public int AddVertex(float aX, float aY, float aZ, float aU, float aV, float aU2, float aV2) {
-    	if (mUV2s == null) SetupNormals();
-    	
-        mVerts  .Add(new Vector3(aX, aY, aZ));
-        mUVs    .Add(new Vector2(aU, aV));
-        mUV2s   .Add(new Vector2(aU2, aV2));
-        mColors .Add(color);
-        
-        if (mNorms.Count != 0) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-        return mVerts.Count - 1;
+	    return AddVertex(new Vector3(aX, aY, aZ), new Vector2(aU,aV));
     }
 	public int AddVertex(Vector3 aVert) {
-		mVerts .Add(aVert);
-		mUVs   .Add(new Vector2(0,0));
-        mColors.Add(color);
-        
-        if (mUV2s != null) mUV2s.Add(new Vector3(0, 0, -1));
-        if (mNorms.Count != 0) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-		return mVerts.Count-1;
+		return AddVertex(aVert, new Vector2(0,0));
 	}
-	public int AddVertex(Vector3 aVert, Vector2 aUV) {
-		mVerts .Add(aVert);
-		mUVs   .Add(aUV);
-        mColors.Add(color);
-        
-        if (mUV2s != null) mUV2s.Add(new Vector3(0, 0, -1));
-        if (mNorms.Count != 0) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-		return mVerts.Count-1;
-	}
-    public int AddVertex(Vector3 aVert, Vector2 aUV, Vector2 aUV2) {
-    	if (mUV2s == null) SetupNormals();
-    
-        mVerts  .Add(aVert);
-        mUVs    .Add(aUV);
-        mColors .Add(color);
-        mUV2s   .Add(aUV2);
-        
-        if (mNorms.Count != 0) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-        return mVerts.Count - 1;
-    }
 	public int AddVertex(Vector2 aVert, float aZ, Vector2 aUV) {
-		mVerts .Add(new Vector3(aVert.x, aVert.y, aZ));
-		mUVs   .Add(aUV);
-        mColors.Add(color);
-        
-        if (mUV2s != null) mUV2s.Add(new Vector3(0, 0, -1));
-        if (mNorms.Count != 0) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0) mTans .Add(new Vector4(1, 0, 0, 1));
-        
+		return AddVertex(new Vector3(aVert.x, aVert.y, aZ), aUV);
+	}
+	public int AddVertex(Vector3 aPos, Vector3 aUV) {
+		mVerts.Add(aPos);
+		mUVs  .Add(aUV);
+		
+		if (mUV2s        != null) mUV2s .Add(new Vector3(0, 0, -1));
+		if (mNorms.Count != 0   ) mNorms.Add(new Vector3(0, 0, 1));
+		if (mTans .Count != 0   ) mTans .Add(new Vector4(1, 0, 0, 1));
+		
 		return mVerts.Count-1;
 	}
-    public int AddVertex(Vector2 aVert, float aZ, Vector2 aUV, Vector2 aUV2) {
-    	if (mUV2s == null) SetupNormals();
-    	
-        mVerts  .Add(new Vector3(aVert.x, aVert.y, aZ));
-        mUVs    .Add(aUV);
-        mColors .Add(color);
-        mUV2s   .Add(aUV2);
-        
-        if (mNorms.Count != 0) mNorms.Add(new Vector3(0, 0, 1));
-        if (mTans .Count != 0) mTans .Add(new Vector4(1, 0, 0, 1));
-        
-        return mVerts.Count - 1;
+	
+    public void CheckAllVerts() {
+        for (int i = 0; i < mVerts.Count; i++) {
+            CheckVert(i);
+        }
+    }
+    void CheckVert(int i) {
+        BadVertCheck(mVerts[i]);
+        BadVertCheck(mUVs[i]);
+        if (mUV2s  != null) BadVertCheck(mUV2s[i]);
+        if (mNorms.Count != 0) BadVertCheck(mNorms[i]);
+        if (mTans.Count  != 0) BadVertCheck(mTans[i]);
+    }
+    static void BadVertCheck(Vector3 aVert) {
+        if (float.IsInfinity(aVert.x) || 
+            float.IsInfinity(aVert.y) || 
+            float.IsInfinity(aVert.z)) {
+            Debug.Log("Infinity vert");
+        }
+
+        if (float.IsNaN(aVert.x) || 
+            float.IsNaN(aVert.y) || 
+            float.IsNaN(aVert.z)) {
+            Debug.Log("NaN vert");
+        }
     }
 	
 	public void AddFace(int aV1, int aV2, int aV3) {
