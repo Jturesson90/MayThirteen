@@ -232,15 +232,6 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Stores">
-      <HintPath>Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
-    </Reference>
-    <Reference Include="Apple">
-      <HintPath>Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
-    </Reference>
-    <Reference Include="winrt">
-      <HintPath>Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>/Users/jesperturesson/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -256,12 +247,6 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="MayThirteen.Plugins.csproj">
-      <Project>{CF92ADDD-46B5-31E3-7D71-B93FCB9EF5F6}</Project>
-      <Name>MayThirteen.Plugins</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Ferr\2D\Scripts\Ferr2D_Animator.cs" />
@@ -602,7 +587,6 @@
     <Compile Include="Assets\Scripts\MenuScene\UI\GoogleGameMenuUIHandler.cs" />
     <Compile Include="Assets\Scripts\MenuScene\UI\MenuUIHelper.cs" />
     <Compile Include="Assets\Scripts\OnlyAndroid.cs" />
-    <Compile Include="Assets\Scripts\Purchaser.cs" />
     <Compile Include="Assets\Scripts\Sound\MusicPlayer.cs" />
     <Compile Include="Assets\Scripts\SplashScene\SplashManager.cs" />
     <Compile Include="Assets\Scripts\UI\BuyNoAdsButton.cs" />
@@ -612,8 +596,6 @@
     <Compile Include="Assets\Scripts\UI\UIImageSwitcher.cs" />
     <Compile Include="Assets\Scripts\UI\UIStars.cs" />
     <Compile Include="Assets\Scripts\UI\UIStarText.cs" />
-    <Compile Include="Assets\TestPurchaser.cs" />
-    <Compile Include="Assets\TestShop.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Ferr\2D\Scripts\poly2tri.cs\AUTHORS.txt" />
@@ -661,8 +643,8 @@
     <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
+    <None Include="Assets\GooglePlayGames\Plugins\Android\GooglePlayGamesManifest.plugin\AndroidManifest.xml" />
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.59.0.txt" />
-    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Assets\Text\credits.txt" />
     <None Include="Assets\Universal Sound FX\#Game Genre References\Physics.txt" />
     <None Include="Assets\Universal Sound FX\#Game Genre References\Platform.txt" />

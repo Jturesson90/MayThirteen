@@ -292,15 +292,6 @@
     <Reference Include="Google.IOSResolver_v1.2.59.0">
       <HintPath>Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.59.0.dll</HintPath>
     </Reference>
-    <Reference Include="Stores">
-      <HintPath>Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
-    </Reference>
-    <Reference Include="Apple">
-      <HintPath>Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
-    </Reference>
-    <Reference Include="winrt">
-      <HintPath>Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>/Users/jesperturesson/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -327,17 +318,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MayThirteen.Plugins.csproj">
-      <Project>{CF92ADDD-46B5-31E3-7D71-B93FCB9EF5F6}</Project>
-      <Name>MayThirteen.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="MayThirteen.csproj">
       <Project>{ABDAB254-AAA3-9346-82E1-23E58090CB1A}</Project>
       <Name>MayThirteen</Name>
-    </ProjectReference>
-    <ProjectReference Include="MayThirteen.Editor.Plugins.csproj">
-      <Project>{3A0AC5C3-3309-0F9D-CFFA-76F699000A70}</Project>
-      <Name>MayThirteen.Editor.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -431,8 +414,8 @@
     <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
+    <None Include="Assets\GooglePlayGames\Plugins\Android\GooglePlayGamesManifest.plugin\AndroidManifest.xml" />
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.59.0.txt" />
-    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Assets\Text\credits.txt" />
     <None Include="Assets\Universal Sound FX\#Game Genre References\Physics.txt" />
     <None Include="Assets\Universal Sound FX\#Game Genre References\Platform.txt" />

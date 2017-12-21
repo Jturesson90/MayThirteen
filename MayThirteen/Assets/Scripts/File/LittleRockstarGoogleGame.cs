@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.SocialPlatforms.GameCenter;
+
 using GooglePlayGames;
 using UnityEngine.SceneManagement;
 
@@ -283,7 +281,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-            return LittleRockstarGPGSConstants.achievement_cleared_5;
+            return LittleRockstarGPGSConstants.achievement_completed_5;
 #endif
         }
     }
@@ -296,7 +294,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-            return LittleRockstarGPGSConstants.achievement_cleared_10;
+            return LittleRockstarGPGSConstants.achievement_completed_10;
 #endif
         }
     }
@@ -309,7 +307,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-            return LittleRockstarGPGSConstants.achievement_cleared_15;
+            return LittleRockstarGPGSConstants.achievement_completed_15;
 #endif
         }
     }
@@ -322,7 +320,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-            return LittleRockstarGPGSConstants.achievement_cleared_20;
+            return LittleRockstarGPGSConstants.achievement_completed_20;
 #endif
         }
     }
@@ -385,7 +383,7 @@ public class LittleRockstarGoogleGame : MonoBehaviour
 
 
 #else
-            return LittleRockstarGPGSConstants.achievement_itbegins;
+            return LittleRockstarGPGSConstants.achievement_just_get_on_with_it;
 #endif
         }
     }

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-using CompleteProject;
+//using CompleteProject;
 using UnityEngine.UI;
 public class BuyNoAdsButton : MonoBehaviour
 {
     private static BuyNoAdsButton _instance;
-
+    [SerializeField]
+    private string _text = "";
     public static BuyNoAdsButton Instance
     {
         get
@@ -31,7 +32,7 @@ public class BuyNoAdsButton : MonoBehaviour
     {
         if (text != null)
         {
-            text.text = "Remove Ads " + s;
+            text.text = _text + s;
         }
     }
     public void SetActive(bool active)
@@ -41,7 +42,7 @@ public class BuyNoAdsButton : MonoBehaviour
     }
     public void BuyNoAds()
     {
-        Purchaser.Instance.BuyNoAds();
+       // Purchaser.Instance.BuyNoAds();
     }
     void Start()
     {
@@ -57,15 +58,15 @@ public class BuyNoAdsButton : MonoBehaviour
         //   gameObject.SetActive(true);
 #endif
         GiveLocalPriceTag(IAP.Instance.AdsRemovalCost);
-        print("Purchaser.Instance.isActiveAndEnabled "+Purchaser.Instance.isActiveAndEnabled);
+      //  print("Purchaser.Instance.isActiveAndEnabled "+Purchaser.Instance.isActiveAndEnabled);
         print("PlayerPrefsManager.AdsEnabled() " + PlayerPrefsManager.AdsEnabled());
-        if (Purchaser.Instance.isActiveAndEnabled && PlayerPrefsManager.AdsEnabled())
+     /*   if (Purchaser.Instance.isActiveAndEnabled && PlayerPrefsManager.AdsEnabled())
         {
             SetActive(true);
         }
         else
         {
             SetActive(false);
-        }
+        }*/
     }
 }
