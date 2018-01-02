@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManageHandler : MonoBehaviour
 {
@@ -90,7 +91,7 @@ public class GameManageHandler : MonoBehaviour
 	}
 	public void RestartLevel ()
 	{
-		LevelSwitcher.levelSwitcher.SwitchLevel (Application.loadedLevelName);
+        LevelSwitcher.levelSwitcher.SwitchLevel (SceneManager.GetActiveScene().name);
 	}
 	public void ToLevelSelection ()
 	{

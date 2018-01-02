@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Drolegames.LittleRockstar.Scenes.Constants
 {
@@ -9,7 +10,13 @@ namespace Drolegames.LittleRockstar.Scenes.Constants
 
         public const string Menu = "Menu";
         public const string Tutorial = "IntroScene";
-        public const string Lobby = "SelectionLobby";
+        public const string Lobby = "LevelSelectionLobby";
+        public const string Credits = "Credits";
+
+        internal static bool IsGameLevel(int buildIndex)
+        {
+            return buildIndex > 2;
+        }
     }
 }
 

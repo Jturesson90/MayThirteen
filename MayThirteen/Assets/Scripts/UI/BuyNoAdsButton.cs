@@ -58,15 +58,15 @@ public class BuyNoAdsButton : MonoBehaviour
         //   gameObject.SetActive(true);
 #endif
         GiveLocalPriceTag(IAP.Instance.AdsRemovalCost);
-      //  print("Purchaser.Instance.isActiveAndEnabled "+Purchaser.Instance.isActiveAndEnabled);
+        //  print("Purchaser.Instance.isActiveAndEnabled "+Purchaser.Instance.isActiveAndEnabled);
         print("PlayerPrefsManager.AdsEnabled() " + PlayerPrefsManager.AdsEnabled());
-     /*   if (Purchaser.Instance.isActiveAndEnabled && PlayerPrefsManager.AdsEnabled())
-        {
-            SetActive(true);
-        }
-        else
-        {
-            SetActive(false);
-        }*/
+        /*   if (Purchaser.Instance.isActiveAndEnabled && PlayerPrefsManager.AdsEnabled())
+           {
+               SetActive(true);
+           }
+           else
+           {
+               SetActive(false);
+           }*/
     }
 }

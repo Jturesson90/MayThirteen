@@ -32,7 +32,7 @@ public class LevelSelectionLevel : MonoBehaviour
     {
         if (!clickable)
             return;
-        if (Time.timeScale != 1f)
+        if (System.Math.Abs(Time.timeScale - 1f) > Mathf.Epsilon)
         {
             return;
         }

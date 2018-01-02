@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using Drolegames.LittleRockstar.Scenes.Constants;
 
 public class IntroTextManager : MonoBehaviour
 {
@@ -29,7 +30,6 @@ public class IntroTextManager : MonoBehaviour
     {
         get
         {
-            print("StartDialogIsEmpty " + (startDialogQueue.Count < float.Epsilon));
             return startDialogQueue.Count < float.Epsilon;
         }
     }
@@ -75,7 +75,7 @@ public class IntroTextManager : MonoBehaviour
         endText.CrossFadeAlpha(0, textFadeSeconds, false);
         yield return new WaitForSeconds(textFadeSeconds);
         PlayerPrefsManager.SetDoneFirstLevel(true);
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(RockstarScenes.Lobby);
     }
 
     private void SetupTextObjects()
@@ -115,13 +115,11 @@ public class IntroTextManager : MonoBehaviour
 
     private IEnumerator NextStartText()
     {
-        print("NextStartText - start");
         ReadyForNextStartDialog = false;
         ReadyForFadeOut = false;
         startText.text = startDialogQueue.Dequeue();
         startText.CrossFadeAlpha(1, textFadeSeconds, false);
         yield return new WaitForSeconds(textFadeSeconds);
-        print("NextStartText - end");
         ReadyForFadeOut = true;
 
         yield return new WaitForSeconds(textFadeSeconds);
@@ -134,14 +132,11 @@ public class IntroTextManager : MonoBehaviour
     }
     private IEnumerator FadeOutStartText()
     {
-        print("FadeOutStartText - start");
-        if (StartDialogIsEmpty) DialogDone = true;
+        DialogDone |= StartDialogIsEmpty;
         ReadyForFadeOut = false;
         startText.CrossFadeAlpha(0, textFadeSeconds, false);
         yield return new WaitForSeconds(textFadeSeconds);
         ReadyForNextStartDialog = true;
-        print("FadeOutStartText - end" + startDialogQueue.Count + " still left in queue");
-
 
         if (!StartDialogIsEmpty)
         {

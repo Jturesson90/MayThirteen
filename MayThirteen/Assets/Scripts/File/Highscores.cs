@@ -4,13 +4,11 @@ using System.Collections;
 public class Highscores : MonoBehaviour
 {
 	private string SAVE_PATH;
-	private string TEST_SAVE_PATH;
 		
 	// Use this for initialization
 	void Awake ()
 	{
 		SAVE_PATH = Application.persistentDataPath + "/data_highscore.dat";
-		TEST_SAVE_PATH = Application.persistentDataPath + "/data_highscore_test.dat";
 		PlayerHighscores highscores = EasySerializer.DeserializeObjectFromFile (SAVE_PATH) as PlayerHighscores;
 		if (highscores != null) {
 		} else {
@@ -41,14 +39,10 @@ public class Highscores : MonoBehaviour
 		PlayerHighscores highscores = EasySerializer.DeserializeObjectFromFile (SAVE_PATH) as PlayerHighscores;
 		if (highscores != null) {
 			if (highscores.highscores [level] > time) {
-				print ("Saving new Score @ level " + (level + 1) + "\nNew score: " + time + "\tOld score: " + highscores.highscores [level]);
 				highscores.highscores [level] = time;
 				EasySerializer.SerializeObjectToFile (highscores, SAVE_PATH);
 								
-			} else {
-				print ("Old score was better @ " + (level + 1) + "\nNew score: " + time + "\nOld score: " + highscores.highscores [level]);
-			}
-						
+			}		
 		} else {
 			SaveNew ();
 

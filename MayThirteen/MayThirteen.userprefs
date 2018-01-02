@@ -1,13 +1,23 @@
 ﻿<Properties StartupConfiguration="{ABDAB254-AAA3-9346-82E1-23E58090CB1A}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/BuyNoAdsButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/File/LittleRockstarAds.cs">
     <Files>
-      <File FileName="Assets/Scripts/File/LittleRockstarGoogleGame.cs" Line="386" Column="79" />
-      <File FileName="Assets/Scripts/GameScene/Camera/GameTimeView.cs" Line="129" Column="5" />
-      <File FileName="Assets/Scripts/File/LevelHandlerC.cs" Line="43" Column="1" />
-      <File FileName="Assets/Scripts/File/LittleRockstarAds.cs" Line="1" Column="1" />
-      <File FileName="Assets/LittleRockstarGPGSConstants.cs" Line="25" Column="21" />
-      <File FileName="Assets/Scripts/UI/BuyNoAdsButton.cs" Line="69" Column="12" />
+      <File FileName="Assets/Scripts/GameScene/UI/GameUIController.cs" Line="31" Column="47" />
+      <File FileName="Assets/Scripts/GameScene/Managers/GameManageHandler.cs" Line="94" Column="84" />
+      <File FileName="Assets/Scripts/Helper/LevelSwitcher.cs" Line="49" Column="44" />
+      <File FileName="Assets/Scripts/LevelSelectionScene/Interactables/LevelSelectionLevel.cs" Line="61" Column="29" />
+      <File FileName="Assets/Scripts/Interactables/RockPlayer.cs" Line="58" Column="3" />
+      <File FileName="Assets/Scripts/Constants/RockstarScenes.cs" Line="13" Column="43" />
+      <File FileName="Assets/Scenes/IntroScene/Scripts/IntroSceneUI.cs" Line="105" Column="47" />
+      <File FileName="Assets/Scripts/File/LevelHandlerC.cs" Line="68" Column="31" />
+      <File FileName="Assets/Scripts/Sound/MusicPlayer.cs" Line="22" Column="34" />
+      <File FileName="Assets/Scripts/GameScene/Camera/GameMovement.cs" Line="82" Column="31" />
+      <File FileName="Assets/Scripts/GameScene/Camera/GameCameraController.cs" Line="58" Column="6" />
+      <File FileName="Assets/Scripts/LevelSelectionScene/Manager/LevelSelectionManager.cs" Line="34" Column="26" />
+      <File FileName="Assets/Scripts/File/LittleRockstarAds.cs" Line="9" Column="5" />
+      <File FileName="Assets/Scripts/UI/BuyNoAdsButton.cs" Line="62" Column="1" />
+      <File FileName="Assets/Scenes/IntroScene/Scripts/IntroSceneMovement.cs" Line="12" Column="6" />
+      <File FileName="Assets/Scenes/IntroScene/Scripts/IntroTextManager.cs" Line="32" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

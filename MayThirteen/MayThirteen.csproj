@@ -543,6 +543,7 @@
     <Compile Include="Assets\Scripts\Camera\ZoomToTargetOrtho.cs" />
     <Compile Include="Assets\Scripts\Camera\ZoomToTargetPerspective.cs" />
     <Compile Include="Assets\Scripts\CameraiPadHandler.cs" />
+    <Compile Include="Assets\Scripts\Constants\RockstarScenes.cs" />
     <Compile Include="Assets\Scripts\CreditsManager.cs" />
     <Compile Include="Assets\Scripts\File\EasySerializer.cs" />
     <Compile Include="Assets\Scripts\File\Highscores.cs" />

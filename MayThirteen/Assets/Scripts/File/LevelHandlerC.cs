@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Drolegames.LittleRockstar.Scenes.Constants;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,7 +34,7 @@ public class LevelHandlerC : MonoBehaviour
 		Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
 #endif
 
-        if (SceneManager.GetActiveScene().Equals("Menu"))
+        if (SceneManager.GetActiveScene().name.Equals(RockstarScenes.Menu))
         {
             Destroy(gameObject);
             return;
@@ -49,7 +50,6 @@ public class LevelHandlerC : MonoBehaviour
         }
         googleGame = GameObject.Find("LittleRockstarGoogleGame").GetComponent<LittleRockstarGoogleGame>();
         Load();
-        Debug.Log("Application File saving place: " + Application.persistentDataPath);
         //File.Delete(Application.persistentDataPath + "/data.dat"); 			
     }
 
@@ -156,7 +156,6 @@ public class LevelHandlerC : MonoBehaviour
 
     void Save()
     {
-        Debug.Log("Saving at Application File saving place: " + Application.persistentDataPath + "/data.dat");
         {
             try
             {
@@ -184,7 +183,6 @@ public class LevelHandlerC : MonoBehaviour
 
     void Load()
     {
-        Debug.Log("Loading at Application File saving place: " + Application.persistentDataPath + "/data.dat");
         try
         {
             PlayerData data = EasySerializer.DeserializeObjectFromFile(Application.persistentDataPath + "/data.dat") as PlayerData;
@@ -220,55 +218,10 @@ public class LevelHandlerC : MonoBehaviour
 
 
 
-[System.Serializable]
+[Serializable]
 class PlayerData
 {
     public LevelHandlerC.LevelState[] levelArray;
 }
-/*
 
 
-
-
-
-
-
-
-
-
-
-void Save(){
-	BinaryFormatter bf = new BinaryFormatter();
-	FileStream file= File.Create(Application.persistentDataPath+"/data.dat");
-	
-	PlayerData data= new PlayerData();
-	data.levelArray = levelArray;
-	bf.Serialize(file,data);
-	file.Close();
-}
-void Load(){
-	
-	if(File.Exists(Application.persistentDataPath+"/data.dat"))
-	{
-			BinaryFormatter bf= new BinaryFormatter();
-		FileStream file = File.Open(Application.persistentDataPath+"/data.dat",FileMode.Open);
-		PlayerData data = bf.Deserialize(file);
-		file.Close();
-		levelArray = data.levelArray;
-		LevelsDone();
-		OpenNext();	
-	}else
-	{
-		levelArray = new LevelState[20];
-		
-		for(int i = 0; i < levelArray.ength; i++)
-		{
-			levelArray[i] = LevelState.NOT_OPEN;
-		}
-		NewSave();
-		//Save();
-		LevelsDone();
-		OpenNext();
-	}	
-}
- */

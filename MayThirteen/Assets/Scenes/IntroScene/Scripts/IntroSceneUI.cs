@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using Drolegames.LittleRockstar.Scenes.Constants;
 
 public class IntroSceneUI : MonoBehaviour
 {
@@ -101,6 +102,6 @@ public class IntroSceneUI : MonoBehaviour
 
     public void OnHomeButtonClicked()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(RockstarScenes.Menu);
     }
 }

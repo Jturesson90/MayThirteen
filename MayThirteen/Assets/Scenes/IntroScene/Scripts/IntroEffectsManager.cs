@@ -31,7 +31,6 @@ public class IntroEffectsManager : MonoBehaviour
     {
         if (Earthquake == null) return;
         Earthquake.StartEarthquakeWithLength(earthquakeDuration);
-        print("manager quake");
     }
 
 

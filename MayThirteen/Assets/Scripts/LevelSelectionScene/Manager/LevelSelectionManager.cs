@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Drolegames.LittleRockstar.Scenes.Constants;
 
 public class LevelSelectionManager : MonoBehaviour
 {
     RockPlayer rockPlayer;
     LittleRockstarAds littleRockstarAds;
     public GameObject backgroundClouds;
+
+    public int showBackgroundCloudsAfterNumLevels = 5;
     void Awake()
     {
         backgroundClouds.SetActive(false);
         int levelsDone = PlayerPrefsManager.GetLevelsDone();
-        if (levelsDone >= 10)
+        if (levelsDone >= showBackgroundCloudsAfterNumLevels)
         {
-            print("LevelsDone TRUE");
             backgroundClouds.SetActive(true);
         }
         else
         {
             backgroundClouds.SetActive(false);
-            print("LevelsDone FALSE");
         }
 
         littleRockstarAds = GameObject.FindGameObjectWithTag("Ads").GetComponent<LittleRockstarAds>();
@@ -38,7 +39,7 @@ public class LevelSelectionManager : MonoBehaviour
     }
     public void LoadMenu()
     {
-        LevelSwitcher.levelSwitcher.SwitchLevel("Menu");
+        LevelSwitcher.levelSwitcher.SwitchLevel(RockstarScenes.Menu);
     }
 
     private void ShowAds()

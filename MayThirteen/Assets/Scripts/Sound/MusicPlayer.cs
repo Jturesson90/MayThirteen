@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using Drolegames.LittleRockstar.Scenes.Constants;
+using System;
+using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(AudioSource))]
 public class MusicPlayer : MonoBehaviour
 {
     enum SongType
@@ -11,77 +16,79 @@ public class MusicPlayer : MonoBehaviour
     }
 
     public float currentTime;
-    private AudioClip currentClip;
-    public static MusicPlayer instance;
+    public static MusicPlayer Instance;
     public AudioClip[] backgroundMusic;
 
-    string currentScene = "";
-
+    private AudioClip currentClip;
+    AudioSource _audioSource;
 
     // Use this for initialization
     void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
-        else
-        {
-            instance = this;
+        Instance = this;
 
-
-
-        }
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
         AudioListener.volume = 0f;
+        _audioSource = GetComponent<AudioSource>();
+        SceneManager.sceneLoaded += OnLevelChanged;
     }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelChanged;
+    }
+    private void OnLevelChanged(Scene scene, LoadSceneMode sceneMode)
+    {
+        CheckLevel();
+    }
+
     void Start()
     {
         AudioListener.pause = !PlayerPrefsManager.IsSoundOn();
         AudioListener.volume = 1f;
     }
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
     void Update()
     {
-
-        if (currentScene != Application.loadedLevelName)
+        if (currentScene != SceneManager.GetActiveScene().name)
         {
-            currentScene = Application.loadedLevelName;
+            currentScene = SceneManager.GetActiveScene().name;
             CheckLevel();
         }
 
-        currentTime = GetComponent<AudioSource>().time;
+        currentTime = _audioSource.time;
     }
 #else
 	void OnLevelWasLoaded ()
 	{
 		CheckLevel ();
 	}
-#endif
+#endif*/
+
 
     void CheckLevel()
     {
-        switch (Application.loadedLevelName)
+        switch (SceneManager.GetActiveScene().name)
         {
-
-            case "Credits":
+            
+            case RockstarScenes.Credits:
                 //RandomSongType (SongType.LOW);
                 PlaySong(7);
                 break;
 
-            case "Menu":
+            case RockstarScenes.Menu:
                 PlaySong(0);
                 break;
-            case "IntroScene":
+            case RockstarScenes.Tutorial:
                 PlaySong(0);
                 break;
-            case "LevelSelectionLobby":
-
+            case RockstarScenes.Lobby:
                 int levelsDone = PlayerPrefsManager.GetLevelsDone();
                 CheckWhichSong(levelsDone + 1);
-
-
                 break;
             case "Splash":
                 break;
@@ -137,21 +144,20 @@ public class MusicPlayer : MonoBehaviour
     }
     void PlaySong(int id)
     {
-        float timeInSamples = GetComponent<AudioSource>().time;
-        AudioSource audioSource = GetComponent<AudioSource>();
+        float timeInSamples = _audioSource.time;
         float timeSince = Time.time;
-        audioSource.clip = backgroundMusic[id];
-        if (audioSource.clip != currentClip)
+        _audioSource.clip = backgroundMusic[id];
+        if (_audioSource.clip != currentClip)
         {
 
-            currentClip = audioSource.clip;
+            currentClip = _audioSource.clip;
 
-            audioSource.Play();
+            _audioSource.Play();
 
 
             timeSince = Time.time - timeSince;
 
-            audioSource.time = timeInSamples + timeSince;
+            _audioSource.time = timeInSamples + timeSince;
         }
     }
     void RandomSongType(SongType type)

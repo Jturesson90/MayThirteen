@@ -5,7 +5,6 @@ using System;
 public class IntroSceneManager : MonoBehaviour
 {
     public float startTextAfter = 5f;
-    private bool _canMove = false;
 
     private static IntroSceneManager _instance;
     private bool _firstDialogDone;
@@ -19,18 +18,21 @@ public class IntroSceneManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Ending()
     {
         IntroSceneUI.Instance.Ending();
     }
 
-    public bool Clicked
-    {
-        set
-        {
-            OnClick();
-        }
-    }
     void OnClick()
     {
         IntroSceneUI.Instance.FadeOutDialog();
@@ -42,7 +44,7 @@ public class IntroSceneManager : MonoBehaviour
                 DialogDone();
             }
         }
-        else if(!_endingDialogDone)
+        else if (!_endingDialogDone)
         {
             _endingDialogDone = CheckIfEndingDialogIsDone();
             if (_endingDialogDone)
@@ -67,15 +69,7 @@ public class IntroSceneManager : MonoBehaviour
         return IntroSceneUI.Instance.CheckDialogIsDone();
     }
 
-    void Awake()
-    {
-        if (_instance == null)
-            _instance = this;
-        else if (_instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
+
     // Use this for initialization
     void Start()
     {
@@ -86,11 +80,15 @@ public class IntroSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Clicked = true;
-        }
+        CheckForClick();
 
+    }
+
+    void CheckForClick()
+    {
+        if (!Input.GetMouseButtonDown(0))
+            return;
+        OnClick();
     }
 
     public void DialogDone()

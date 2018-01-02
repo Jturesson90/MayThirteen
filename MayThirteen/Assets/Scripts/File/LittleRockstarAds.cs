@@ -4,8 +4,8 @@ using UnityEngine.Advertisements;
 
 public class LittleRockstarAds : MonoBehaviour
 {
-    private readonly string iosGameId = "1007506";
-    private readonly string androidGameID = "1007507";
+    const string iosGameId = "1007506";
+    const string androidGameID = "1007507";
 
     public static LittleRockstarAds instance;
     // Use this for initialization
@@ -14,15 +14,12 @@ public class LittleRockstarAds : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
-        else
-        {
-            instance = this;
+        instance = this;
 
-        }
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {

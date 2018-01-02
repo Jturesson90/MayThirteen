@@ -35,12 +35,12 @@ public class IntroSceneMovement : MonoBehaviour
 
         if (Input.GetTouch(0).position.x < Screen.width * touchOffset)
         {
-            transform.Rotate(0, 0, -Time.deltaTime * turnSpeed);
+            TurnLeft();
 
         }
         if (Input.GetTouch(0).position.x > Screen.width * (1 - touchOffset))
         {
-            transform.Rotate(0, 0, Time.deltaTime * turnSpeed);
+            TurnRight();
 
         }
 
@@ -49,13 +49,19 @@ public class IntroSceneMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(0, 0, -Time.deltaTime * turnSpeed);
-
+            TurnLeft();
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(0, 0, Time.deltaTime * turnSpeed);
-
+            TurnRight();
         }
+    }
+    private void TurnLeft()
+    {
+        transform.Rotate(0, 0, -Time.deltaTime * turnSpeed);
+    }
+    private void TurnRight()
+    {
+        transform.Rotate(0, 0, Time.deltaTime * turnSpeed);
     }
 }

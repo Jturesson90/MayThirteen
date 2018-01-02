@@ -15,7 +15,6 @@ public class CameraiPadHandler : MonoBehaviour
 		float y = transform.position.y;
 		float z = transform.position.z;
 		float aspect = ((float)Screen.height) / (float)Screen.width;
-		print ("Aspect = " + aspect);
 		if (aspect > 0.7f) {
 			z -= 13.5f;
 		} else if (aspect > 0.6f) {

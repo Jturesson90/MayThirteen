@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using Drolegames.LittleRockstar.Scenes.Constants;
 
 [RequireComponent (typeof(SpriteRenderer),typeof(Rigidbody2D))]
 public class RockPlayer : MonoBehaviour
@@ -30,7 +32,7 @@ public class RockPlayer : MonoBehaviour
 	//private SpriteRenderer rend;
 	void Start ()
 	{
-		if (Application.loadedLevelName == "LevelSelectionLobby") {
+        if (SceneManager.GetActiveScene().name.Equals(RockstarScenes.Lobby)) {
 			SetToSavedPosition ();
 		}
 				
@@ -73,8 +75,7 @@ public class RockPlayer : MonoBehaviour
 	}
 	private void InstantiateBrokenStone ()
 	{
-		GameObject.Instantiate (brokenStone, transform.position, Quaternion.identity);
-				
+      Instantiate (brokenStone, transform.position, Quaternion.identity);				
 	}
 
 	void OnCollisionEnter2D (Collision2D coll)
